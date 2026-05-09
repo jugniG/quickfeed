@@ -64,10 +64,16 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          defer
+          data-website-id="69ffa0a600112c87807b"
+          data-domain="www.quickfeed.live"
+          src="https://www.insightly.live/script.js">
+        </script>
       </head>
       <body>
         <HeroUIProvider>
-        {children}
+          {children}
         </HeroUIProvider>
         <TanStackDevtools
           config={{
