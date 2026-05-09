@@ -32,7 +32,42 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: 'description',
-        content: 'QuickFeed intercepts Cmd+Shift+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
+        content:
+          'QuickFeed intercepts Cmd+Shift+F on your website — capturing user frustration the moment it happens, with screenshots delivered directly to your dashboard.',
+      },
+
+      // Open Graph
+      {
+        property: 'og:type',
+        content: 'website',
+      },
+      {
+        property: 'og:url',
+        content: 'https://quickfeed.live',
+      },
+      {
+        property: 'og:site_name',
+        content: 'QuickFeed',
+      },
+      {
+        property: 'og:image',
+        content: 'https://quickfeed.dev/og-image.png',
+      },
+      {
+        property: 'og:image:alt',
+        content: 'QuickFeed - Feedbacks gatherer.',
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:image',
+        content: 'https://www.quickfeed.live/og.png',
+      },
+      {
+        name: 'theme-color',
+        content: '#FF8A4C',
       },
     ],
     links: [
