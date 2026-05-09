@@ -11,19 +11,21 @@ export function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white ${
-        scrolled ? 'border-b border-neutral-200 shadow-[0_1px_3px_rgba(0,0,0,0.06)]' : 'border-b border-transparent'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? 'bg-white/90 backdrop-blur-md border-b border-neutral-200/80 shadow-[0_2px_20px_rgba(0,0,0,0.06)]'
+          : 'bg-white/60 backdrop-blur-sm border-b border-transparent'
       }`}
     >
-      <div className="max-w-[1100px] mx-auto px-6 h-[58px] flex items-center justify-between">
+      <div className="max-w-[1100px] mx-auto px-6 h-[60px] flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 no-underline">
-          <div className="w-7 h-7 rounded-lg bg-[#0A0A0A] flex items-center justify-center">
+        <a href="/" className="flex items-center gap-2 no-underline group">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-shadow">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="font-semibold text-[15px] text-[#0A0A0A] tracking-tight">FeedbackHook</span>
+          <span className="font-bold text-[15px] text-[#0A0A0A] tracking-tight">FeedbackHook</span>
         </a>
 
         {/* Nav links */}
@@ -32,7 +34,7 @@ export function Navbar() {
             <a
               key={item}
               href="#"
-              className="px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-md hover:bg-neutral-100 transition-colors no-underline font-medium"
+              className="px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-150 no-underline font-medium"
             >
               {item}
             </a>
@@ -41,12 +43,15 @@ export function Navbar() {
 
         {/* CTA */}
         <div className="flex items-center gap-2.5">
-          <a href="/auth/signin" className="text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-colors">
+          <a
+            href="/auth/signin"
+            className="text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-colors px-3 py-1.5 rounded-lg hover:bg-neutral-100"
+          >
             Sign in
           </a>
           <a
             href="/auth/signup"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#0A0A0A] text-white text-[13.5px] font-semibold hover:bg-neutral-800 transition-colors no-underline"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 no-underline"
           >
             Get started
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
