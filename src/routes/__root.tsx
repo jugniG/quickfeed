@@ -38,6 +38,10 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
       // Open Graph
       {
+        property: 'og:title',
+        content: 'QuickFeed - We don\'t let you miss a single inconvenience of your users',
+      },
+      {
         property: 'og:type',
         content: 'website',
       },
