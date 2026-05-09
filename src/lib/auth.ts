@@ -5,9 +5,13 @@ import { magicLink } from 'better-auth/plugins'
 import { db } from '#/db/index'
 import { Resend } from 'resend'
 import { env } from '#/env'
+import { user, session, account, verification } from '#/db/schema'
 
 export const auth = betterAuth({
-  database: drizzleAdapter(db, { provider: 'pg' }),
+  database: drizzleAdapter(db, {
+    provider: 'pg',
+    schema: { user, session, account, verification },
+  }),
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID ?? '',
