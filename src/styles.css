@@ -28,3 +28,5 @@ body {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+button { cursor: pointer; }

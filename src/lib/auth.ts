@@ -4,25 +4,26 @@ import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { magicLink } from 'better-auth/plugins'
 import { db } from '#/db/index'
 import { Resend } from 'resend'
+import { env } from '#/env'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: 'pg' }),
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID ?? '',
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+      clientId: env.GOOGLE_CLIENT_ID ?? '',
+      clientSecret: env.GOOGLE_CLIENT_SECRET ?? '',
     },
   },
   plugins: [
     tanstackStartCookies(),
     magicLink({
       sendMagicLink: async ({ email, url }) => {
-        if (!process.env.RESEND_API_KEY) {
+        if (!env.RESEND_API_KEY) {
           // Dev fallback: log to console
           console.log(`[DEV] Magic link for ${email}: ${url}`)
           return
         }
-        const resend = new Resend(process.env.RESEND_API_KEY)
+        const resend = new Resend(env.RESEND_API_KEY)
         await resend.emails.send({
           from: 'QuickFeed <noreply@quickfeed.dev>',
           to: email,
