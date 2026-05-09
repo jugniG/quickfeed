@@ -1,6 +1,6 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-F0UdXsOC.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DJLiTfNM.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Navbar() {
@@ -318,229 +318,141 @@ function Hero({ onTryWidget }) {
 		]
 	});
 }
+var problems = [
+	{
+		icon: "🔇",
+		headline: "Most feedback never reaches you",
+		stat: "96% of unhappy users leave without saying a word"
+	},
+	{
+		icon: "🗺️",
+		headline: "There's no obvious way to report",
+		stat: "No convention. No flow. Users give up in seconds."
+	},
+	{
+		icon: "📂",
+		headline: "What does get reported gets lost",
+		stat: "Scattered across DMs, emails, Notion, Slack"
+	}
+];
 function ProblemSection() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-		className: "py-28 bg-[#FAFAFA] border-b border-neutral-100",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "max-w-[1100px] mx-auto px-6",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-2.5 mb-5",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-5 h-px bg-gradient-to-r from-orange-400 to-amber-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "text-[12px] font-semibold uppercase tracking-[0.12em] text-orange-500",
+	const [visible, setVisible] = (0, import_react.useState)(false);
+	const ref = (0, import_react.useRef)(null);
+	(0, import_react.useEffect)(() => {
+		const observer = new IntersectionObserver(([entry]) => {
+			if (entry.isIntersecting) setVisible(true);
+		}, { threshold: .15 });
+		if (ref.current) observer.observe(ref.current);
+		return () => observer.disconnect();
+	}, []);
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
+		ref,
+		className: "relative py-24 px-4 overflow-hidden bg-white",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			className: "pointer-events-none absolute inset-0",
+			style: {
+				backgroundImage: "radial-gradient(circle, #f97316 1px, transparent 1px)",
+				backgroundSize: "40px 40px",
+				opacity: .04
+			}
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "relative max-w-5xl mx-auto",
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "text-center mb-16",
+				style: {
+					opacity: visible ? 1 : 0,
+					transform: visible ? "translateY(0)" : "translateY(24px)",
+					transition: "opacity 0.6s ease, transform 0.6s ease"
+				},
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "text-sm font-semibold uppercase tracking-widest text-orange-500 mb-3",
 						children: "The problem"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mb-16",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-							className: "text-[clamp(1.9rem,3.5vw,2.6rem)] font-bold tracking-[-0.03em] leading-[1.15] text-[#0A0A0A] mb-4 max-w-[680px]",
-							children: "The best founders build from feedback — not guesses."
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-[15.5px] text-neutral-500 leading-[1.75] max-w-[620px] font-normal",
-							children: "Marc Lou — one of the most successful indie hackers — asks Grok to analyze user feedback before deciding what to build next. That's the move. Feedback is your roadmap. But only if you can actually collect it."
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "mt-7 inline-flex flex-col gap-3 bg-white border border-neutral-200 rounded-2xl p-5 shadow-sm hover:shadow-md hover:border-orange-200 transition-all duration-300 max-w-[480px]",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center gap-3",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-											className: "w-9 h-9 rounded-full bg-gradient-to-br from-orange-400 to-amber-400 flex items-center justify-center text-white font-bold text-[14px] shrink-0",
-											children: "M"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-											className: "text-[13.5px] font-bold text-[#0A0A0A]",
-											children: "Marc Lou"
-										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-											className: "text-[12px] text-neutral-400",
-											children: "@marclou · Dec 10, 2025"
-										})] }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-											className: "ml-auto",
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-												viewBox: "0 0 24 24",
-												className: "w-4 h-4 fill-current text-neutral-300",
-												"aria-hidden": "true",
-												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" })
-											})
-										})
-									]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-									className: "text-[13.5px] text-neutral-700 leading-[1.65]",
-									children: [
-										"@grok tell me what's the juice?",
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-										"what should i build next for my micro startups acquisition market based on the ",
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "feedback" }),
-										" below",
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-										"be concise"
-									]
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center gap-5 text-[12px] text-neutral-400 pt-1 border-t border-neutral-100",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "💬 2" }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "🔁 —" }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "❤️ 21" }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "👁 16K" })
-									]
-								})
-							]
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "grid grid-cols-1 md:grid-cols-3 gap-5 mb-10",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "group relative bg-white rounded-2xl border border-neutral-200 p-7 flex flex-col gap-4 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/[0.07] transition-all duration-300 overflow-hidden",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-orange-500 to-amber-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "w-11 h-11 rounded-xl bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-[20px] shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300",
-									children: "🧱"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "text-[11px] font-bold uppercase tracking-widest text-orange-500 mb-2",
-										children: "Problem 1"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-										className: "text-[16px] font-bold text-[#0A0A0A] mb-3 leading-[1.2]",
-										children: "The path to report is broken"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-										className: "text-[13.5px] text-neutral-500 leading-[1.7] font-normal",
-										children: [
-											"Your users hit a wall. They look for a \"Report issue\" button — it's not there. They search for a Discord invite link — buried in a footer. They give up at step 2. The friction is so high that ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-												className: "font-semibold text-neutral-700",
-												children: "91% of frustrated users never report anything"
-											}),
-											" — they just leave."
-										]
-									})
-								] }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-orange-400 to-amber-300 opacity-0 group-hover:opacity-[0.04] rounded-tl-3xl transition-opacity duration-300" })
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "group relative bg-white rounded-2xl border border-neutral-200 p-7 flex flex-col gap-4 hover:border-amber-200 hover:shadow-xl hover:shadow-amber-500/[0.07] transition-all duration-300 overflow-hidden",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-amber-500 to-yellow-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500 to-yellow-400 flex items-center justify-center text-[20px] shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform duration-300",
-									children: "⌨️"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "text-[11px] font-bold uppercase tracking-widest text-amber-500 mb-2",
-										children: "Problem 2"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-										className: "text-[16px] font-bold text-[#0A0A0A] mb-3 leading-[1.2]",
-										children: "No universal convention exists"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-										className: "text-[13.5px] text-neutral-500 leading-[1.7] font-normal",
-										children: [
-											"Every docs site uses ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-												className: "px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-600 font-mono text-[12px]",
-												children: "Ctrl+K"
-											}),
-											" for search. Every AI product uses ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-												className: "px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-600 font-mono text-[12px]",
-												children: "Ctrl+I"
-											}),
-											" for the AI bot. There's no standard gesture for ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("em", { children: "feedback" }),
-											" — so users have no muscle memory for it.",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-												className: "font-semibold text-neutral-700",
-												children: [
-													" We want to make ",
-													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-														className: "px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-600 font-mono text-[12px]",
-														children: "Ctrl+F"
-													}),
-													" the universal feedback shortcut"
-												]
-											}),
-											" — the way ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-												className: "px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-600 font-mono text-[12px]",
-												children: "Ctrl+K"
-											}),
-											" became search."
-										]
-									})
-								] }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-amber-400 to-yellow-300 opacity-0 group-hover:opacity-[0.04] rounded-tl-3xl transition-opacity duration-300" })
-							]
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "group relative bg-white rounded-2xl border border-neutral-200 p-7 flex flex-col gap-4 hover:border-rose-200 hover:shadow-xl hover:shadow-rose-500/[0.07] transition-all duration-300 overflow-hidden",
-							children: [
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-rose-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "w-11 h-11 rounded-xl bg-gradient-to-br from-rose-400 to-orange-400 flex items-center justify-center text-[20px] shadow-lg shadow-rose-500/20 group-hover:scale-110 transition-transform duration-300",
-									children: "🗂️"
-								}),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "text-[11px] font-bold uppercase tracking-widest text-rose-500 mb-2",
-										children: "Problem 3"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-										className: "text-[16px] font-bold text-[#0A0A0A] mb-3 leading-[1.2]",
-										children: "Feedback is scattered everywhere"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-										className: "text-[13.5px] text-neutral-500 leading-[1.7] font-normal",
-										children: [
-											"Important user queries get buried in your DMs. Discord threads go stale. Slack messages disappear. You're context-switching between 5 places trying to piece together what users actually want.",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-												className: "font-semibold text-neutral-700",
-												children: " One source. One dashboard."
-											}),
-											" That's what you need."
-										]
-									})
-								] }),
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl from-rose-400 to-orange-300 opacity-0 group-hover:opacity-[0.04] rounded-tl-3xl transition-opacity duration-300" })
-							]
-						})
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "relative overflow-hidden px-8 py-6 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 shadow-sm",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute right-0 top-0 bottom-0 w-[200px] bg-gradient-to-l from-amber-100/50 to-transparent pointer-events-none" }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-[15px] font-bold text-neutral-800 mb-1",
-							children: "FeedbackHook: one source of truth for all your user feedback."
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
+						className: "text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight",
+						children: [
+							"Great founders know how important",
+							" ",
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								style: {
+									background: "linear-gradient(90deg,#f97316,#f59e0b)",
+									WebkitBackgroundClip: "text",
+									WebkitTextFillColor: "transparent"
+								},
+								children: "user feedback"
+							}),
+							" ",
+							"is."
+						]
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+						className: "mt-4 text-gray-500 text-lg max-w-xl mx-auto",
+						children: "But collecting it? That's where everyone gets stuck."
+					})
+				]
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: "flex flex-col md:flex-row gap-12 items-center",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "flex-1 flex justify-center",
+					style: {
+						opacity: visible ? 1 : 0,
+						transform: visible ? "translateX(0)" : "translateX(-32px)",
+						transition: "opacity 0.65s ease 0.15s, transform 0.65s ease 0.15s"
+					},
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						href: "https://x.com/marclou/status/1998473229728625111?s=20",
+						target: "_blank",
+						rel: "noopener noreferrer",
+						className: "block group",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "relative rounded-2xl overflow-hidden shadow-xl ring-1 ring-gray-100 transition-all duration-300 group-hover:shadow-2xl group-hover:-translate-y-1 max-w-sm",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: "/tweet-marclou.png",
+								alt: "Tweet by @marclou about user feedback",
+								className: "w-full h-auto block"
+							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/0 to-orange-500/0 group-hover:from-orange-500/5 group-hover:to-amber-400/5 transition-all duration-300 pointer-events-none" })]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-							className: "text-[13.5px] text-neutral-500 font-normal",
-							children: "Ctrl+F on any page → your widget → one dashboard. No more scattered DMs, Discord threads, or forgotten Slack messages."
-						})] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-							href: "/auth/signup",
-							className: "shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13px] font-semibold no-underline hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 cursor-pointer whitespace-nowrap",
-							children: "See how it works →"
+							className: "text-center text-xs text-gray-400 mt-2 group-hover:text-orange-500 transition-colors",
+							children: "↗ View on X"
+						})]
+					})
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "flex-1 flex flex-col gap-5",
+					children: [problems.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							opacity: visible ? 1 : 0,
+							transform: visible ? "translateX(0)" : "translateX(32px)",
+							transition: `opacity 0.55s ease ${.2 + i * .12}s, transform 0.55s ease ${.2 + i * .12}s`
+						},
+						className: "flex items-start gap-4 bg-gray-50 rounded-2xl px-5 py-4 border border-gray-100 hover:border-orange-200 hover:bg-orange-50/40 transition-all duration-200",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "text-2xl mt-0.5 select-none",
+							children: p.icon
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "font-bold text-gray-900 text-base leading-snug",
+							children: p.headline
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-sm text-gray-500 mt-0.5",
+							children: p.stat
+						})] })]
+					}, i)), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+						style: {
+							opacity: visible ? 1 : 0,
+							transition: "opacity 0.6s ease 0.65s"
+						},
+						className: "mt-2 px-5 py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-400 text-white",
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "font-bold text-sm leading-snug",
+							children: "One dashboard. Every report. Zero friction."
+						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+							className: "text-xs text-white/80 mt-0.5",
+							children: "QuickFeed surfaces real pain — the moment users feel it."
 						})]
 					})]
-				})
-			]
-		})
+				})]
+			})]
+		})]
 	});
 }
 function HowItWorks() {
