@@ -75,11 +75,46 @@ export const verification = quickfeedSchema.table(
   (table) => [index('verification_identifier_idx').on(table.identifier)],
 )
 
-export const todos = quickfeedSchema.table('todos', {
-  id: serial().primaryKey(),
-  title: text().notNull(),
-  createdAt: timestamp('created_at').defaultNow(),
-})
+export const websites = quickfeedSchema.table(
+  'websites',
+  {
+    id: serial('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    domain: text('domain').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [index('websites_userId_idx').on(table.userId)],
+)
+
+export const feedbacks = quickfeedSchema.table(
+  'feedbacks',
+  {
+    id: serial('id').primaryKey(),
+    websiteId: serial('website_id')
+      .notNull()
+      .references(() => websites.id, { onDelete: 'cascade' }),
+    message: text('message').notNull(),
+    images: text('images').array().default([]).notNull(),
+    submitterEmail: text('submitter_email'),
+    submitterName: text('submitter_name'),
+    url: text('url'),                    // page URL where feedback was submitted
+    userAgent: text('user_agent'),
+    status: text('status').default('unassigned').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [index('feedbacks_websiteId_idx').on(table.websiteId)],
+)
+
+export const websiteRelations = relations(websites, ({ one, many }) => ({
+  user: one(user, { fields: [websites.userId], references: [user.id] }),
+  feedbacks: many(feedbacks),
+}))
+
+export const feedbackRelations = relations(feedbacks, ({ one }) => ({
+  website: one(websites, { fields: [feedbacks.websiteId], references: [websites.id] }),
+}))
 
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),

@@ -1,6 +1,14 @@
-import { addTodo, listTodos } from './todos'
+import { listWebsites, addWebsite, deleteWebsite } from './websites'
+import { listFeedbacks, updateFeedbackStatus } from './feedbacks'
 
 export default {
-  listTodos,
-  addTodo,
+  websites: {
+    list: listWebsites,
+    add: addWebsite,
+    delete: deleteWebsite,
+  },
+  feedbacks: {
+    list: listFeedbacks,
+    updateStatus: updateFeedbackStatus,
+  },
 }

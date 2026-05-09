@@ -5,6 +5,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
+import { HeroUIProvider } from '@heroui/react'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
@@ -52,6 +53,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
       },
+
     ],
   }),
   shellComponent: RootDocument,
@@ -64,7 +66,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <HeroUIProvider>
         {children}
+        </HeroUIProvider>
         <TanStackDevtools
           config={{
             position: 'bottom-right',

@@ -70,7 +70,7 @@ export function DomainInput({
 
   function validate(value: string): string | null {
     const result = domainSchema.safeParse(value)
-    if (!result.success) return result.error.errors[0].message
+    if (!result.success) return result.error.issues[0].message
     return null
   }
 

@@ -31,7 +31,7 @@ export function Navbar() {
               <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="text-[15px] text-[#0A0A0A] tracking-tight" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800 }}>QuickFeed</span>
+          <span className="text-[15px] text-[#0A0A0A] tracking-tight" style={{ fontFamily: "'Cal Sans', sans-serif", fontWeight: 600 }}>QuickFeed</span>
         </a>
 
         {/* Nav links */}
@@ -52,13 +52,7 @@ export function Navbar() {
         {/* CTA */}
         <div className="flex items-center gap-2.5">
           <a
-            href="/auth/signin"
-            className="text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-all duration-200 px-3 py-1.5 rounded-lg hover:bg-neutral-100"
-          >
-            Sign in
-          </a>
-          <a
-            href="/auth/signup"
+            href="/login"
             className="relative flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 no-underline overflow-hidden group"
           >
             <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />

@@ -90,7 +90,7 @@ export function HowItWorks() {
             </div>
           </div>
           <a
-            href="/auth/signup"
+            href="/login"
             className="shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13px] font-semibold no-underline hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 cursor-pointer"
           >
             Get the snippet →

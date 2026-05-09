@@ -40,6 +40,13 @@ function Login() {
   const navigate = useNavigate()
   const { faviconOk, loaded } = useDomainMeta(domain)
 
+  // Redirect if already logged in
+  useEffect(() => {
+    authClient.getSession().then(({ data }) => {
+      if (data?.session) navigate({ to: '/dashboard' })
+    })
+  }, [])
+
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
   const [emailError, setEmailError] = useState<string | null>(null)
@@ -51,7 +58,7 @@ function Login() {
   async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault()
     const result = emailSchema.safeParse(email)
-    if (!result.success) { setEmailError(result.error.errors[0].message); return }
+    if (!result.success) { setEmailError(result.error.issues[0].message); return }
     setEmailError(null)
     setEmailLoading(true)
     try {
