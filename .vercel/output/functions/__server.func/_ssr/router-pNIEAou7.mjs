@@ -16,9 +16,9 @@ import { n as defu, t as createDefu } from "../_libs/defu.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as setupRouterSsrQueryIntegration } from "../_libs/@tanstack/react-router-ssr-query+[...].mjs";
 import { File } from "node:buffer";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-1SI8kMHO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-pNIEAou7.js
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-DSuJmBpV.css";
+var styles_default = "/assets/styles-BdkziJ8B.css";
 var Route$4 = createRootRouteWithContext()({
 	head: () => ({
 		meta: [
@@ -61,7 +61,7 @@ function RootDocument({ children }) {
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", { children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})] })]
 	});
 }
-var $$splitComponentImporter = () => import("./routes-DJ_Hg1tV.mjs");
+var $$splitComponentImporter = () => import("./routes-BBkyo0Na.mjs");
 var Route$3 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 /**
 * This file aims to polyfill missing APIs in Node.js 18 that oRPC depends on.

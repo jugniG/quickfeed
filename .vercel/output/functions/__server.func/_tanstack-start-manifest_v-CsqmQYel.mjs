@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-BFM5GrII.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-CsqmQYel.js
 var tsrStartManifest = () => ({
 	routes: {
 		__root__: {
@@ -10,16 +10,16 @@ var tsrStartManifest = () => ({
 				"/api/rpc/$"
 			],
 			assets: void 0,
-			preloads: ["/assets/index-1015sdI9.js"]
+			preloads: ["/assets/index-47iJ1p8T.js"]
 		},
 		"/": {
 			filePath: "/home/user/tanstack-starter/src/routes/index.tsx",
 			children: void 0,
 			assets: void 0,
-			preloads: ["/assets/routes-BKJ8jL_a.js"]
+			preloads: ["/assets/routes-BH3_cl3g.js"]
 		}
 	},
-	clientEntry: "/assets/index-1015sdI9.js"
+	clientEntry: "/assets/index-47iJ1p8T.js"
 });
 //#endregion
 export { tsrStartManifest };

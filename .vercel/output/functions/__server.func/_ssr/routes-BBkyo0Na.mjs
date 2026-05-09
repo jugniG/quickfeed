@@ -1,6 +1,6 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DJ_Hg1tV.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-BBkyo0Na.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Navbar() {
@@ -335,10 +335,36 @@ var steps = [
 		body: "Scattered across DMs, Discord channels, Slack threads, Notion pages."
 	}
 ];
-function EngagementItem({ icon, count }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-		className: "flex items-center gap-1.5 text-gray-400 hover:text-blue-400 transition-colors cursor-pointer text-sm select-none",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: icon }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: count })]
+function CommentIcon() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 24 24",
+		"aria-hidden": "true",
+		className: "w-[18px] h-[18px] fill-current",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("g", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 8.129 3.64 8.129 8.13 0 2.96-1.607 5.68-4.196 7.11l-8.054 4.46v-3.69h-.067c-4.49.1-8.183-3.51-8.183-8.01zm8.005-6c-3.317 0-6.005 2.69-6.005 6 0 3.37 2.77 6.08 6.138 6.01l.351-.01h1.761v2.3l5.087-2.81c1.951-1.08 3.163-3.13 3.163-5.36 0-3.39-2.744-6.13-6.129-6.13H9.756z" }) })
+	});
+}
+function RepostIcon() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 24 24",
+		"aria-hidden": "true",
+		className: "w-[18px] h-[18px] fill-current",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("g", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z" }) })
+	});
+}
+function LikeIcon() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 24 24",
+		"aria-hidden": "true",
+		className: "w-[18px] h-[18px] fill-current",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("g", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z" }) })
+	});
+}
+function ViewsIcon() {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+		viewBox: "0 0 24 24",
+		"aria-hidden": "true",
+		className: "w-[18px] h-[18px] fill-current",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("g", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z" }) })
 	});
 }
 function ProblemSection() {
@@ -392,83 +418,100 @@ function ProblemSection() {
 				})]
 			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "flex flex-col lg:flex-row gap-14 items-start",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "w-full lg:w-auto lg:flex-shrink-0 flex justify-center",
 					style: {
 						opacity: visible ? 1 : 0,
 						transform: visible ? "translateX(0)" : "translateX(-28px)",
 						transition: "opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s"
 					},
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "w-full max-w-sm bg-white rounded-2xl border border-gray-200 shadow-lg p-5 font-sans",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center justify-between mb-3",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "flex items-center gap-3",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
-										src: "https://pbs.twimg.com/profile_images/1514863683574599681/9k7PqDTA_400x400.jpg",
-										alt: "Marc Lou",
-										className: "w-10 h-10 rounded-full object-cover"
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "flex items-center gap-1",
-										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "font-bold text-gray-900 text-sm leading-none",
-											children: "Marc Lou"
-										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-											className: "w-4 h-4 text-blue-400 flex-shrink-0",
-											viewBox: "0 0 24 24",
-											fill: "currentColor",
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" })
-										})]
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "text-gray-400 text-xs",
-										children: "@marclou · Dec 10, 2025"
-									})] })]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-									className: "w-5 h-5 text-gray-700 flex-shrink-0",
-									viewBox: "0 0 24 24",
-									fill: "currentColor",
-									children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" })
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-								className: "text-gray-900 text-sm leading-relaxed mb-4",
-								children: [
-									"what should i build next for my micro startups acquisition market based on the",
-									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "feedback" }),
-									" below",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-									"be concise"
-								]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center gap-5 pt-3 border-t border-gray-100",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EngagementItem, {
-										icon: "💬",
-										count: "2"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EngagementItem, {
-										icon: "🔁",
-										count: "—"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EngagementItem, {
-										icon: "❤️",
-										count: "21"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(EngagementItem, {
-										icon: "📊",
-										count: "16K"
-									})
-								]
-							})
-						]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
-              @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-            ` })]
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+						href: "https://x.com/marclou/status/1998473229728625111?s=20",
+						target: "_blank",
+						rel: "noopener noreferrer",
+						className: "block w-full max-w-sm no-underline cursor-pointer",
+						children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "bg-white rounded-2xl border border-gray-200 shadow-lg p-5 font-sans hover:shadow-xl hover:border-gray-300 transition-all duration-300",
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center justify-between mb-3",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex items-center gap-3",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+											src: "https://pbs.twimg.com/profile_images/1514863683574599681/9k7PqDTA_400x400.jpg",
+											alt: "Marc Lou",
+											className: "w-10 h-10 rounded-full object-cover"
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-1",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "font-bold text-gray-900 text-sm leading-none",
+												children: "Marc Lou"
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+												className: "w-4 h-4 flex-shrink-0",
+												viewBox: "0 0 24 24",
+												fill: "#1d9bf0",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91C2.88 9.33 2 10.57 2 12s.88 2.67 2.19 3.34c-.46 1.39-.2 2.9.81 3.91s2.52 1.26 3.91.8c.66 1.31 1.9 2.19 3.33 2.19s2.68-.88 3.34-2.19c1.39.46 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z" })
+											})]
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "text-gray-400 text-xs",
+											children: "@marclou · Dec 10, 2025"
+										})] })]
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+										className: "w-5 h-5 text-gray-800 flex-shrink-0",
+										viewBox: "0 0 24 24",
+										fill: "currentColor",
+										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", { d: "M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z" })
+									})]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+									className: "text-gray-900 text-[15px] leading-relaxed mb-4",
+									children: [
+										"what should i build next for my micro startups acquisition market based on the",
+										" ",
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "feedback" }),
+										" below",
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+										"be concise"
+									]
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+									className: "flex items-center gap-5 pt-3 border-t border-gray-100",
+									onClick: (e) => e.preventDefault(),
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+											className: "group flex items-center gap-1.5 text-gray-400 hover:text-blue-400 transition-colors duration-200 cursor-pointer text-sm select-none",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(CommentIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "group-hover:text-blue-400 transition-colors duration-200",
+												children: "2"
+											})]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+											className: "group flex items-center gap-1.5 text-gray-400 hover:text-green-400 transition-colors duration-200 cursor-pointer text-sm select-none",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RepostIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "group-hover:text-green-400 transition-colors duration-200",
+												children: "—"
+											})]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+											className: "group flex items-center gap-1.5 text-gray-400 hover:text-pink-500 transition-colors duration-200 cursor-pointer text-sm select-none",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(LikeIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "group-hover:text-pink-500 transition-colors duration-200",
+												children: "21"
+											})]
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+											className: "group flex items-center gap-1.5 text-gray-400 hover:text-blue-400 transition-colors duration-200 cursor-pointer text-sm select-none",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ViewsIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "group-hover:text-blue-400 transition-colors duration-200",
+												children: "16K"
+											})]
+										})
+									]
+								})
+							]
+						})
+					})
 				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex-1 flex flex-col gap-0",
 					children: [
