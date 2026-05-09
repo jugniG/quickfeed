@@ -60,10 +60,15 @@ export function Hero({ onTryWidget }: HeroProps) {
             </div>
 
             {/* Headline */}
-            <h1 className="text-[clamp(2.2rem,4.5vw,3.4rem)] font-bold leading-[1.1] tracking-[-0.035em] text-[#0A0A0A] mb-5">
+            <h1 className="text-[clamp(2.2rem,4.5vw,3.4rem)] font-bold leading-[1.1] tracking-[-0.035em] text-[#0A0A0A] mb-3">
               Have you ever tried to report a broken experience —{' '}
               <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">and couldn't find the way?</span>
             </h1>
+
+            {/* Stop guessing line */}
+            <p className="text-[15px] font-semibold text-neutral-400 mb-4 tracking-tight">
+              Stop guessing what your users want. Start hearing it — the moment they feel it.
+            </p>
 
             {/* Sub */}
             <p className="text-[16.5px] text-neutral-500 leading-[1.75] mb-8 font-normal">
