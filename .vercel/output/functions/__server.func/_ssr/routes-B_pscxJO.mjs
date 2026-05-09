@@ -1,8 +1,51 @@
-import { i as __toESM } from "../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-D5WCWjyl.js
+import { o as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react, t as kbd_default } from "../_libs/@heroui/kbd+[...].mjs";
+import { Ot as string } from "../_libs/@better-auth/core+[...].mjs";
+import { t as useMutation } from "../_libs/tanstack__react-query.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-B_pscxJO.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
+function ShortcutKey({ size = "md", className = "" }) {
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+		className: `inline-flex items-center gap-1 ${size === "sm" ? "text-[11px]" : size === "lg" ? "text-[15px]" : "text-[12px]"} ${className}`,
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(kbd_default, {
+				keys: ["ctrl"],
+				classNames: { base: "bg-white border border-neutral-200 shadow-sm text-neutral-700" }
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "text-neutral-400 font-normal",
+				children: "+"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(kbd_default, {
+				classNames: { base: "bg-white border border-neutral-200 shadow-sm text-neutral-700 font-mono" },
+				children: "Shift"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+				className: "text-neutral-400 font-normal",
+				children: "+"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(kbd_default, {
+				classNames: { base: "bg-white border border-neutral-200 shadow-sm text-neutral-700 font-mono" },
+				children: "F"
+			})
+		]
+	});
+}
+var navLinks = [
+	{
+		label: "Pitch",
+		href: "#pitch"
+	},
+	{
+		label: "Features",
+		href: "#features"
+	},
+	{
+		label: "Pricing",
+		href: "#pricing"
+	}
+];
 function Navbar() {
 	const [scrolled, setScrolled] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
@@ -33,22 +76,21 @@ function Navbar() {
 							})
 						})
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "font-bold text-[15px] text-[#0A0A0A] tracking-tight",
+						className: "text-[15px] text-[#0A0A0A] tracking-tight",
+						style: {
+							fontFamily: "'Syne', sans-serif",
+							fontWeight: 800
+						},
 						children: "QuickFeed"
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "hidden md:flex items-center gap-1",
-					children: [
-						"Features",
-						"How it works",
-						"Pricing",
-						"Docs"
-					].map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-						href: "#",
-						className: "px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-200 no-underline font-medium",
-						children: item
-					}, item))
+					children: navLinks.map(({ label, href }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
+						href,
+						className: "relative group px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 transition-colors duration-200 no-underline font-medium",
+						children: [label, /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute bottom-0 left-3.5 right-3.5 h-[1.5px] bg-gradient-to-r from-orange-500 to-amber-400 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-200 ease-out rounded-full" })]
+					}, label))
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "flex items-center gap-2.5",
@@ -83,6 +125,160 @@ function Navbar() {
 					})]
 				})
 			]
+		})
+	});
+}
+var domainSchema = string().min(1, "Enter your website URL").transform((val) => {
+	return val.replace(/^https?:\/\//, "").replace(/\/$/, "").trim();
+}).pipe(string().min(3, "Enter a valid domain").regex(/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(:[0-9]+)?(\/.*)?$/, "Enter a valid domain (e.g. yourapp.com)"));
+function extractDomain(input) {
+	return input.replace(/^https?:\/\//, "").replace(/\/$/, "").trim().split("/")[0];
+}
+function getFaviconUrl(domain) {
+	return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+}
+async function registerDomain(domain) {
+	await new Promise((r) => setTimeout(r, 300));
+	return { domain };
+}
+function DomainInput({ size = "default", btnLabel = "Add to your product →", onSuccess }) {
+	const [raw, setRaw] = (0, import_react.useState)("");
+	const [error, setError] = (0, import_react.useState)(null);
+	const [faviconOk, setFaviconOk] = (0, import_react.useState)(false);
+	const domain = raw ? extractDomain(raw) : "";
+	(0, import_react.useEffect)(() => {
+		setFaviconOk(false);
+		if (!domain) return;
+		const img = new Image();
+		img.src = getFaviconUrl(domain);
+		img.onload = () => setFaviconOk(true);
+		img.onerror = () => setFaviconOk(false);
+	}, [domain]);
+	const mutation = useMutation({
+		mutationFn: registerDomain,
+		onSuccess: (data) => {
+			if (onSuccess) onSuccess(data.domain);
+			else window.location.href = `/login?domain=${encodeURIComponent(data.domain)}`;
+		}
+	});
+	function validate(value) {
+		const result = domainSchema.safeParse(value);
+		if (!result.success) return result.error.errors[0].message;
+		return null;
+	}
+	function handleSubmit(e) {
+		e.preventDefault();
+		if (!raw.trim()) {
+			setError("Enter your website URL");
+			return;
+		}
+		const err = validate(raw);
+		if (err) {
+			setError(err);
+			return;
+		}
+		setError(null);
+		mutation.mutate(domain);
+	}
+	function handleChange(e) {
+		setRaw(e.target.value);
+		if (error) setError(validate(e.target.value));
+	}
+	function handleBlur() {
+		if (!raw.trim()) return;
+		setError(validate(raw));
+	}
+	const isCompact = size === "compact";
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("form", {
+		onSubmit: handleSubmit,
+		className: "w-full",
+		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: `flex flex-col ${isCompact ? "gap-2" : "gap-3"} w-full`,
+			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				className: `flex items-center gap-0 rounded-xl border ${error ? "border-red-300 bg-red-50/30 shadow-sm shadow-red-100" : "border-neutral-200 bg-white shadow-sm hover:border-orange-200 focus-within:border-orange-400 focus-within:shadow-md focus-within:shadow-orange-100"} transition-all duration-200 overflow-hidden`,
+				children: [
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: `flex items-center justify-center shrink-0 ${isCompact ? "w-9 h-9 ml-2" : "w-10 h-10 ml-3"}`,
+						children: domain && faviconOk ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+							src: getFaviconUrl(domain),
+							alt: "",
+							className: "w-5 h-5 rounded-sm object-contain"
+						}) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+							width: "18",
+							height: "18",
+							viewBox: "0 0 18 18",
+							fill: "none",
+							className: `transition-colors duration-200 ${domain ? "text-neutral-300" : "text-neutral-400"}`,
+							children: [
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+									cx: "9",
+									cy: "9",
+									r: "7.5",
+									stroke: "currentColor",
+									strokeWidth: "1.2"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+									d: "M9 1.5C9 1.5 6.5 4.5 6.5 9s2.5 7.5 2.5 7.5",
+									stroke: "currentColor",
+									strokeWidth: "1.2",
+									strokeLinecap: "round"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+									d: "M9 1.5C9 1.5 11.5 4.5 11.5 9s-2.5 7.5-2.5 7.5",
+									stroke: "currentColor",
+									strokeWidth: "1.2",
+									strokeLinecap: "round"
+								}),
+								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+									d: "M1.5 9h15M2.5 5.5h13M2.5 12.5h13",
+									stroke: "currentColor",
+									strokeWidth: "1.2",
+									strokeLinecap: "round"
+								})
+							]
+						})
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
+						type: "text",
+						value: domain ? domain : raw,
+						onChange: handleChange,
+						onBlur: handleBlur,
+						placeholder: "insightly.live",
+						autoComplete: "off",
+						spellCheck: false,
+						className: `flex-1 bg-transparent outline-none border-none font-mono ${isCompact ? "text-[13px] px-2 py-2.5" : "text-[14px] px-3 py-3"} text-neutral-800 placeholder:text-neutral-400 placeholder:font-sans`
+					}),
+					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+						type: "submit",
+						disabled: mutation.isPending,
+						className: `relative shrink-0 m-1.5 ${isCompact ? "px-4 py-2 text-[12.5px]" : "px-5 py-2.5 text-[13.5px]"} rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-200 overflow-hidden group disabled:opacity-70 disabled:cursor-not-allowed`,
+						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-lg" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "relative",
+							children: mutation.isPending ? "Setting up..." : btnLabel
+						})]
+					})
+				]
+			}), error && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+				className: "text-[12px] text-red-500 font-medium pl-1 flex items-center gap-1.5",
+				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
+					width: "12",
+					height: "12",
+					viewBox: "0 0 12 12",
+					fill: "none",
+					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
+						cx: "6",
+						cy: "6",
+						r: "5",
+						stroke: "currentColor",
+						strokeWidth: "1.2"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+						d: "M6 3.5V6.5M6 8.5v.2",
+						stroke: "currentColor",
+						strokeWidth: "1.2",
+						strokeLinecap: "round"
+					})]
+				}), error]
+			})]
 		})
 	});
 }
@@ -137,7 +333,11 @@ function Hero({ onTryWidget }) {
 								className: "flex mb-6",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 text-[12.5px] font-semibold text-orange-600 shadow-sm shadow-orange-100",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shrink-0" }), "Building a universal gesture — Ctrl+F"]
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shrink-0" }),
+										"Building a universal gesture — ",
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShortcutKey, { size: "sm" })
+									]
 								})
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
@@ -159,37 +359,13 @@ function Hero({ onTryWidget }) {
 								className: "text-[16.5px] text-neutral-500 leading-[1.75] mb-8 font-normal",
 								children: "We don't let you miss a single inconvenience of your users."
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex flex-wrap items-center gap-3 mb-10",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: "/auth/signup",
-									className: "relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14.5px] font-semibold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/45 transition-shadow duration-300 no-underline cursor-pointer overflow-hidden group",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "relative",
-											children: "Get your embed code — it's free"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-											className: "relative",
-											width: "14",
-											height: "14",
-											viewBox: "0 0 13 13",
-											fill: "none",
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-												d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
-												stroke: "white",
-												strokeWidth: "1.5",
-												strokeLinecap: "round",
-												strokeLinejoin: "round"
-											})
-										})
-									]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-									onClick: onTryWidget,
-									className: "inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-neutral-200 bg-white text-[14.5px] font-semibold text-neutral-600 hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-2 h-2 rounded-full bg-gradient-to-r from-orange-400 to-amber-400 shrink-0" }), "See how it works ↓"]
-								})]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "w-full max-w-[480px] mb-4",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DomainInput, { btnLabel: "Start for free" })
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-[12.5px] text-neutral-400 mb-10 font-normal",
+								children: "No credit card required · 2 min setup"
 							})
 						]
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -384,6 +560,7 @@ function ProblemSection() {
 	}, []);
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", {
 		ref,
+		id: "pitch",
 		className: "relative py-28 px-4 overflow-hidden bg-white",
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 			className: "pointer-events-none absolute inset-0",
@@ -576,17 +753,15 @@ function ProblemSection() {
 								children: [
 									"On every docs site,",
 									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-										className: "inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-white border border-gray-300 text-gray-700 text-xs font-mono shadow-sm",
-										children: "⌘ K"
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(kbd_default, {
+										keys: ["command"],
+										classNames: { base: "bg-white border border-gray-300 shadow-sm text-gray-700 text-xs" },
+										children: "K"
 									}),
 									" ",
 									"triggers search. Now,",
 									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-										className: "inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-white border border-gray-300 text-gray-700 text-xs font-mono shadow-sm",
-										children: "⌘ F"
-									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShortcutKey, { size: "sm" }),
 									" ",
 									"should trigger a",
 									" ",
@@ -617,321 +792,6 @@ function ProblemSection() {
 				})]
 			})]
 		})]
-	});
-}
-function HowItWorks() {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-		className: "py-28 bg-white border-b border-neutral-100",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "max-w-[1100px] mx-auto px-6",
-			children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "max-w-[480px]",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center gap-2.5 mb-5",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-5 h-px bg-gradient-to-r from-orange-400 to-amber-400" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-[12px] font-semibold uppercase tracking-[0.12em] text-orange-500",
-									children: "How it works"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-								className: "text-[clamp(1.9rem,3.5vw,2.5rem)] font-bold tracking-[-0.03em] leading-[1.15] text-[#0A0A0A]",
-								children: "One script tag. A buttery smooth feedback flow."
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "mt-3 text-[15px] text-neutral-500 leading-[1.7]",
-								children: "So easy your users will actually use it."
-							})
-						]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-						href: "/docs",
-						className: "flex items-center gap-1.5 text-[13.5px] font-semibold text-neutral-500 hover:text-orange-600 no-underline transition-colors group",
-						children: ["Read the docs", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-							width: "12",
-							height: "12",
-							viewBox: "0 0 12 12",
-							fill: "none",
-							className: "group-hover:translate-x-0.5 transition-transform",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-								d: "M2 6h8M6 2L10 6l-4 4",
-								stroke: "currentColor",
-								strokeWidth: "1.4",
-								strokeLinecap: "round",
-								strokeLinejoin: "round"
-							})
-						})]
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "grid grid-cols-1 md:grid-cols-3 gap-5",
-					children: [
-						{
-							num: "1",
-							title: "You: Paste one line",
-							desc: "Drop one <script> tag on any page. Works on React, Next.js, Webflow, WordPress — anything. 30 seconds.",
-							code: `<script\n  src="https://cdn.quickfeed.com/v1.js"\n  data-key="YOUR_KEY">\n<\/script>`
-						},
-						{
-							num: "2",
-							title: "Your user: Ctrl+F",
-							desc: "Instead of browser search, your branded overlay appears. They describe what's broken, paste a screenshot from clipboard, hit send. No signup. No redirect.",
-							code: `// Auto-intercepts Ctrl+F\nQuickFeed.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`
-						},
-						{
-							num: "3",
-							title: "You: See everything",
-							desc: "The exact page URL. Their message. Their screenshot. Delivered to your dashboard the instant they hit send — while the frustration is still fresh.",
-							code: `{\n  "user": "u_9xkf2",\n  "page": "/checkout/step-3",\n  "message": "Can't find promo",\n  "screenshot": "...",\n  "timestamp": "now"\n}`
-						}
-					].map((s, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "group flex flex-col rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/[0.07] transition-all duration-300",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "relative bg-[#0f0f0f] px-5 py-4 font-mono text-[11.5px] leading-[1.9] text-neutral-500 min-h-[120px] whitespace-pre",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "absolute left-0 top-0 bottom-0 w-8 border-r border-white/5 flex flex-col pt-4 items-center gap-[6px]",
-								children: s.code.split("\n").map((_, j) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-[10px] text-white/15 leading-[1.9]",
-									children: j + 1
-								}, j))
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "pl-6",
-								children: s.code.split("\n").map((line, j) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: j === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-orange-400/80",
-									children: line
-								}) : line.includes(":") || line.includes("\"") ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-neutral-300",
-									children: line
-								}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: line }) }, j))
-							})]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-							className: "p-6 flex-1 flex flex-col gap-3",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center gap-3",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-amber-400 flex items-center justify-center text-[13px] font-bold text-white shadow-md shadow-orange-500/30 shrink-0",
-									children: s.num
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
-									className: "text-[14.5px] font-bold text-[#0A0A0A]",
-									children: s.title
-								})]
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "text-[13.5px] text-neutral-500 leading-[1.65] font-normal",
-								children: s.desc
-							})]
-						})]
-					}, i))
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-7 py-5 rounded-2xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/60 shadow-sm shadow-orange-100",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-[22px]",
-							children: "⚡"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-[13.5px] font-bold text-neutral-800",
-							children: "No code changes to your product"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-[13px] text-neutral-500 font-normal",
-							children: "Just a script tag. Works on any stack."
-						})] })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-						href: "/auth/signup",
-						className: "shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13px] font-semibold no-underline hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 cursor-pointer",
-						children: "Get the snippet →"
-					})]
-				})
-			]
-		})
-	});
-}
-function WidgetDemoSection({ onTryWidget }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
-		className: "py-28 bg-white border-b border-neutral-100",
-		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-			className: "max-w-[1100px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center",
-			children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-center gap-2.5 mb-5",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "w-5 h-px bg-neutral-300" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-						className: "text-[12px] font-semibold uppercase tracking-[0.12em] text-neutral-400",
-						children: "Live demo"
-					})]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", {
-					className: "text-[clamp(1.9rem,3.5vw,2.6rem)] font-black tracking-[-0.035em] leading-[1.1] text-[#0A0A0A] mb-5",
-					children: "See exactly what your users will see."
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-					className: "text-[16px] text-neutral-500 leading-[1.65] mb-8",
-					children: [
-						"Press ",
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-							className: "px-1.5 py-0.5 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-700 font-mono text-[13px]",
-							children: "Ctrl+F"
-						}),
-						" right now — on this page — to trigger the widget and experience it yourself."
-					]
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-					className: "space-y-3 mb-10",
-					children: [
-						"Appears instantly, no page reload",
-						"Captures page URL and browser context automatically",
-						"Optional screenshot attachment",
-						"Submits directly to your dashboard"
-					].map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "flex items-center gap-3 text-[14px] text-neutral-600",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "w-5 h-5 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-								width: "10",
-								height: "10",
-								viewBox: "0 0 10 10",
-								fill: "none",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-									d: "M2 5l2.5 2.5L8 3",
-									stroke: "#F59E0B",
-									strokeWidth: "1.5",
-									strokeLinecap: "round",
-									strokeLinejoin: "round"
-								})
-							})
-						}), item]
-					}, i))
-				}),
-				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-					onClick: onTryWidget,
-					className: "relative flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 overflow-hidden group cursor-pointer",
-					children: [
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "relative",
-							children: "Open the widget"
-						}),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-							className: "relative",
-							width: "13",
-							height: "13",
-							viewBox: "0 0 13 13",
-							fill: "none",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-								d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
-								stroke: "white",
-								strokeWidth: "1.6",
-								strokeLinecap: "round",
-								strokeLinejoin: "round"
-							})
-						})
-					]
-				})
-			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-				className: "relative flex justify-center",
-				children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "w-full max-w-[380px] rounded-2xl border border-neutral-200 bg-white shadow-[0_8px_32px_rgba(0,0,0,0.10)] overflow-hidden",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "px-5 py-4 border-b border-neutral-100 bg-amber-50 flex items-center gap-3",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
-								width: "16",
-								height: "16",
-								viewBox: "0 0 16 16",
-								fill: "none",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
-									cx: "7",
-									cy: "7",
-									r: "5",
-									stroke: "#F59E0B",
-									strokeWidth: "1.5"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-									d: "M11 11l3 3",
-									stroke: "#F59E0B",
-									strokeWidth: "1.5",
-									strokeLinecap: "round"
-								})]
-							})
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-[13px] font-bold text-neutral-800",
-							children: "What were you looking for?"
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: "text-[11px] text-neutral-500",
-							children: "Help us improve this page"
-						})] })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "p-5 space-y-3",
-						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", {
-								className: "block text-[12px] font-semibold text-neutral-700 mb-1.5",
-								children: "Describe the issue"
-							}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "w-full px-3 py-2.5 rounded-xl border border-neutral-200 bg-neutral-50 text-[13px] text-neutral-400 min-h-[80px] flex items-start",
-								children: "I couldn't find the export button anywhere..."
-							})] }),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex items-center gap-2 px-3 py-2 rounded-xl border border-dashed border-neutral-200 bg-neutral-50 text-[12px] text-neutral-400",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("svg", {
-									width: "14",
-									height: "14",
-									viewBox: "0 0 14 14",
-									fill: "none",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("rect", {
-											x: "1",
-											y: "2",
-											width: "12",
-											height: "10",
-											rx: "2",
-											stroke: "#D1D5DB",
-											strokeWidth: "1.2"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("circle", {
-											cx: "4.5",
-											cy: "5.5",
-											r: "1",
-											fill: "#D1D5DB"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-											d: "M1 9l3.5-3 3 3 2-2 3.5 3",
-											stroke: "#D1D5DB",
-											strokeWidth: "1.2",
-											strokeLinejoin: "round"
-										})
-									]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: ["Attach a screenshot ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "text-neutral-300",
-									children: "— optional"
-								})] })]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex gap-2",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "flex-1 px-3 py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-[11px] text-neutral-400 truncate",
-									children: "/dashboard/settings"
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-									className: "flex-1 px-3 py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-[11px] text-neutral-400",
-									children: "Chrome 124"
-								})]
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-								className: "w-full py-2.5 rounded-xl bg-amber-500 text-white text-[13px] font-bold hover:bg-amber-600 transition-colors",
-								children: "Send feedback →"
-							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "text-center text-[11px] text-neutral-400",
-								children: ["Powered by ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-									className: "font-semibold text-neutral-500",
-									children: "QuickFeed"
-								})]
-							})
-						]
-					})]
-				})
-			})]
-		})
 	});
 }
 function WidgetOverlay({ isOpen, onClose }) {
@@ -1059,41 +919,63 @@ var features = [
 		icon: "📋",
 		title: "Screenshot paste",
 		desc: "Ctrl+V drops a screenshot right into the widget. Users show you exactly what broke — no words needed.",
-		accent: "from-orange-500 to-amber-400"
+		accent: "from-orange-400 to-amber-300",
+		iconBg: "bg-orange-50",
+		iconBorder: "border-orange-100"
 	},
 	{
 		icon: "📍",
 		title: "Page-aware by default",
 		desc: "Every report is automatically tagged with the exact URL. You know where on your product the friction lives.",
-		accent: "from-amber-500 to-yellow-400"
+		accent: "from-amber-400 to-yellow-300",
+		iconBg: "bg-amber-50",
+		iconBorder: "border-amber-100"
 	},
 	{
-		icon: "🚀",
+		icon: "⚡",
 		title: "Zero friction for users",
-		desc: "No account. No Discord. No form hunt. Ctrl+F → type → send. Three seconds, no unknown paths.",
-		accent: "from-orange-500 to-rose-400"
+		desc: "No account. No Discord. No form hunt. Ctrl+Shift+F → type → send. Three seconds, no unknown paths.",
+		accent: "from-orange-400 to-rose-300",
+		iconBg: "bg-orange-50",
+		iconBorder: "border-orange-100"
 	},
 	{
-		icon: "🔐",
-		title: "Anonymous or identified",
-		desc: "Your call. Toggle whether to ask for email — per project, per widget. Users never feel surveilled.",
-		accent: "from-amber-400 to-orange-400"
+		icon: "🪪",
+		title: "Identify who reported",
+		desc: "Know exactly which user sent which feedback. Link reports to real people — name, email, session — so you can follow up, not just fix.",
+		accent: "from-violet-400 to-purple-300",
+		iconBg: "bg-violet-50",
+		iconBorder: "border-violet-100"
 	},
 	{
 		icon: "🌐",
 		title: "Works on any stack",
 		desc: "One <script> tag. React, Next.js, Webflow, WordPress, plain HTML — doesn't matter.",
-		accent: "from-orange-400 to-amber-500"
+		accent: "from-amber-400 to-orange-300",
+		iconBg: "bg-amber-50",
+		iconBorder: "border-amber-100"
 	},
 	{
 		icon: "🎨",
 		title: "Full visual customizer",
 		desc: "Colors, blur, title, description, button — live preview as you tweak. Ships looking exactly like yours.",
-		accent: "from-rose-400 to-orange-400"
+		accent: "from-rose-400 to-orange-300",
+		iconBg: "bg-rose-50",
+		iconBorder: "border-rose-100"
 	}
 ];
+var comingSoon = {
+	icon: "💌",
+	title: "Thank-you cards",
+	desc: "When you fix a user's reported issue, send them a personal card — right inside the product. A small gesture that turns a frustration into loyalty.",
+	note: "Like Appwrite's bottom-left announcement cards — but for your users' resolved problems.",
+	accent: "from-pink-400 to-rose-300",
+	iconBg: "bg-pink-50",
+	iconBorder: "border-pink-100"
+};
 function FeaturesGrid() {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("section", {
+		id: "features",
 		className: "py-28 bg-[#FAFAFA] border-b border-neutral-100",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 			className: "max-w-[1100px] mx-auto px-6",
@@ -1109,14 +991,14 @@ function FeaturesGrid() {
 					className: "text-[clamp(1.9rem,3.5vw,2.5rem)] font-bold tracking-[-0.03em] leading-[1.15] text-[#0A0A0A]",
 					children: "Everything that makes reporting feel effortless."
 				})]
-			}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+			}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4",
-				children: features.map((f, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				children: [features.map((f, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 					className: "group relative bg-white rounded-2xl border border-neutral-200 p-7 flex flex-col gap-4 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-500/[0.07] transition-all duration-300 overflow-hidden",
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${f.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300` }),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-							className: `w-11 h-11 rounded-xl bg-gradient-to-br ${f.accent} flex items-center justify-center text-[20px] shadow-lg shadow-orange-500/20 group-hover:scale-110 transition-transform duration-300`,
+							className: `w-11 h-11 rounded-xl ${f.iconBg} border ${f.iconBorder} flex items-center justify-center text-[22px] group-hover:scale-110 transition-transform duration-300`,
 							children: f.icon
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
@@ -1126,9 +1008,46 @@ function FeaturesGrid() {
 							className: "text-[13.5px] text-neutral-500 leading-[1.65] font-normal",
 							children: f.desc
 						})] }),
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${f.accent} opacity-0 group-hover:opacity-[0.04] rounded-tl-3xl transition-opacity duration-300` })
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${f.accent} opacity-0 group-hover:opacity-[0.06] rounded-tl-3xl transition-opacity duration-300` })
 					]
-				}, i))
+				}, i)), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+					className: "group relative bg-white rounded-2xl border border-dashed border-pink-200 p-7 flex flex-col gap-4 hover:border-pink-300 hover:shadow-xl hover:shadow-pink-500/[0.08] transition-all duration-300 overflow-hidden sm:col-span-2 lg:col-span-1",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+							className: "absolute top-4 right-4 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-pink-500 text-[10.5px] font-semibold",
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-pink-400 animate-pulse" }), "Coming soon"]
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r ${comingSoon.accent} opacity-0 group-hover:opacity-100 transition-opacity duration-300` }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+							className: `w-11 h-11 rounded-xl ${comingSoon.iconBg} border ${comingSoon.iconBorder} flex items-center justify-center text-[22px] group-hover:scale-110 transition-transform duration-300`,
+							children: comingSoon.icon
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", {
+								className: "text-[15px] font-bold text-[#0A0A0A] mb-2",
+								children: comingSoon.title
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+								className: "text-[13.5px] text-neutral-500 leading-[1.65] font-normal mb-3",
+								children: comingSoon.desc
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+								className: "rounded-xl border border-pink-100 bg-gradient-to-br from-pink-50 to-rose-50 p-3 flex items-start gap-2.5",
+								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+									className: "w-7 h-7 rounded-lg bg-gradient-to-br from-pink-400 to-rose-400 flex items-center justify-center text-white text-[13px] shrink-0 shadow-sm",
+									children: "💌"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+									className: "text-[11px] font-semibold text-neutral-700 leading-snug",
+									children: "Hey Alex — we fixed it! 🎉"
+								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+									className: "text-[10.5px] text-neutral-400 mt-0.5",
+									children: "The checkout bug you reported is resolved."
+								})] })]
+							})
+						] }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `absolute bottom-0 right-0 w-20 h-20 bg-gradient-to-tl ${comingSoon.accent} opacity-0 group-hover:opacity-[0.06] rounded-tl-3xl transition-opacity duration-300` })
+					]
+				})]
 			})]
 		})
 	});
@@ -1144,16 +1063,13 @@ function FooterCTA() {
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute top-[-60px] left-1/2 -translate-x-1/2 w-[500px] h-[300px] rounded-full bg-gradient-to-r from-orange-300/30 to-amber-300/20 blur-[80px] pointer-events-none" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute bottom-[-40px] right-[-60px] w-[300px] h-[200px] rounded-full bg-amber-300/20 blur-[60px] pointer-events-none" }),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "relative z-10",
+						className: "relative z-10 w-full max-w-[600px] flex flex-col items-center",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-300/60 bg-white/70 text-orange-600 text-[12px] font-semibold mb-6 shadow-sm backdrop-blur-sm",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-400" }), "Free forever on Hobby plan"]
-							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h2", {
 								className: "text-[clamp(2rem,4.5vw,3.2rem)] font-bold leading-[1.1] tracking-[-0.04em] text-[#0A0A0A] mb-4 max-w-[620px]",
+								style: { fontFamily: "'Syne', sans-serif" },
 								children: [
-									"It's time to capture each report —",
+									"It's time to capture every report",
 									" ",
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 										className: "bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent",
@@ -1166,43 +1082,15 @@ function FooterCTA() {
 								children: [
 									"You've been on broken products that gave you nowhere to go. Don't be that product.",
 									" ",
-									"Give your users one gesture. One moment. One place to tell you everything."
+									"Give your users one gesture, one moment, one place to tell you everything."
 								]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-								className: "flex flex-wrap items-center justify-center gap-3",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
-									href: "/auth/signup",
-									className: "relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[15px] font-semibold shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-shadow duration-300 no-underline cursor-pointer overflow-hidden group",
-									children: [
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" }),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-											className: "relative",
-											children: "Get your embed code — it's free"
-										}),
-										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-											className: "relative",
-											width: "14",
-											height: "14",
-											viewBox: "0 0 14 14",
-											fill: "none",
-											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-												d: "M2 7h10M7.5 2.5L12 7l-4.5 4.5",
-												stroke: "white",
-												strokeWidth: "1.5",
-												strokeLinecap: "round",
-												strokeLinejoin: "round"
-											})
-										})
-									]
-								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "/auth/signin",
-									className: "inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-700 text-[15px] font-semibold hover:border-orange-300 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-300 no-underline cursor-pointer",
-									children: "Sign in"
-								})]
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+								className: "w-full max-w-[460px] mb-4",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DomainInput, { btnLabel: "Add to your product →" })
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
-								className: "mt-5 text-[12.5px] text-neutral-400 font-normal",
+								className: "text-[12.5px] text-neutral-400 font-normal",
 								children: "No credit card required · 2 min setup · Cancel anytime"
 							})
 						]
@@ -1228,7 +1116,11 @@ function FooterCTA() {
 								})
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-							className: "text-[13.5px] font-bold text-neutral-700",
+							className: "text-[13.5px] text-neutral-700",
+							style: {
+								fontFamily: "'Syne', sans-serif",
+								fontWeight: 800
+							},
 							children: "QuickFeed"
 						})]
 					}),
@@ -1264,7 +1156,7 @@ function Home() {
 	const [widgetOpen, setWidgetOpen] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
 		const handler = (e) => {
-			if (e.ctrlKey && e.key === "f") {
+			if (e.ctrlKey && e.shiftKey && e.key === "F") {
 				e.preventDefault();
 				setWidgetOpen(true);
 			}
@@ -1279,8 +1171,6 @@ function Home() {
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navbar, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hero, { onTryWidget: () => setWidgetOpen(true) }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProblemSection, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(HowItWorks, {}),
-			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(WidgetDemoSection, { onTryWidget: () => setWidgetOpen(true) }),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FeaturesGrid, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(FooterCTA, {}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(WidgetOverlay, {
@@ -1295,10 +1185,7 @@ function Home() {
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" }),
 						"Press",
 						" ",
-						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-							className: "px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-800 font-mono text-xs",
-							children: "Ctrl+F"
-						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)(ShortcutKey, { size: "sm" }),
 						" ",
 						"anywhere to try the widget"
 					]

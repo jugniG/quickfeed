@@ -1,10 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
+import { ShortcutKey } from '../components/ui/ShortcutKey'
 import { Navbar } from '../components/landing/Navbar'
 import { Hero } from '../components/landing/Hero'
 import { ProblemSection } from '../components/landing/ProblemSection'
-import { HowItWorks } from '../components/landing/HowItWorks'
-import { WidgetDemoSection, WidgetOverlay } from '../components/landing/WidgetDemo'
+// import { HowItWorks } from '../components/landing/HowItWorks'
+// import { WidgetDemoSection, WidgetOverlay } from '../components/landing/WidgetDemo'
+import { WidgetOverlay } from '../components/landing/WidgetDemo'
 import { FeaturesGrid } from '../components/landing/FeaturesGrid'
 import { FooterCTA } from '../components/landing/FooterCTA'
 
@@ -15,7 +17,7 @@ function Home() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === 'f') {
+      if (e.ctrlKey && e.shiftKey && e.key === 'F') {
         e.preventDefault()
         setWidgetOpen(true)
       }
@@ -32,8 +34,8 @@ function Home() {
       <Navbar />
       <Hero onTryWidget={() => setWidgetOpen(true)} />
       <ProblemSection />
-      <HowItWorks />
-      <WidgetDemoSection onTryWidget={() => setWidgetOpen(true)} />
+      {/* <HowItWorks /> */}
+      {/* <WidgetDemoSection onTryWidget={() => setWidgetOpen(true)} /> */}
       <FeaturesGrid />
       <FooterCTA />
 
@@ -44,7 +46,7 @@ function Home() {
           <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 shadow-sm text-neutral-500 text-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
             Press{' '}
-            <kbd className="px-1.5 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-neutral-800 font-mono text-xs">Ctrl+F</kbd>
+            <ShortcutKey size="sm" />
             {' '}anywhere to try the widget
           </div>
         </div>

@@ -1,498 +1,44 @@
+import { r as __exportAll$1 } from "../_runtime.mjs";
+import { $t as logger, Bt as getAuthTables, C as runWithRequestState, Ct as looseObject, D as filterOutputFields, Dt as record, E as getBetterAuthVersion, Et as optional, Ft as ATTR_CONTEXT, Ht as initGetFieldName, It as ATTR_HOOK_TYPE, Jt as APIError, Lt as ATTR_OPERATION_ID, M as jwtVerify, Ot as string, Pt as withSpan, Qt as createLogger, Rt as import_src, S as hasRequestState, St as email, T as runWithEndpointContext, Tt as object, Ut as generateId, Vt as initGetModelName, Wt as createRandomStringGenerator, Xt as kAPIErrorHeaderSymbol, Yt as BetterAuthError, Zt as BASE_ERROR_CODES, _ as getCurrentAdapter, a as isValidIP, an as isDevelopment, b as runWithTransaction, bt as array, c as normalizePathname, d as isAPIError, dt as encode, en as shouldPublishLog, f as createRouter$1, g as toResponse, i as createRateLimitKey, j as decodeProtectedHeader, k as base64Url, l as createAuthEndpoint, n as socialProviders, nn as env, o as normalizeIP, on as isProduction, ot as JWTExpired, r as isLoopbackHost, s as deprecate, sn as isTest, t as SocialProviderListEnum, u as createAuthMiddleware, v as queueAfterTransactionHook, w as getCurrentAuthContext, wt as number, x as defineRequestState, xt as boolean, y as runWithAdapter, yt as any, zt as safeJSONParse } from "../_libs/@better-auth/core+[...].mjs";
+import { a as getProtocol, c as resolveBaseURL, i as getOrigin, l as wildcardMatch, n as getBaseURL, o as isDynamicBaseURLConfig, r as getHost, s as isRequestLike, t as PACKAGE_VERSION } from "./version-WWhizYk2.mjs";
+import { n as defu, t as createDefu } from "../_libs/defu.mjs";
 import { a as getKyselyDatabaseType, i as createKyselyAdapter, s as sql } from "../_libs/@better-auth/kysely-adapter+[...].mjs";
-import { A as jwtVerify, Bt as import_src, C as runWithEndpointContext, Ct as object, D as base64Url, Et as string, Gt as generateId, Ht as getAuthTables, It as withSpan, Jt as logger, Kt as createRandomStringGenerator, Lt as ATTR_CONTEXT, Rt as ATTR_HOOK_TYPE, S as getCurrentAuthContext, St as number, T as filterOutputFields, Tt as record, Ut as initGetModelName, Vt as safeJSONParse, Wt as initGetFieldName, Yt as shouldPublishLog, Zt as env, _ as runWithAdapter, _t as any, a as createRateLimitKey, an as kAPIErrorHeaderSymbol, b as hasRequestState, bt as email, c as deprecate, d as createAuthMiddleware, en as isDevelopment, f as isAPIError, g as queueAfterTransactionHook, h as getCurrentAdapter, i as isLoopbackHost, in as BetterAuthError, it as JWTExpired, k as decodeProtectedHeader, l as normalizePathname, lt as encode, m as toResponse, n as socialProviders, nn as isTest, o as isValidIP, on as BASE_ERROR_CODES, p as createRouter$1, qt as createLogger, rn as APIError, s as normalizeIP, t as SocialProviderListEnum, tn as isProduction, u as createAuthEndpoint, v as runWithTransaction, vt as array, w as getBetterAuthVersion, wt as optional, x as runWithRequestState, xt as looseObject, y as defineRequestState, yt as boolean, zt as ATTR_OPERATION_ID } from "../_libs/@better-auth/core+[...].mjs";
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-import { a as createRouter, c as createRootRouteWithContext, n as Scripts, o as lazyRouteComponent, r as HeadContent, s as createFileRoute } from "../_libs/@tanstack/react-router+[...].mjs";
-import { n as SmartCoercionPlugin, o as os } from "../_libs/@orpc/json-schema+[...].mjs";
-import { T as onError } from "../_libs/@orpc/client+[...].mjs";
-import { n as OpenAPIHandler, r as RPCHandler, t as OpenAPIReferencePlugin } from "../_libs/orpc__openapi+orpc__server.mjs";
-import { t as ZodToJsonSchemaConverter } from "../_libs/orpc__zod.mjs";
 import { n as string$1, t as boolean$1 } from "../_libs/zod.mjs";
 import { n as hkdf, t as sha256 } from "../_libs/noble__hashes.mjs";
 import { i as jwtDecrypt, n as EncryptJWT, r as SignJWT, t as calculateJwkThumbprint } from "../_libs/jose.mjs";
 import { i as verifyPassword, n as binary, r as hashPassword, t as createHMAC } from "../_libs/better-auth__utils.mjs";
 import { n as createHash, t as createTelemetry } from "../_libs/@better-auth/telemetry+[...].mjs";
 import { a as utf8ToBytes, i as managedNonce, n as bytesToHex, r as hexToBytes, t as xchacha20poly1305 } from "../_libs/noble__ciphers.mjs";
-import { n as defu, t as createDefu } from "../_libs/defu.mjs";
-import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-import { t as setupRouterSsrQueryIntegration } from "../_libs/@tanstack/react-router-ssr-query+[...].mjs";
-import { File } from "node:buffer";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-35Rdq7dg.js
-var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-DUsCyFSV.css";
-var Route$4 = createRootRouteWithContext()({
-	head: () => ({
-		meta: [
-			{ charSet: "utf-8" },
-			{
-				name: "viewport",
-				content: "width=device-width, initial-scale=1"
-			},
-			{ title: "QuickFeed — We don't let you miss a single inconvenience of your users" },
-			{
-				name: "description",
-				content: "QuickFeed intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard."
-			}
-		],
-		links: [
-			{
-				rel: "stylesheet",
-				href: styles_default
-			},
-			{
-				rel: "preconnect",
-				href: "https://fonts.googleapis.com"
-			},
-			{
-				rel: "preconnect",
-				href: "https://fonts.gstatic.com",
-				crossOrigin: "anonymous"
-			},
-			{
-				rel: "stylesheet",
-				href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-			}
-		]
-	}),
-	shellComponent: RootDocument
-});
-function RootDocument({ children }) {
-	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("html", {
-		lang: "en",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", { children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})] })]
+import { a as timestamp, c as boolean$2, i as pgTable, n as relations, o as text, r as index, s as serial, t as drizzle } from "../_libs/drizzle-orm.mjs";
+import { t as dist_exports } from "../_libs/@better-auth/drizzle-adapter+[...].mjs";
+import { t as Resend } from "../_libs/resend+standardwebhooks+svix.mjs";
+import { n as setCookie, r as toResponse$1, t as H3Event } from "../_libs/h3-v2+rou3.mjs";
+import { AsyncLocalStorage } from "node:async_hooks";
+//#region node_modules/.nitro/vite/services/ssr/assets/auth-DJozuzHv.js
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __exportAll = (all, no_symbols) => {
+	let target = {};
+	for (var name in all) __defProp(target, name, {
+		get: all[name],
+		enumerable: true
 	});
-}
-var $$splitComponentImporter = () => import("./routes-D5WCWjyl.mjs");
-var Route$3 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
-/**
-* This file aims to polyfill missing APIs in Node.js 18 that oRPC depends on.
-*
-* Since Stackblitz runs on Node.js 18, these polyfills ensure oRPC works in that environment.
-* If you're running oRPC locally, please use Node.js 20 or later for full compatibility.
-*/
-/**
-* Note: Stackblitz provides an emulated Node.js environment with inherent limitations.
-* If you encounter issues, please test on a local setup with Node.js 20 or later before reporting them.
-*/
-/**
-* The `oz.file()` schema depends on the `File` API.
-* If you're not using `oz.file()`, you can safely remove this polyfill.
-*/
-if (typeof globalThis.File === "undefined") globalThis.File = File;
-var TodoSchema = object({
-	id: number().int().min(1),
-	name: string()
-});
-var todos = [
-	{
-		id: 1,
-		name: "Get groceries"
-	},
-	{
-		id: 2,
-		name: "Buy a new phone"
-	},
-	{
-		id: 3,
-		name: "Finish the project"
-	}
-];
-var router_default = {
-	listTodos: os.input(object({})).handler(() => {
-		return todos;
-	}),
-	addTodo: os.input(object({ name: string() })).handler(({ input }) => {
-		const newTodo = {
-			id: todos.length + 1,
-			name: input.name
-		};
-		todos.push(newTodo);
-		return newTodo;
-	})
+	if (!no_symbols) __defProp(target, Symbol.toStringTag, { value: "Module" });
+	return target;
 };
-var handler$1 = new OpenAPIHandler(router_default, {
-	interceptors: [onError((error) => {
-		console.error(error);
-	})],
-	plugins: [new SmartCoercionPlugin({ schemaConverters: [new ZodToJsonSchemaConverter()] }), new OpenAPIReferencePlugin({
-		schemaConverters: [new ZodToJsonSchemaConverter()],
-		specGenerateOptions: {
-			info: {
-				title: "TanStack ORPC Playground",
-				version: "1.0.0"
-			},
-			commonSchemas: {
-				Todo: { schema: TodoSchema },
-				UndefinedError: { error: "UndefinedError" }
-			},
-			security: [{ bearerAuth: [] }],
-			components: { securitySchemes: { bearerAuth: {
-				type: "http",
-				scheme: "bearer"
-			} } }
-		},
-		docsConfig: { authentication: { securitySchemes: { bearerAuth: { token: "default-token" } } } }
-	})]
-});
-async function handle$1({ request }) {
-	const { response } = await handler$1.handle(request, {
-		prefix: "/api",
-		context: {}
-	});
-	return response ?? new Response("Not Found", { status: 404 });
-}
-var Route$2 = createFileRoute("/api/$")({ server: { handlers: {
-	HEAD: handle$1,
-	GET: handle$1,
-	POST: handle$1,
-	PUT: handle$1,
-	PATCH: handle$1,
-	DELETE: handle$1
-} } });
-var handler = new RPCHandler(router_default);
-async function handle({ request }) {
-	const { response } = await handler.handle(request, {
-		prefix: "/api/rpc",
-		context: {}
-	});
-	return response ?? new Response("Not Found", { status: 404 });
-}
-var Route$1 = createFileRoute("/api/rpc/$")({ server: { handlers: {
-	HEAD: handle,
-	GET: handle,
-	POST: handle,
-	PUT: handle,
-	PATCH: handle,
-	DELETE: handle
-} } });
-/**
-* Escapes a character if it has a special meaning in regular expressions
-* and returns the character as is if it doesn't
-*/
-function escapeRegExpChar(char) {
-	if (char === "-" || char === "^" || char === "$" || char === "+" || char === "." || char === "(" || char === ")" || char === "|" || char === "[" || char === "]" || char === "{" || char === "}" || char === "*" || char === "?" || char === "\\") return `\\${char}`;
-	else return char;
-}
-/**
-* Escapes all characters in a given string that have a special meaning in regular expressions
-*/
-function escapeRegExpString(str) {
-	let result = "";
-	for (let i = 0; i < str.length; i++) result += escapeRegExpChar(str[i]);
-	return result;
-}
-/**
-* Transforms one or more glob patterns into a RegExp pattern
-*/
-function transform(pattern, separator = true) {
-	if (Array.isArray(pattern)) return `(?:${pattern.map((p) => `^${transform(p, separator)}$`).join("|")})`;
-	let separatorSplitter = "";
-	let separatorMatcher = "";
-	let wildcard = ".";
-	if (separator === true) {
-		separatorSplitter = "/";
-		separatorMatcher = "[/\\\\]";
-		wildcard = "[^/\\\\]";
-	} else if (separator) {
-		separatorSplitter = separator;
-		separatorMatcher = escapeRegExpString(separatorSplitter);
-		if (separatorMatcher.length > 1) {
-			separatorMatcher = `(?:${separatorMatcher})`;
-			wildcard = `((?!${separatorMatcher}).)`;
-		} else wildcard = `[^${separatorMatcher}]`;
+var __copyProps = (to, from, except, desc) => {
+	if (from && typeof from === "object" || typeof from === "function") for (var keys = __getOwnPropNames(from), i = 0, n = keys.length, key; i < n; i++) {
+		key = keys[i];
+		if (!__hasOwnProp.call(to, key) && key !== except) __defProp(to, key, {
+			get: ((k) => from[k]).bind(null, key),
+			enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable
+		});
 	}
-	const requiredSeparator = separator ? `${separatorMatcher}+?` : "";
-	const optionalSeparator = separator ? `${separatorMatcher}*?` : "";
-	const segments = separator ? pattern.split(separatorSplitter) : [pattern];
-	let result = "";
-	for (let s = 0; s < segments.length; s++) {
-		const segment = segments[s];
-		const nextSegment = segments[s + 1];
-		let currentSeparator = "";
-		if (!segment && s > 0) continue;
-		if (separator) if (s === segments.length - 1) currentSeparator = optionalSeparator;
-		else if (nextSegment !== "**") currentSeparator = requiredSeparator;
-		else currentSeparator = "";
-		if (separator && segment === "**") {
-			if (currentSeparator) {
-				result += s === 0 ? "" : currentSeparator;
-				result += `(?:${wildcard}*?${currentSeparator})*?`;
-			}
-			continue;
-		}
-		for (let c = 0; c < segment.length; c++) {
-			const char = segment[c];
-			if (char === "\\") {
-				if (c < segment.length - 1) {
-					result += escapeRegExpChar(segment[c + 1]);
-					c++;
-				}
-			} else if (char === "?") result += wildcard;
-			else if (char === "*") result += `${wildcard}*?`;
-			else result += escapeRegExpChar(char);
-		}
-		result += currentSeparator;
-	}
-	return result;
-}
-function isMatch(regexp, sample) {
-	if (typeof sample !== "string") throw new TypeError(`Sample must be a string, but ${typeof sample} given`);
-	return regexp.test(sample);
-}
-/**
-* Compiles one or more glob patterns into a RegExp and returns an isMatch function.
-* The isMatch function takes a sample string as its only argument and returns `true`
-* if the string matches the pattern(s).
-*
-* ```js
-* wildcardMatch('src/*.js')('src/index.js') //=> true
-* ```
-*
-* ```js
-* const isMatch = wildcardMatch('*.example.com', '.')
-* isMatch('foo.example.com') //=> true
-* isMatch('foo.bar.com') //=> false
-* ```
-*/
-function wildcardMatch(pattern, options) {
-	if (typeof pattern !== "string" && !Array.isArray(pattern)) throw new TypeError(`The first argument must be a single pattern string or an array of patterns, but ${typeof pattern} given`);
-	if (typeof options === "string" || typeof options === "boolean") options = { separator: options };
-	if (arguments.length === 2 && !(typeof options === "undefined" || typeof options === "object" && options !== null && !Array.isArray(options))) throw new TypeError(`The second argument must be an options object or a string/boolean separator, but ${typeof options} given`);
-	options = options || {};
-	if (options.separator === "\\") throw new Error("\\ is not a valid separator because it is used for escaping. Try setting the separator to `true` instead");
-	const regexpPattern = transform(pattern, options.separator);
-	const regexp = new RegExp(`^${regexpPattern}$`, options.flags);
-	const fn = isMatch.bind(null, regexp);
-	fn.options = options;
-	fn.pattern = pattern;
-	fn.regexp = regexp;
-	return fn;
-}
-/**
-* Minimal loopback check for dev scheme inference only. Reachable from
-* `client/config.ts` via `getBaseURL`, so we MUST NOT import the full
-* `@better-auth/core/utils/host` classifier here: its `utils/ip` dependency
-* on zod would leak into the client bundle (see `e2e/smoke/test/vite.spec.ts`).
-*
-* Server-side SSRF/loopback checks (oauth redirect matching, trusted-origin
-* resolution, electron fetch gate) continue to use the authoritative
-* `isLoopbackHost` from `@better-auth/core/utils/host`. This helper's only
-* job is picking `http` vs `https` for dev ergonomics.
-*/
-function isLoopbackForDevScheme(host) {
-	const hostname = host.replace(/:\d+$/, "").replace(/^\[|\]$/g, "").toLowerCase();
-	return hostname === "localhost" || hostname.endsWith(".localhost") || hostname === "::1" || hostname.startsWith("127.");
-}
-function checkHasPath(url) {
-	try {
-		return (new URL(url).pathname.replace(/\/+$/, "") || "/") !== "/";
-	} catch {
-		throw new BetterAuthError(`Invalid base URL: ${url}. Please provide a valid base URL.`);
-	}
-}
-function assertHasProtocol(url) {
-	try {
-		const parsedUrl = new URL(url);
-		if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") throw new BetterAuthError(`Invalid base URL: ${url}. URL must include 'http://' or 'https://'`);
-	} catch (error) {
-		if (error instanceof BetterAuthError) throw error;
-		throw new BetterAuthError(`Invalid base URL: ${url}. Please provide a valid base URL.`, { cause: error });
-	}
-}
-function withPath(url, path = "/api/auth") {
-	assertHasProtocol(url);
-	if (checkHasPath(url)) return url;
-	const trimmedUrl = url.replace(/\/+$/, "");
-	if (!path || path === "/") return trimmedUrl;
-	path = path.startsWith("/") ? path : `/${path}`;
-	return `${trimmedUrl}${path}`;
-}
-function validateProxyHeader(header, type) {
-	if (!header || header.trim() === "") return false;
-	if (type === "proto") return header === "http" || header === "https";
-	if (type === "host") {
-		if ([
-			/\.\./,
-			/\0/,
-			/[\s]/,
-			/^[.]/,
-			/[<>'"]/,
-			/javascript:/i,
-			/file:/i,
-			/data:/i
-		].some((pattern) => pattern.test(header))) return false;
-		return /^[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*(:[0-9]{1,5})?$/.test(header) || /^(\d{1,3}\.){3}\d{1,3}(:[0-9]{1,5})?$/.test(header) || /^\[[0-9a-fA-F:]+\](:[0-9]{1,5})?$/.test(header) || /^localhost(:[0-9]{1,5})?$/i.test(header);
-	}
-	return false;
-}
-function getBaseURL(url, path, request, loadEnv, trustedProxyHeaders) {
-	if (url) return withPath(url, path);
-	if (loadEnv !== false) {
-		const fromEnv = env.BETTER_AUTH_URL || env.NEXT_PUBLIC_BETTER_AUTH_URL || env.PUBLIC_BETTER_AUTH_URL || env.NUXT_PUBLIC_BETTER_AUTH_URL || env.NUXT_PUBLIC_AUTH_URL || (env.BASE_URL !== "/" ? env.BASE_URL : void 0);
-		if (fromEnv) return withPath(fromEnv, path);
-	}
-	const fromRequest = request?.headers.get("x-forwarded-host");
-	const fromRequestProto = request?.headers.get("x-forwarded-proto");
-	if (fromRequest && fromRequestProto && trustedProxyHeaders) {
-		if (validateProxyHeader(fromRequestProto, "proto") && validateProxyHeader(fromRequest, "host")) try {
-			return withPath(`${fromRequestProto}://${fromRequest}`, path);
-		} catch (_error) {}
-	}
-	if (request) {
-		const url = getOrigin(request.url);
-		if (!url) throw new BetterAuthError("Could not get origin from request. Please provide a valid base URL.");
-		return withPath(url, path);
-	}
-	if (typeof window !== "undefined" && window.location) return withPath(window.location.origin, path);
-}
-function getOrigin(url) {
-	try {
-		const parsedUrl = new URL(url);
-		return parsedUrl.origin === "null" ? null : parsedUrl.origin;
-	} catch {
-		return null;
-	}
-}
-function getProtocol(url) {
-	try {
-		return new URL(url).protocol;
-	} catch {
-		return null;
-	}
-}
-function getHost(url) {
-	try {
-		return new URL(url).host;
-	} catch {
-		return null;
-	}
-}
-/**
-* Checks if the baseURL config is a dynamic config object
-*/
-function isDynamicBaseURLConfig(config) {
-	return typeof config === "object" && config !== null && "allowedHosts" in config && Array.isArray(config.allowedHosts);
-}
-/**
-* Check if a value is a `Request`
-* - `instanceof`: works for native Request instances
-* - `toString`: handles where instanceof check fails but the object is still a
-*   valid Request (e.g. cross-realm, polyfills). Paired with a shape check so
-*   an object that only spoofs `Symbol.toStringTag` without the real shape is
-*   rejected before downstream code tries to read `.headers` / `.url`.
-*
-* @param value The value to check
-* @returns `true` if the value is a Request instance
-*/
-function isRequestLike(value) {
-	if (value instanceof Request) return true;
-	if (typeof value !== "object" || value === null || Object.prototype.toString.call(value) !== "[object Request]") return false;
-	const v = value;
-	return typeof v.url === "string" && typeof v.headers === "object" && v.headers !== null && typeof v.headers.get === "function";
-}
-/**
-* Extracts the host from a `Request` or `Headers`.
-* Honors `x-forwarded-host` only when `trustedProxyHeaders` is enabled,
-* then falls back to the `host` header and finally the request URL.
-*/
-function getHostFromSource(source, trustedProxyHeaders) {
-	const headers = isRequestLike(source) ? source.headers : source;
-	if (trustedProxyHeaders) {
-		const forwardedHost = headers.get("x-forwarded-host");
-		if (forwardedHost && validateProxyHeader(forwardedHost, "host")) return forwardedHost;
-	}
-	const host = headers.get("host");
-	if (host && validateProxyHeader(host, "host")) return host;
-	if (isRequestLike(source)) try {
-		return new URL(source.url).host;
-	} catch {
-		return null;
-	}
-	return null;
-}
-/**
-* Extracts the protocol from a `Request` or `Headers`.
-* Honors `x-forwarded-proto` only when `trustedProxyHeaders` is enabled,
-* then falls back to the request URL, then to "https".
-*/
-function getProtocolFromSource(source, configProtocol, trustedProxyHeaders) {
-	if (configProtocol === "http" || configProtocol === "https") return configProtocol;
-	const headers = isRequestLike(source) ? source.headers : source;
-	if (trustedProxyHeaders) {
-		const forwardedProto = headers.get("x-forwarded-proto");
-		if (forwardedProto && validateProxyHeader(forwardedProto, "proto")) return forwardedProto;
-	}
-	if (isRequestLike(source)) try {
-		const url = new URL(source.url);
-		if (url.protocol === "http:" || url.protocol === "https:") return url.protocol.slice(0, -1);
-	} catch {}
-	const host = getHostFromSource(source, trustedProxyHeaders);
-	if (host && isLoopbackForDevScheme(host)) return "http";
-	return "https";
-}
-/**
-* Matches a hostname against a host pattern.
-* Supports wildcard patterns like `*.vercel.app` or `preview-*.myapp.com`.
-*
-* @param host The hostname to test (e.g., "myapp.com", "preview-123.vercel.app")
-* @param pattern The host pattern (e.g., "myapp.com", "*.vercel.app")
-* @returns {boolean} true if the host matches the pattern, false otherwise.
-*
-* @example
-* ```ts
-* matchesHostPattern("myapp.com", "myapp.com") // true
-* matchesHostPattern("preview-123.vercel.app", "*.vercel.app") // true
-* matchesHostPattern("preview-123.myapp.com", "preview-*.myapp.com") // true
-* matchesHostPattern("evil.com", "myapp.com") // false
-* ```
-*/
-var matchesHostPattern = (host, pattern) => {
-	if (!host || !pattern) return false;
-	const normalizedHost = host.replace(/^https?:\/\//, "").split("/")[0].toLowerCase();
-	const normalizedPattern = pattern.replace(/^https?:\/\//, "").split("/")[0].toLowerCase();
-	if (normalizedPattern.includes("*") || normalizedPattern.includes("?")) return wildcardMatch(normalizedPattern)(normalizedHost);
-	return normalizedHost.toLowerCase() === normalizedPattern.toLowerCase();
+	return to;
 };
-/**
-* Resolves the base URL from a dynamic config based on the incoming request.
-* Validates the derived host against the allowedHosts allowlist.
-*
-* @param config The dynamic base URL config
-* @param request The incoming request
-* @param basePath The base path to append
-* @returns The resolved base URL with path
-* @throws BetterAuthError if host is not in allowedHosts and no fallback is set
-*/
-function resolveDynamicBaseURL(config, source, basePath, trustedProxyHeaders) {
-	const host = getHostFromSource(source, trustedProxyHeaders);
-	if (!host) {
-		if (config.fallback) return withPath(config.fallback, basePath);
-		throw new BetterAuthError("Could not determine host from request headers. Please provide a fallback URL in your baseURL config.");
-	}
-	if (config.allowedHosts.some((pattern) => matchesHostPattern(host, pattern))) return withPath(`${getProtocolFromSource(source, config.protocol, trustedProxyHeaders)}://${host}`, basePath);
-	if (config.fallback) return withPath(config.fallback, basePath);
-	throw new BetterAuthError(`Host "${host}" is not in the allowed hosts list. Allowed hosts: ${config.allowedHosts.join(", ")}. Add this host to your allowedHosts config or provide a fallback URL.`);
-}
-/**
-* Resolves the base URL from any config type (static string or dynamic object).
-* This is the main entry point for base URL resolution.
-*
-* @param config The base URL config (string or object)
-* @param basePath The base path to append
-* @param request Optional request for dynamic resolution
-* @param loadEnv Whether to load from environment variables
-* @param trustedProxyHeaders Whether to trust proxy headers (for legacy behavior)
-* @returns The resolved base URL with path
-*/
-function resolveBaseURL(config, basePath, source, loadEnv, trustedProxyHeaders) {
-	if (isDynamicBaseURLConfig(config)) {
-		if (source) return resolveDynamicBaseURL(config, source, basePath, trustedProxyHeaders);
-		if (config.fallback) return withPath(config.fallback, basePath);
-		return getBaseURL(void 0, basePath, void 0, loadEnv, trustedProxyHeaders);
-	}
-	const request = isRequestLike(source) ? source : void 0;
-	if (typeof config === "string") return getBaseURL(config, basePath, request, loadEnv, trustedProxyHeaders);
-	return getBaseURL(void 0, basePath, request, loadEnv, trustedProxyHeaders);
-}
+var __reExport = (target, mod, secondTarget) => (__copyProps(target, mod, "default"), secondTarget && __copyProps(secondTarget, mod, "default"));
 var generateRandomString = createRandomStringGenerator("a-z", "0-9", "A-Z", "-_");
 async function signJWT(payload, secret, expiresIn = 3600) {
 	return await new SignJWT(payload).setProtectedHeader({ alg: "HS256" }).setIssuedAt().setExpirationTime(Math.floor(Date.now() / 1e3) + expiresIn).sign(new TextEncoder().encode(secret));
@@ -2288,13 +1834,13 @@ var revokeOtherSessions = createAuthEndpoint("/revoke-other-sessions", {
 	await Promise.all(otherSessions.map((session) => ctx.context.internalAdapter.deleteSession(session.token)));
 	return ctx.json({ status: true });
 });
-var defaultKeyHasher = async (identifier) => {
+var defaultKeyHasher$1 = async (identifier) => {
 	const hash = await createHash("SHA-256").digest(new TextEncoder().encode(identifier));
 	return base64Url.encode(new Uint8Array(hash), { padding: false });
 };
 async function processIdentifier(identifier, option) {
 	if (!option || option === "plain") return identifier;
-	if (option === "hashed") return defaultKeyHasher(identifier);
+	if (option === "hashed") return defaultKeyHasher$1(identifier);
 	if (typeof option === "object" && "hash" in option) return option.hash(identifier);
 	return identifier;
 }
@@ -5167,24 +4713,24 @@ var signInEmail = () => createAuthEndpoint("/sign-in/email", {
 			message: "Email and password is not enabled"
 		});
 	}
-	const { email: email$1, password } = ctx.body;
-	if (!email().safeParse(email$1).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
-	const user = await ctx.context.internalAdapter.findUserByEmail(email$1, { includeAccounts: true });
+	const { email: email$2, password } = ctx.body;
+	if (!email().safeParse(email$2).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
+	const user = await ctx.context.internalAdapter.findUserByEmail(email$2, { includeAccounts: true });
 	if (!user) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("User not found", { email: email$1 });
+		ctx.context.logger.error("User not found", { email: email$2 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	const credentialAccount = user.accounts.find((a) => a.providerId === "credential");
 	if (!credentialAccount) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("Credential account not found", { email: email$1 });
+		ctx.context.logger.error("Credential account not found", { email: email$2 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	const currentPassword = credentialAccount?.password;
 	if (!currentPassword) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("Password not found", { email: email$1 });
+		ctx.context.logger.error("Password not found", { email: email$2 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	if (!await ctx.context.password.verify({
@@ -5384,8 +4930,8 @@ var signUpEmail = () => createAuthEndpoint("/sign-up/email", {
 			code: "EMAIL_PASSWORD_SIGN_UP_DISABLED"
 		});
 		const body = ctx.body;
-		const { name, email: email$2, password, image, callbackURL: _callbackURL, rememberMe, ...rest } = body;
-		if (!email().safeParse(email$2).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
+		const { name, email: email$1, password, image, callbackURL: _callbackURL, rememberMe, ...rest } = body;
+		if (!email().safeParse(email$1).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
 		if (!password || typeof password !== "string") throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_PASSWORD);
 		const minPasswordLength = ctx.context.password.config.minPasswordLength;
 		if (password.length < minPasswordLength) {
@@ -5400,10 +4946,10 @@ var signUpEmail = () => createAuthEndpoint("/sign-up/email", {
 		const shouldReturnGenericDuplicateResponse = ctx.context.options.emailAndPassword.requireEmailVerification;
 		const shouldSkipAutoSignIn = ctx.context.options.emailAndPassword.autoSignIn === false || shouldReturnGenericDuplicateResponse;
 		const additionalUserFields = parseUserInput(ctx.context.options, rest, "create");
-		const normalizedEmail = email$2.toLowerCase();
+		const normalizedEmail = email$1.toLowerCase();
 		const dbUser = await ctx.context.internalAdapter.findUserByEmail(normalizedEmail);
 		if (dbUser?.user) {
-			ctx.context.logger.info(`Sign-up attempt for existing email: ${email$2}`);
+			ctx.context.logger.info(`Sign-up attempt for existing email: ${email$1}`);
 			if (shouldReturnGenericDuplicateResponse) {
 				/**
 				* Hash the password to reduce timing differences
@@ -6528,10 +6074,10 @@ async function getBaseAdapter(options, handleDirectDatabase) {
 }
 async function getAdapter(options) {
 	return getBaseAdapter(options, async (opts) => {
-		const { createKyselyAdapter } = await import("./kysely-adapter-chQh01SG.mjs");
+		const { createKyselyAdapter } = await import("./kysely-adapter-CNyDyfmW.mjs");
 		const { kysely, databaseType, transaction } = await createKyselyAdapter(opts);
 		if (!kysely) throw new BetterAuthError("Failed to initialize database adapter");
-		const { kyselyAdapter } = await import("./kysely-adapter-chQh01SG.mjs");
+		const { kyselyAdapter } = await import("./kysely-adapter-CNyDyfmW.mjs");
 		return kyselyAdapter(kysely, {
 			type: databaseType || "sqlite",
 			debugLogs: opts.database && "debugLogs" in opts.database ? opts.database.debugLogs : false,
@@ -7231,7 +6777,8 @@ var createBetterAuth = (options, initFn) => {
 var betterAuth = (options) => {
 	return createBetterAuth(options, init);
 };
-var PACKAGE_VERSION = "1.6.9";
+var drizzle_adapter_exports = /* @__PURE__ */ __exportAll({});
+__reExport(drizzle_adapter_exports, dist_exports);
 /**
 * TanStack Start cookie plugin for React.
 *
@@ -7264,7 +6811,7 @@ var tanstackStartCookies = () => {
 					const setCookies = returned?.get("set-cookie");
 					if (!setCookies) return;
 					const parsed = parseSetCookieHeader(setCookies);
-					const { setCookie } = await import("./server-BI8V2twr.mjs").then((n) => n.t);
+					const { setCookie } = await Promise.resolve().then(() => server_BOMALCnJ_exports).then((n) => n.t);
 					parsed.forEach((value, key) => {
 						if (!key) return;
 						try {
@@ -7277,57 +6824,357 @@ var tanstackStartCookies = () => {
 		}] }
 	};
 };
-var auth = betterAuth({
-	emailAndPassword: { enabled: true },
-	plugins: [tanstackStartCookies()]
-});
-var Route = createFileRoute("/api/auth/$")({ server: { handlers: {
-	GET: ({ request }) => auth.handler(request),
-	POST: ({ request }) => auth.handler(request)
-} } });
-var IndexRoute = Route$3.update({
-	id: "/",
-	path: "/",
-	getParentRoute: () => Route$4
-});
-var ApiSplatRoute = Route$2.update({
-	id: "/api/$",
-	path: "/api/$",
-	getParentRoute: () => Route$4
-});
-var ApiRpcSplatRoute = Route$1.update({
-	id: "/api/rpc/$",
-	path: "/api/rpc/$",
-	getParentRoute: () => Route$4
-});
-var rootRouteChildren = {
-	IndexRoute,
-	ApiSplatRoute,
-	ApiAuthSplatRoute: Route.update({
-		id: "/api/auth/$",
-		path: "/api/auth/$",
-		getParentRoute: () => Route$4
-	}),
-	ApiRpcSplatRoute
+var defaultKeyHasher = async (otp) => {
+	const hash = await createHash("SHA-256").digest(new TextEncoder().encode(otp));
+	return base64Url.encode(new Uint8Array(hash), { padding: false });
 };
-var routeTree = Route$4._addFileChildren(rootRouteChildren)._addFileTypes();
-function getContext() {
-	return { queryClient: new QueryClient() };
-}
-function getRouter() {
-	const context = getContext();
-	const router = createRouter({
-		routeTree,
-		context,
-		scrollRestoration: true,
-		defaultPreload: "intent",
-		defaultPreloadStaleTime: 0
-	});
-	setupRouterSsrQueryIntegration({
-		router,
-		queryClient: context.queryClient
-	});
-	return router;
-}
+var signInMagicLinkBodySchema = object({
+	email: email().meta({ description: "Email address to send the magic link" }),
+	name: string().meta({ description: "User display name. Only used if the user is registering for the first time. Eg: \"my-name\"" }).optional(),
+	callbackURL: string().meta({ description: "URL to redirect after magic link verification" }).optional(),
+	newUserCallbackURL: string().meta({ description: "URL to redirect after new user signup. Only used if the user is registering for the first time." }).optional(),
+	errorCallbackURL: string().meta({ description: "URL to redirect after error." }).optional(),
+	metadata: record(string(), any()).meta({ description: "Additional metadata to pass to sendMagicLink." }).optional()
+});
+var magicLinkVerifyQuerySchema = object({
+	token: string().meta({ description: "Verification token" }),
+	callbackURL: string().meta({ description: "URL to redirect after magic link verification, if not provided the user will be redirected to the root URL. Eg: \"/dashboard\"" }).optional(),
+	errorCallbackURL: string().meta({ description: "URL to redirect after error." }).optional(),
+	newUserCallbackURL: string().meta({ description: "URL to redirect after new user signup. Only used if the user is registering for the first time." }).optional()
+});
+var magicLink = (options) => {
+	const opts = {
+		storeToken: "plain",
+		allowedAttempts: 1,
+		...options
+	};
+	async function storeToken(ctx, token) {
+		if (opts.storeToken === "hashed") return await defaultKeyHasher(token);
+		if (typeof opts.storeToken === "object" && "type" in opts.storeToken && opts.storeToken.type === "custom-hasher") return await opts.storeToken.hash(token);
+		return token;
+	}
+	return {
+		id: "magic-link",
+		version: PACKAGE_VERSION,
+		endpoints: {
+			signInMagicLink: createAuthEndpoint("/sign-in/magic-link", {
+				method: "POST",
+				requireHeaders: true,
+				body: signInMagicLinkBodySchema,
+				metadata: { openapi: {
+					operationId: "signInWithMagicLink",
+					description: "Sign in with magic link",
+					responses: { 200: {
+						description: "Success",
+						content: { "application/json": { schema: {
+							type: "object",
+							properties: { status: { type: "boolean" } }
+						} } }
+					} }
+				} }
+			}, async (ctx) => {
+				const { email, metadata } = ctx.body;
+				const verificationToken = opts?.generateToken ? await opts.generateToken(email) : generateRandomString(32, "a-z", "A-Z");
+				const storedToken = await storeToken(ctx, verificationToken);
+				await ctx.context.internalAdapter.createVerificationValue({
+					identifier: storedToken,
+					value: JSON.stringify({
+						email,
+						name: ctx.body.name,
+						attempt: 0
+					}),
+					expiresAt: new Date(Date.now() + (opts.expiresIn || 300) * 1e3)
+				});
+				const realBaseURL = new URL(ctx.context.baseURL);
+				const pathname = realBaseURL.pathname === "/" ? "" : realBaseURL.pathname;
+				const basePath = pathname ? "" : ctx.context.options.basePath || "";
+				const url = new URL(`${pathname}${basePath}/magic-link/verify`, realBaseURL.origin);
+				url.searchParams.set("token", verificationToken);
+				url.searchParams.set("callbackURL", ctx.body.callbackURL || "/");
+				if (ctx.body.newUserCallbackURL) url.searchParams.set("newUserCallbackURL", ctx.body.newUserCallbackURL);
+				if (ctx.body.errorCallbackURL) url.searchParams.set("errorCallbackURL", ctx.body.errorCallbackURL);
+				await options.sendMagicLink({
+					email,
+					url: url.toString(),
+					token: verificationToken,
+					metadata
+				}, ctx);
+				return ctx.json({ status: true });
+			}),
+			magicLinkVerify: createAuthEndpoint("/magic-link/verify", {
+				method: "GET",
+				query: magicLinkVerifyQuerySchema,
+				use: [
+					originCheck((ctx) => {
+						return ctx.query.callbackURL ? decodeURIComponent(ctx.query.callbackURL) : "/";
+					}),
+					originCheck((ctx) => {
+						return ctx.query.newUserCallbackURL ? decodeURIComponent(ctx.query.newUserCallbackURL) : "/";
+					}),
+					originCheck((ctx) => {
+						return ctx.query.errorCallbackURL ? decodeURIComponent(ctx.query.errorCallbackURL) : "/";
+					})
+				],
+				requireHeaders: true,
+				metadata: { openapi: {
+					operationId: "verifyMagicLink",
+					description: "Verify magic link",
+					responses: { 200: {
+						description: "Success",
+						content: { "application/json": { schema: {
+							type: "object",
+							properties: {
+								session: { $ref: "#/components/schemas/Session" },
+								user: { $ref: "#/components/schemas/User" }
+							}
+						} } }
+					} }
+				} }
+			}, async (ctx) => {
+				const token = ctx.query.token;
+				const callbackURL = new URL(ctx.query.callbackURL ? decodeURIComponent(ctx.query.callbackURL) : "/", ctx.context.baseURL).toString();
+				const errorCallbackURL = new URL(ctx.query.errorCallbackURL ? decodeURIComponent(ctx.query.errorCallbackURL) : callbackURL, ctx.context.baseURL);
+				function redirectWithError(error) {
+					errorCallbackURL.searchParams.set("error", error);
+					throw ctx.redirect(errorCallbackURL.toString());
+				}
+				const newUserCallbackURL = new URL(ctx.query.newUserCallbackURL ? decodeURIComponent(ctx.query.newUserCallbackURL) : callbackURL, ctx.context.baseURL).toString();
+				const storedToken = await storeToken(ctx, token);
+				const tokenValue = await ctx.context.internalAdapter.findVerificationValue(storedToken);
+				if (!tokenValue) redirectWithError("INVALID_TOKEN");
+				if (tokenValue.expiresAt < /* @__PURE__ */ new Date()) {
+					await ctx.context.internalAdapter.deleteVerificationByIdentifier(storedToken);
+					redirectWithError("EXPIRED_TOKEN");
+				}
+				const { email, name, attempt = 0 } = JSON.parse(tokenValue.value);
+				if (attempt >= opts.allowedAttempts) {
+					await ctx.context.internalAdapter.deleteVerificationByIdentifier(storedToken);
+					redirectWithError("ATTEMPTS_EXCEEDED");
+				}
+				await ctx.context.internalAdapter.updateVerificationByIdentifier(storedToken, { value: JSON.stringify({
+					email,
+					name,
+					attempt: attempt + 1
+				}) });
+				let isNewUser = false;
+				let user = await ctx.context.internalAdapter.findUserByEmail(email).then((res) => res?.user);
+				if (!user) if (!opts.disableSignUp) {
+					const newUser = await ctx.context.internalAdapter.createUser({
+						email,
+						emailVerified: true,
+						name: name || ""
+					});
+					isNewUser = true;
+					user = newUser;
+					if (!user) redirectWithError("failed_to_create_user");
+				} else redirectWithError("new_user_signup_disabled");
+				if (!user.emailVerified) user = await ctx.context.internalAdapter.updateUser(user.id, { emailVerified: true });
+				const session = await ctx.context.internalAdapter.createSession(user.id);
+				if (!session) redirectWithError("failed_to_create_session");
+				await setSessionCookie(ctx, {
+					session,
+					user
+				});
+				if (!ctx.query.callbackURL) return ctx.json({
+					token: session.token,
+					user: parseUserOutput(ctx.context.options, user),
+					session: parseSessionOutput(ctx.context.options, session)
+				});
+				if (isNewUser) throw ctx.redirect(newUserCallbackURL);
+				throw ctx.redirect(callbackURL);
+			})
+		},
+		rateLimit: [{
+			pathMatcher(path) {
+				return path.startsWith("/sign-in/magic-link") || path.startsWith("/magic-link/verify");
+			},
+			window: opts.rateLimit?.window || 60,
+			max: opts.rateLimit?.max || 5
+		}],
+		options
+	};
+};
+var schema_exports = /* @__PURE__ */ __exportAll({
+	account: () => account,
+	accountRelations: () => accountRelations,
+	session: () => session,
+	sessionRelations: () => sessionRelations,
+	todos: () => todos,
+	user: () => user,
+	userRelations: () => userRelations,
+	verification: () => verification
+});
+var user = pgTable("user", {
+	id: text("id").primaryKey(),
+	name: text("name").notNull(),
+	email: text("email").notNull().unique(),
+	emailVerified: boolean$2("email_verified").default(false).notNull(),
+	image: text("image"),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => /* @__PURE__ */ new Date()).notNull()
+});
+var session = pgTable("session", {
+	id: text("id").primaryKey(),
+	expiresAt: timestamp("expires_at").notNull(),
+	token: text("token").notNull().unique(),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at").$onUpdate(() => /* @__PURE__ */ new Date()).notNull(),
+	ipAddress: text("ip_address"),
+	userAgent: text("user_agent"),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" })
+}, (table) => [index("session_userId_idx").on(table.userId)]);
+var account = pgTable("account", {
+	id: text("id").primaryKey(),
+	accountId: text("account_id").notNull(),
+	providerId: text("provider_id").notNull(),
+	userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+	accessToken: text("access_token"),
+	refreshToken: text("refresh_token"),
+	idToken: text("id_token"),
+	accessTokenExpiresAt: timestamp("access_token_expires_at"),
+	refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+	scope: text("scope"),
+	password: text("password"),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at").$onUpdate(() => /* @__PURE__ */ new Date()).notNull()
+}, (table) => [index("account_userId_idx").on(table.userId)]);
+var verification = pgTable("verification", {
+	id: text("id").primaryKey(),
+	identifier: text("identifier").notNull(),
+	value: text("value").notNull(),
+	expiresAt: timestamp("expires_at").notNull(),
+	createdAt: timestamp("created_at").defaultNow().notNull(),
+	updatedAt: timestamp("updated_at").defaultNow().$onUpdate(() => /* @__PURE__ */ new Date()).notNull()
+}, (table) => [index("verification_identifier_idx").on(table.identifier)]);
+var userRelations = relations(user, ({ many }) => ({
+	sessions: many(session),
+	accounts: many(account)
+}));
+var sessionRelations = relations(session, ({ one }) => ({ user: one(user, {
+	fields: [session.userId],
+	references: [user.id]
+}) }));
+var accountRelations = relations(account, ({ one }) => ({ user: one(user, {
+	fields: [account.userId],
+	references: [user.id]
+}) }));
+var todos = pgTable("todos", {
+	id: serial().primaryKey(),
+	title: text().notNull(),
+	createdAt: timestamp("created_at").defaultNow()
+});
+var db = drizzle(process.env.DATABASE_URL, { schema: schema_exports });
+var auth = betterAuth({
+	database: (0, drizzle_adapter_exports.drizzleAdapter)(db, { provider: "pg" }),
+	socialProviders: { google: {
+		clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+		clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? ""
+	} },
+	plugins: [tanstackStartCookies(), magicLink({ sendMagicLink: async ({ email, url }) => {
+		if (!process.env.RESEND_API_KEY) {
+			console.log(`[DEV] Magic link for ${email}: ${url}`);
+			return;
+		}
+		await new Resend(process.env.RESEND_API_KEY).emails.send({
+			from: "QuickFeed <noreply@quickfeed.dev>",
+			to: email,
+			subject: "Your QuickFeed login link",
+			html: `
+            <div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;">
+              <div style="margin-bottom:24px;">
+                <span style="font-size:20px;font-weight:800;letter-spacing:-0.04em;">QuickFeed</span>
+              </div>
+              <h2 style="font-size:22px;font-weight:700;margin:0 0 8px;">Your magic link</h2>
+              <p style="color:#6b7280;font-size:15px;line-height:1.6;margin:0 0 24px;">
+                Click below to sign in. This link expires in 15 minutes and can only be used once.
+              </p>
+              <a href="${url}" style="display:inline-block;padding:12px 28px;background:linear-gradient(135deg,#f97316,#f59e0b);color:white;text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;">
+                Sign in to QuickFeed →
+              </a>
+              <p style="color:#9ca3af;font-size:12px;margin-top:32px;">
+                If you didn't request this, you can safely ignore this email.
+              </p>
+            </div>
+          `
+		});
+	} })]
+});
 //#endregion
-export { getRouter };
+//#region node_modules/.nitro/vite/services/ssr/assets/server-BOMALCnJ.js
+var server_BOMALCnJ_exports = /* @__PURE__ */ __exportAll$1({
+	i: () => requestHandler,
+	n: () => getRequest,
+	r: () => getResponse,
+	t: () => server_exports
+});
+var GLOBAL_EVENT_STORAGE_KEY = Symbol.for("tanstack-start:event-storage");
+var globalObj = globalThis;
+if (!globalObj[GLOBAL_EVENT_STORAGE_KEY]) globalObj[GLOBAL_EVENT_STORAGE_KEY] = new AsyncLocalStorage();
+var eventStorage = globalObj[GLOBAL_EVENT_STORAGE_KEY];
+function isPromiseLike(value) {
+	return typeof value.then === "function";
+}
+function getSetCookieValues(headers) {
+	const headersWithSetCookie = headers;
+	if (typeof headersWithSetCookie.getSetCookie === "function") return headersWithSetCookie.getSetCookie();
+	const value = headers.get("set-cookie");
+	return value ? [value] : [];
+}
+function mergeEventResponseHeaders(response, event) {
+	if (response.ok) return;
+	const eventSetCookies = getSetCookieValues(event.res.headers);
+	if (eventSetCookies.length === 0) return;
+	const responseSetCookies = getSetCookieValues(response.headers);
+	response.headers.delete("set-cookie");
+	for (const cookie of responseSetCookies) response.headers.append("set-cookie", cookie);
+	for (const cookie of eventSetCookies) response.headers.append("set-cookie", cookie);
+}
+function attachResponseHeaders(value, event) {
+	if (isPromiseLike(value)) return value.then((resolved) => {
+		if (resolved instanceof Response) mergeEventResponseHeaders(resolved, event);
+		return resolved;
+	});
+	if (value instanceof Response) mergeEventResponseHeaders(value, event);
+	return value;
+}
+function requestHandler(handler) {
+	return (request, requestOpts) => {
+		let h3Event;
+		try {
+			h3Event = new H3Event(request);
+		} catch (error) {
+			if (error instanceof URIError) return new Response(null, {
+				status: 400,
+				statusText: "Bad Request"
+			});
+			throw error;
+		}
+		return toResponse$1(attachResponseHeaders(eventStorage.run({ h3Event }, () => handler(request, requestOpts)), h3Event), h3Event);
+	};
+}
+function getH3Event() {
+	const event = eventStorage.getStore();
+	if (!event) throw new Error(`No StartEvent found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`);
+	return event.h3Event;
+}
+function getRequest() {
+	return getH3Event().req;
+}
+/**
+* Set a cookie value by name.
+* @param name Name of the cookie to set
+* @param value Value of the cookie to set
+* @param options {CookieSerializeOptions} Options for serializing the cookie
+* ```ts
+* setCookie('Authorization', '1234567')
+* ```
+*/
+function setCookie$1(name, value, options) {
+	setCookie(getH3Event(), name, value, options);
+}
+function getResponse() {
+	return getH3Event().res;
+}
+var server_exports = /* @__PURE__ */ __exportAll({ setCookie: () => setCookie$1 });
+//#endregion
+export { auth as a, server_BOMALCnJ_exports as i, getResponse as n, requestHandler as r, getRequest as t };

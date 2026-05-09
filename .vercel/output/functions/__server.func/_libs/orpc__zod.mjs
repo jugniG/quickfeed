@@ -1,4 +1,4 @@
-import { At as registry, kt as globalRegistry } from "./@better-auth/core+[...].mjs";
+import { Mt as registry, jt as globalRegistry } from "./@better-auth/core+[...].mjs";
 import { a as Format, i as ContentEncoding, t as JsonSchemaXNativeType } from "./@orpc/json-schema+[...].mjs";
 import { N as toArray, S as intercept } from "./@orpc/client+[...].mjs";
 //#region node_modules/@orpc/zod/dist/zod4/index.mjs

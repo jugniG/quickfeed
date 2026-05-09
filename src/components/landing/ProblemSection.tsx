@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { ShortcutKey } from "../ui/ShortcutKey";
+import { Kbd } from "@heroui/react";
 
 const steps = [
   {
@@ -71,7 +73,7 @@ export function ProblemSection() {
   }, []);
 
   return (
-    <section ref={ref} className="relative py-28 px-4 overflow-hidden bg-white">
+    <section ref={ref} id="pitch" className="relative py-28 px-4 overflow-hidden bg-white">
       {/* subtle dot grid bg */}
       <div
         className="pointer-events-none absolute inset-0"
@@ -239,13 +241,9 @@ export function ProblemSection() {
             >
               <p className="text-sm text-gray-700 leading-relaxed">
                 On every docs site,{" "}
-                <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-white border border-gray-300 text-gray-700 text-xs font-mono shadow-sm">
-                  ⌘ K
-                </kbd>{" "}
+                <Kbd keys={["command"]} classNames={{ base: "bg-white border border-gray-300 shadow-sm text-gray-700 text-xs" }}>K</Kbd>{" "}
                 triggers search. Now,{" "}
-                <kbd className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md bg-white border border-gray-300 text-gray-700 text-xs font-mono shadow-sm">
-                  ⌘ F
-                </kbd>{" "}
+                <ShortcutKey size="sm" />{" "}
                 should trigger a{" "}
                 <span className="font-semibold text-orange-600">feedback input</span> — on every product.
               </p>

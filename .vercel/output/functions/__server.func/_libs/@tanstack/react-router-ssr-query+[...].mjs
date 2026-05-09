@@ -1,7 +1,8 @@
-import { i as __toESM } from "../../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react, t as QueryClientProvider } from "../react+tanstack__react-query.mjs";
+import { o as __toESM } from "../../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../@heroui/kbd+[...].mjs";
 import "./react-router+[...].mjs";
-import { n as dehydrate } from "../tanstack__query-core.mjs";
+import { i as dehydrate } from "../tanstack__query-core.mjs";
+import { n as QueryClientProvider } from "../tanstack__react-query.mjs";
 //#region node_modules/@tanstack/router-ssr-query-core/dist/esm/index.js
 var import_react = /* @__PURE__ */ __toESM(require_react(), 1);
 function setupCoreRouterSsrQueryIntegration({ router, queryClient, dehydrateOptions, hydrateOptions, handleRedirects = true }) {

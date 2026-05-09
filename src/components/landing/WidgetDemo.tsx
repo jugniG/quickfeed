@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ShortcutKey } from '../ui/ShortcutKey'
 
 interface WidgetDemoProps {
   onTryWidget: () => void
@@ -19,7 +20,7 @@ export function WidgetDemoSection({ onTryWidget }: WidgetDemoProps) {
             See exactly what your users will see.
           </h2>
           <p className="text-[16px] text-neutral-500 leading-[1.65] mb-8">
-            Press <kbd className="px-1.5 py-0.5 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-700 font-mono text-[13px]">Ctrl+F</kbd> right now — on this page — to trigger the widget and experience it yourself.
+            Press <ShortcutKey size="sm" /> right now — on this page — to trigger the widget and experience it yourself.
           </p>
 
           <div className="space-y-3 mb-10">

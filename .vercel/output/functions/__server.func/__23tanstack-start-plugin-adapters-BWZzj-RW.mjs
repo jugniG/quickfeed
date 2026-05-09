@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-plugin-adapters-3QxJs4a0.js
+//#region node_modules/.nitro/vite/services/ssr/assets/__23tanstack-start-plugin-adapters-BWZzj-RW.js
 var pluginSerializationAdapters = [];
 var hasPluginAdapters = false;
 //#endregion

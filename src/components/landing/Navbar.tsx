@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react'
 
+const navLinks = [
+  { label: 'Pitch', href: '#pitch' },
+  { label: 'Features', href: '#features' },
+  { label: 'Pricing', href: '#pricing' },
+]
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
 
@@ -25,18 +31,20 @@ export function Navbar() {
               <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="font-bold text-[15px] text-[#0A0A0A] tracking-tight">QuickFeed</span>
+          <span className="text-[15px] text-[#0A0A0A] tracking-tight" style={{ fontFamily: "'Syne', sans-serif", fontWeight: 800 }}>QuickFeed</span>
         </a>
 
         {/* Nav links */}
         <div className="hidden md:flex items-center gap-1">
-          {['Features', 'How it works', 'Pricing', 'Docs'].map(item => (
+          {navLinks.map(({ label, href }) => (
             <a
-              key={item}
-              href="#"
-              className="px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-200 no-underline font-medium"
+              key={label}
+              href={href}
+              className="relative group px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 transition-colors duration-200 no-underline font-medium"
             >
-              {item}
+              {label}
+              {/* underline left→right on hover */}
+              <span className="absolute bottom-0 left-3.5 right-3.5 h-[1.5px] bg-gradient-to-r from-orange-500 to-amber-400 scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-200 ease-out rounded-full" />
             </a>
           ))}
         </div>

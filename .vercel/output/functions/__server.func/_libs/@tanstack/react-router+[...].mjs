@@ -1,5 +1,5 @@
-import { i as __toESM, r as __require, t as __commonJSMin } from "../../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../react+tanstack__react-query.mjs";
+import { i as __require, o as __toESM, t as __commonJSMin } from "../../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../@heroui/kbd+[...].mjs";
 import { r as parseHref } from "../tanstack__history.mjs";
 import { PassThrough, Readable } from "node:stream";
 import { ReadableStream as ReadableStream$1 } from "node:stream/web";
@@ -1553,6 +1553,11 @@ function isRedirect(obj) {
 /** True if value is a redirect with a resolved `href` location. */
 function isResolvedRedirect(obj) {
 	return isRedirect(obj) && !!obj.options.href;
+}
+/** Parse a serialized redirect object back into a redirect Response. */
+/** Parse a serialized redirect object back into a redirect Response. */
+function parseRedirect(obj) {
+	if (obj !== null && typeof obj === "object" && obj.isSerializedRedirect) return redirect(obj);
 }
 //#endregion
 //#region node_modules/@tanstack/router-core/dist/esm/rewrite.js
@@ -4436,7 +4441,7 @@ var require_react_dom = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 }));
 //#endregion
 //#region node_modules/@tanstack/react-router/dist/esm/link.js
-var import_react_dom = require_react_dom();
+var import_react_dom = /* @__PURE__ */ __toESM(require_react_dom(), 1);
 /**
 * Build anchor-like props for declarative navigation and preloading.
 *
@@ -14282,4 +14287,4 @@ var renderRouterToStream = async ({ request, router, responseHeaders, children }
 	throw new Error("No renderToReadableStream or renderToPipeableStream found in react-dom/server. Ensure you are using a version of react-dom that supports streaming.");
 };
 //#endregion
-export { decodePath as C, invariant as S, isRedirect as _, createRouter as a, isNotFound as b, createRootRouteWithContext as c, createInlineCssPlaceholderAsset as d, createInlineCssStyleAsset as f, executeRewriteInput as g, resolveManifestAssetLink as h, RouterProvider as i, GLOBAL_TSR as l, isInlinableStylesheet as m, Scripts as n, lazyRouteComponent as o, getStylesheetHref as p, HeadContent as r, createFileRoute as s, renderRouterToStream as t, TSR_SCRIPT_BARRIER_ID as u, isResolvedRedirect as v, createLRUCache as x, rootRouteId as y };
+export { rootRouteId as C, decodePath as D, invariant as E, redirect as S, createLRUCache as T, resolveManifestAssetLink as _, createRouter as a, isResolvedRedirect as b, createFileRoute as c, GLOBAL_TSR as d, TSR_SCRIPT_BARRIER_ID as f, isInlinableStylesheet as g, getStylesheetHref as h, RouterProvider as i, createRootRouteWithContext as l, createInlineCssStyleAsset as m, Scripts as n, Outlet as o, createInlineCssPlaceholderAsset as p, HeadContent as r, lazyRouteComponent as s, renderRouterToStream as t, useNavigate as u, executeRewriteInput as v, isNotFound as w, parseRedirect as x, isRedirect as y };

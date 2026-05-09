@@ -1,10 +1,13 @@
 import { createServer } from 'node:http'
 import { join } from 'node:path'
 import { createReadStream, existsSync, statSync } from 'node:fs'
-import handler from './dist/server/server.js'
+
+// Import the vercel-preset handler (has the fresh SSR build with all routes)
+const handlerModule = await import('./.vercel/output/functions/__server.func/index.mjs')
+const handler = handlerModule.default
 
 const PORT = process.env.PORT || 5173
-const CLIENT_DIR = join(process.cwd(), 'dist/client')
+const CLIENT_DIR = join(process.cwd(), '.vercel/output/static')
 
 const MIME = {
   js: 'application/javascript',

@@ -78,7 +78,6 @@ export const verification = pgTable(
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
-  rapJobs: many(rapJobs),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
