@@ -28,7 +28,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'QuickFeed — We don\'t let you miss a single inconvenience of your users',
+        title: 'QuickFeed - We don\'t let you miss a single inconvenience of your users',
       },
       {
         name: 'description',
