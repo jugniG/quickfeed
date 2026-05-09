@@ -27,13 +27,30 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'TanStack Start Starter',
+        title: 'FeedbackHook — We don\'t let you miss a single inconvenience of your users',
+      },
+      {
+        name: 'description',
+        content: 'FeedbackHook intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
       },
     ],
     links: [
       {
         rel: 'stylesheet',
         href: appCss,
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap',
       },
     ],
   }),

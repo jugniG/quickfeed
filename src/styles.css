@@ -16,5 +16,14 @@ body,
 
 body {
   margin: 0;
+  background-color: #FAFAFA;
+  color: #0A0A0A;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
 }
 
