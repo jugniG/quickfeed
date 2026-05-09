@@ -31,7 +31,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         name: 'description',
-        content: 'QuickFeed intercepts Ctrl+Shift+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
+        content: 'QuickFeed intercepts Cmd+Shift+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
       },
     ],
     links: [

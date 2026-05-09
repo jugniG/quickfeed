@@ -230,7 +230,7 @@ export function ProblemSection() {
               <div className="flex-1 h-px bg-gradient-to-l from-gray-200 to-transparent" />
             </div>
 
-            {/* Ctrl+K analogy */}
+            {/* Cmd+K analogy */}
             <div
               style={{
                 opacity: visible ? 1 : 0,

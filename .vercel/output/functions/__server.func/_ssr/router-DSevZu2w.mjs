@@ -11,7 +11,7 @@ import { t as ZodToJsonSchemaConverter } from "../_libs/orpc__zod.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as setupRouterSsrQueryIntegration } from "../_libs/@tanstack/react-router-ssr-query+[...].mjs";
 import { File } from "node:buffer";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-D0w_P6bI.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-DSevZu2w.js
 var import_jsx_runtime = require_jsx_runtime();
 var styles_default = "/assets/styles-BnfdAU8_.css";
 var Route$6 = createRootRouteWithContext()({
@@ -25,7 +25,7 @@ var Route$6 = createRootRouteWithContext()({
 			{ title: "QuickFeed — We don't let you miss a single inconvenience of your users" },
 			{
 				name: "description",
-				content: "QuickFeed intercepts Ctrl+Shift+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard."
+				content: "QuickFeed intercepts Cmd+Shift+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard."
 			}
 		],
 		links: [
@@ -78,7 +78,7 @@ var Route$5 = createFileRoute("/_protected")({
 	},
 	component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-var $$splitComponentImporter$1 = () => import("./routes-B_pscxJO.mjs");
+var $$splitComponentImporter$1 = () => import("./routes-Rkh2jHQi.mjs");
 var Route$4 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter$1, "component") });
 /**
 * This file aims to polyfill missing APIs in Node.js 18 that oRPC depends on.

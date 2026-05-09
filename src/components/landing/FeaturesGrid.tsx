@@ -2,7 +2,7 @@ const features = [
   {
     icon: '📋',
     title: 'Screenshot paste',
-    desc: 'Ctrl+V drops a screenshot right into the widget. Users show you exactly what broke — no words needed.',
+    desc: 'Cmd+V drops a screenshot right into the widget. Users show you exactly what broke — no words needed.',
     accent: 'from-orange-400 to-amber-300',
     iconBg: 'bg-orange-50',
     iconBorder: 'border-orange-100',
@@ -18,7 +18,7 @@ const features = [
   {
     icon: '⚡',
     title: 'Zero friction for users',
-    desc: 'No account. No Discord. No form hunt. Ctrl+Shift+F → type → send. Three seconds, no unknown paths.',
+    desc: 'No account. No Discord. No form hunt. Cmd+Shift+F → type → send. Three seconds, no unknown paths.',
     accent: 'from-orange-400 to-rose-300',
     iconBg: 'bg-orange-50',
     iconBorder: 'border-orange-100',

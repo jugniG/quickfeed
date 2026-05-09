@@ -79,7 +79,7 @@ export function Hero({ onTryWidget }: HeroProps) {
 
             {/* CTA input */}
             <div className="w-full max-w-[480px] mb-4">
-              <DomainInput btnLabel="Start for free" />
+              <DomainInput btnLabel="Add →" />
             </div>
             <p className="text-[12.5px] text-neutral-400 mb-10 font-normal">
               No credit card required · 2 min setup

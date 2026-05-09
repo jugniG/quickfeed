@@ -2,7 +2,7 @@ import { o as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react, t as kbd_default } from "../_libs/@heroui/kbd+[...].mjs";
 import { Ot as string } from "../_libs/@better-auth/core+[...].mjs";
 import { t as useMutation } from "../_libs/tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-B_pscxJO.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-Rkh2jHQi.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function ShortcutKey({ size = "md", className = "" }) {
@@ -10,7 +10,7 @@ function ShortcutKey({ size = "md", className = "" }) {
 		className: `inline-flex items-center gap-1 ${size === "sm" ? "text-[11px]" : size === "lg" ? "text-[15px]" : "text-[12px]"} ${className}`,
 		children: [
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)(kbd_default, {
-				keys: ["ctrl"],
+				keys: ["command"],
 				classNames: { base: "bg-white border border-neutral-200 shadow-sm text-neutral-700" }
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
@@ -361,7 +361,7 @@ function Hero({ onTryWidget }) {
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 								className: "w-full max-w-[480px] mb-4",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DomainInput, { btnLabel: "Start for free" })
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DomainInput, { btnLabel: "Add →" })
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "text-[12.5px] text-neutral-400 mb-10 font-normal",
@@ -918,7 +918,7 @@ var features = [
 	{
 		icon: "📋",
 		title: "Screenshot paste",
-		desc: "Ctrl+V drops a screenshot right into the widget. Users show you exactly what broke — no words needed.",
+		desc: "Cmd+V drops a screenshot right into the widget. Users show you exactly what broke — no words needed.",
 		accent: "from-orange-400 to-amber-300",
 		iconBg: "bg-orange-50",
 		iconBorder: "border-orange-100"
@@ -934,7 +934,7 @@ var features = [
 	{
 		icon: "⚡",
 		title: "Zero friction for users",
-		desc: "No account. No Discord. No form hunt. Ctrl+Shift+F → type → send. Three seconds, no unknown paths.",
+		desc: "No account. No Discord. No form hunt. Cmd+Shift+F → type → send. Three seconds, no unknown paths.",
 		accent: "from-orange-400 to-rose-300",
 		iconBg: "bg-orange-50",
 		iconBorder: "border-orange-100"
@@ -1156,7 +1156,7 @@ function Home() {
 	const [widgetOpen, setWidgetOpen] = (0, import_react.useState)(false);
 	(0, import_react.useEffect)(() => {
 		const handler = (e) => {
-			if (e.ctrlKey && e.shiftKey && e.key === "F") {
+			if (e.metaKey && e.shiftKey && e.key === "F") {
 				e.preventDefault();
 				setWidgetOpen(true);
 			}

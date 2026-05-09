@@ -17,7 +17,7 @@ function Home() {
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'F') {
+      if (e.metaKey && e.shiftKey && e.key === 'F') {
         e.preventDefault()
         setWidgetOpen(true)
       }

@@ -8,9 +8,9 @@ export function HowItWorks() {
     },
     {
       num: '2',
-      title: 'Your user: Ctrl+Shift+F',
+      title: 'Your user: Cmd+Shift+F',
       desc: 'Instead of browser search, your branded overlay appears. They describe what\'s broken, paste a screenshot from clipboard, hit send. No signup. No redirect.',
-      code: `// Auto-intercepts Ctrl+Shift+F\nQuickFeed.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`,
+      code: `// Auto-intercepts Cmd+Shift+F\nQuickFeed.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`,
     },
     {
       num: '3',
