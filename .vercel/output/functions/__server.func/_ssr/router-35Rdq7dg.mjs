@@ -16,9 +16,9 @@ import { n as defu, t as createDefu } from "../_libs/defu.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { t as setupRouterSsrQueryIntegration } from "../_libs/@tanstack/react-router-ssr-query+[...].mjs";
 import { File } from "node:buffer";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-DfkKbv8P.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-35Rdq7dg.js
 var import_jsx_runtime = require_jsx_runtime();
-var styles_default = "/assets/styles-DnGTotex.css";
+var styles_default = "/assets/styles-DUsCyFSV.css";
 var Route$4 = createRootRouteWithContext()({
 	head: () => ({
 		meta: [
@@ -27,10 +27,10 @@ var Route$4 = createRootRouteWithContext()({
 				name: "viewport",
 				content: "width=device-width, initial-scale=1"
 			},
-			{ title: "FeedbackHook — We don't let you miss a single inconvenience of your users" },
+			{ title: "QuickFeed — We don't let you miss a single inconvenience of your users" },
 			{
 				name: "description",
-				content: "FeedbackHook intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard."
+				content: "QuickFeed intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard."
 			}
 		],
 		links: [
@@ -61,7 +61,7 @@ function RootDocument({ children }) {
 		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("head", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(HeadContent, {}) }), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("body", { children: [children, /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Scripts, {})] })]
 	});
 }
-var $$splitComponentImporter = () => import("./routes-D_ZTL7g7.mjs");
+var $$splitComponentImporter = () => import("./routes-D5WCWjyl.mjs");
 var Route$3 = createFileRoute("/")({ component: lazyRouteComponent($$splitComponentImporter, "component") });
 /**
 * This file aims to polyfill missing APIs in Node.js 18 that oRPC depends on.
@@ -5167,24 +5167,24 @@ var signInEmail = () => createAuthEndpoint("/sign-in/email", {
 			message: "Email and password is not enabled"
 		});
 	}
-	const { email: email$2, password } = ctx.body;
-	if (!email().safeParse(email$2).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
-	const user = await ctx.context.internalAdapter.findUserByEmail(email$2, { includeAccounts: true });
+	const { email: email$1, password } = ctx.body;
+	if (!email().safeParse(email$1).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
+	const user = await ctx.context.internalAdapter.findUserByEmail(email$1, { includeAccounts: true });
 	if (!user) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("User not found", { email: email$2 });
+		ctx.context.logger.error("User not found", { email: email$1 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	const credentialAccount = user.accounts.find((a) => a.providerId === "credential");
 	if (!credentialAccount) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("Credential account not found", { email: email$2 });
+		ctx.context.logger.error("Credential account not found", { email: email$1 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	const currentPassword = credentialAccount?.password;
 	if (!currentPassword) {
 		await ctx.context.password.hash(password);
-		ctx.context.logger.error("Password not found", { email: email$2 });
+		ctx.context.logger.error("Password not found", { email: email$1 });
 		throw APIError.from("UNAUTHORIZED", BASE_ERROR_CODES.INVALID_EMAIL_OR_PASSWORD);
 	}
 	if (!await ctx.context.password.verify({
@@ -5384,8 +5384,8 @@ var signUpEmail = () => createAuthEndpoint("/sign-up/email", {
 			code: "EMAIL_PASSWORD_SIGN_UP_DISABLED"
 		});
 		const body = ctx.body;
-		const { name, email: email$1, password, image, callbackURL: _callbackURL, rememberMe, ...rest } = body;
-		if (!email().safeParse(email$1).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
+		const { name, email: email$2, password, image, callbackURL: _callbackURL, rememberMe, ...rest } = body;
+		if (!email().safeParse(email$2).success) throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_EMAIL);
 		if (!password || typeof password !== "string") throw APIError.from("BAD_REQUEST", BASE_ERROR_CODES.INVALID_PASSWORD);
 		const minPasswordLength = ctx.context.password.config.minPasswordLength;
 		if (password.length < minPasswordLength) {
@@ -5400,10 +5400,10 @@ var signUpEmail = () => createAuthEndpoint("/sign-up/email", {
 		const shouldReturnGenericDuplicateResponse = ctx.context.options.emailAndPassword.requireEmailVerification;
 		const shouldSkipAutoSignIn = ctx.context.options.emailAndPassword.autoSignIn === false || shouldReturnGenericDuplicateResponse;
 		const additionalUserFields = parseUserInput(ctx.context.options, rest, "create");
-		const normalizedEmail = email$1.toLowerCase();
+		const normalizedEmail = email$2.toLowerCase();
 		const dbUser = await ctx.context.internalAdapter.findUserByEmail(normalizedEmail);
 		if (dbUser?.user) {
-			ctx.context.logger.info(`Sign-up attempt for existing email: ${email$1}`);
+			ctx.context.logger.info(`Sign-up attempt for existing email: ${email$2}`);
 			if (shouldReturnGenericDuplicateResponse) {
 				/**
 				* Hash the password to reduce timing differences

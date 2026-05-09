@@ -4,13 +4,13 @@ export function HowItWorks() {
       num: '1',
       title: 'You: Paste one line',
       desc: 'Drop one <script> tag on any page. Works on React, Next.js, Webflow, WordPress — anything. 30 seconds.',
-      code: `<script\n  src="https://cdn.feedbackhook.com/v1.js"\n  data-key="YOUR_KEY">\n</script>`,
+      code: `<script\n  src="https://cdn.quickfeed.com/v1.js"\n  data-key="YOUR_KEY">\n</script>`,
     },
     {
       num: '2',
       title: 'Your user: Ctrl+F',
       desc: 'Instead of browser search, your branded overlay appears. They describe what\'s broken, paste a screenshot from clipboard, hit send. No signup. No redirect.',
-      code: `// Auto-intercepts Ctrl+F\nFeedbackHook.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`,
+      code: `// Auto-intercepts Ctrl+F\nQuickFeed.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`,
     },
     {
       num: '3',

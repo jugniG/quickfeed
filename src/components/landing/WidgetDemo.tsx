@@ -42,10 +42,11 @@ export function WidgetDemoSection({ onTryWidget }: WidgetDemoProps) {
 
           <button
             onClick={onTryWidget}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0A0A0A] text-white text-[14px] font-semibold hover:bg-neutral-800 transition-colors"
+            className="relative flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 overflow-hidden group cursor-pointer"
           >
-            Open the widget
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+            <span className="relative">Open the widget</span>
+            <svg className="relative" width="13" height="13" viewBox="0 0 13 13" fill="none">
               <path d="M2 6.5h9M7 2.5L11 6.5l-4 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
@@ -101,7 +102,7 @@ export function WidgetDemoSection({ onTryWidget }: WidgetDemoProps) {
               </button>
 
               <div className="text-center text-[11px] text-neutral-400">
-                Powered by <span className="font-semibold text-neutral-500">FeedbackHook</span>
+                Powered by <span className="font-semibold text-neutral-500">QuickFeed</span>
               </div>
             </div>
           </div>
@@ -135,7 +136,7 @@ export function WidgetOverlay({ isOpen, onClose }: WidgetOverlayProps) {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end justify-end p-6 pointer-events-none">
-      <div className="pointer-events-auto w-[380px] rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] overflow-hidden">
+      <div className="pointer-events-auto w-[380px] rounded-2xl border-2 border-orange-200 bg-white shadow-[0_20px_60px_rgba(249,115,22,0.18),0_4px_20px_rgba(0,0,0,0.10)] overflow-hidden ring-1 ring-orange-100 hover:border-orange-300 hover:shadow-[0_24px_72px_rgba(249,115,22,0.24),0_4px_24px_rgba(0,0,0,0.12)] transition-all duration-300">
         {submitted ? (
           <div className="p-8 flex flex-col items-center gap-3 text-center">
             <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-100 flex items-center justify-center text-2xl">✓</div>
@@ -193,7 +194,7 @@ export function WidgetOverlay({ isOpen, onClose }: WidgetOverlayProps) {
               </button>
 
               <div className="text-center text-[11px] text-neutral-400">
-                Powered by <span className="font-semibold text-neutral-500">FeedbackHook</span>
+                Powered by <span className="font-semibold text-neutral-500">QuickFeed</span>
               </div>
             </div>
           </>

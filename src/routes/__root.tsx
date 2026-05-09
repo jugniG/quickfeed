@@ -27,11 +27,11 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'width=device-width, initial-scale=1',
       },
       {
-        title: 'FeedbackHook — We don\'t let you miss a single inconvenience of your users',
+        title: 'QuickFeed — We don\'t let you miss a single inconvenience of your users',
       },
       {
         name: 'description',
-        content: 'FeedbackHook intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
+        content: 'QuickFeed intercepts Ctrl+F on your website — capturing user frustration the moment it happens, with screenshots, delivered to your dashboard.',
       },
     ],
     links: [

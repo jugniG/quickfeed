@@ -1,6 +1,6 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-D_ZTL7g7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-D5WCWjyl.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Navbar() {
@@ -327,12 +327,17 @@ var steps = [
 	{
 		icon: "🚧",
 		headline: "But there's no quick way to report.",
-		body: "No convention. Users hit a broken flow, shrug, and leave. Forever."
+		body: "No feedback button. No obvious email. No Discord link. Users hit a broken flow, shrug, and leave. Forever."
+	},
+	{
+		icon: "😤",
+		headline: "Even when they try — it's painful.",
+		body: "Finding a form, writing context, attaching a screenshot — it's 5 steps too many. Most give up halfway."
 	},
 	{
 		icon: "📡",
-		headline: "What does get said — gets lost.",
-		body: "Scattered across DMs, Discord channels, Slack threads, Notion pages."
+		headline: "What does reach you — gets lost anyway.",
+		body: "Scattered across DMs, Discord channels, Slack threads, Notion pages. No single source of truth."
 	}
 ];
 function CommentIcon() {
@@ -667,13 +672,13 @@ function HowItWorks() {
 							num: "1",
 							title: "You: Paste one line",
 							desc: "Drop one <script> tag on any page. Works on React, Next.js, Webflow, WordPress — anything. 30 seconds.",
-							code: `<script\n  src="https://cdn.feedbackhook.com/v1.js"\n  data-key="YOUR_KEY">\n<\/script>`
+							code: `<script\n  src="https://cdn.quickfeed.com/v1.js"\n  data-key="YOUR_KEY">\n<\/script>`
 						},
 						{
 							num: "2",
 							title: "Your user: Ctrl+F",
 							desc: "Instead of browser search, your branded overlay appears. They describe what's broken, paste a screenshot from clipboard, hit send. No signup. No redirect.",
-							code: `// Auto-intercepts Ctrl+F\nFeedbackHook.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`
+							code: `// Auto-intercepts Ctrl+F\nQuickFeed.config({\n  theme: 'light',\n  position: 'bottom-right',\n  accentColor: '#your-brand',\n})`
 						},
 						{
 							num: "3",
@@ -800,20 +805,28 @@ function WidgetDemoSection({ onTryWidget }) {
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 					onClick: onTryWidget,
-					className: "flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0A0A0A] text-white text-[14px] font-semibold hover:bg-neutral-800 transition-colors",
-					children: ["Open the widget", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-						width: "13",
-						height: "13",
-						viewBox: "0 0 13 13",
-						fill: "none",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-							d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
-							stroke: "white",
-							strokeWidth: "1.6",
-							strokeLinecap: "round",
-							strokeLinejoin: "round"
+					className: "relative flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 overflow-hidden group cursor-pointer",
+					children: [
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" }),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+							className: "relative",
+							children: "Open the widget"
+						}),
+						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+							className: "relative",
+							width: "13",
+							height: "13",
+							viewBox: "0 0 13 13",
+							fill: "none",
+							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+								d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
+								stroke: "white",
+								strokeWidth: "1.6",
+								strokeLinecap: "round",
+								strokeLinejoin: "round"
+							})
 						})
-					})]
+					]
 				})
 			] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 				className: "relative flex justify-center",
@@ -911,7 +924,7 @@ function WidgetDemoSection({ onTryWidget }) {
 								className: "text-center text-[11px] text-neutral-400",
 								children: ["Powered by ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 									className: "font-semibold text-neutral-500",
-									children: "FeedbackHook"
+									children: "QuickFeed"
 								})]
 							})
 						]
@@ -937,7 +950,7 @@ function WidgetOverlay({ isOpen, onClose }) {
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 		className: "fixed inset-0 z-[100] flex items-end justify-end p-6 pointer-events-none",
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-			className: "pointer-events-auto w-[380px] rounded-2xl border border-neutral-200 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.18)] overflow-hidden",
+			className: "pointer-events-auto w-[380px] rounded-2xl border-2 border-orange-200 bg-white shadow-[0_20px_60px_rgba(249,115,22,0.18),0_4px_20px_rgba(0,0,0,0.10)] overflow-hidden ring-1 ring-orange-100 hover:border-orange-300 hover:shadow-[0_24px_72px_rgba(249,115,22,0.24),0_4px_24px_rgba(0,0,0,0.12)] transition-all duration-300",
 			children: submitted ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 				className: "p-8 flex flex-col items-center gap-3 text-center",
 				children: [
@@ -1033,7 +1046,7 @@ function WidgetOverlay({ isOpen, onClose }) {
 						className: "text-center text-[11px] text-neutral-400",
 						children: ["Powered by ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "font-semibold text-neutral-500",
-							children: "FeedbackHook"
+							children: "QuickFeed"
 						})]
 					})
 				]

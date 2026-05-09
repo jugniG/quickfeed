@@ -9,12 +9,17 @@ const steps = [
   {
     icon: "🚧",
     headline: "But there's no quick way to report.",
-    body: "No convention. Users hit a broken flow, shrug, and leave. Forever.",
+    body: "No feedback button. No obvious email. No Discord link. Users hit a broken flow, shrug, and leave. Forever.",
+  },
+  {
+    icon: "😤",
+    headline: "Even when they try — it's painful.",
+    body: "Finding a form, writing context, attaching a screenshot — it's 5 steps too many. Most give up halfway.",
   },
   {
     icon: "📡",
-    headline: "What does get said — gets lost.",
-    body: "Scattered across DMs, Discord channels, Slack threads, Notion pages.",
+    headline: "What does reach you — gets lost anyway.",
+    body: "Scattered across DMs, Discord channels, Slack threads, Notion pages. No single source of truth.",
   },
 ];
 
