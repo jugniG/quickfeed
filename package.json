@@ -21,11 +21,11 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@heroui/react": "^2.8.9",
     "@orpc/client": "^1.13.6",
     "@orpc/json-schema": "^1.13.6",
     "@orpc/openapi": "^1.13.6",
     "@orpc/server": "^1.13.6",
-    "@heroui/react": "^2.8.9",
     "@orpc/tanstack-query": "^1.13.6",
     "@orpc/zod": "^1.13.6",
     "@sentry/tanstackstart-react": "^10.42.0",
@@ -43,10 +43,12 @@
     "drizzle-kit": "^0.31.9",
     "drizzle-orm": "^0.45.1",
     "lucide-react": "^0.545.0",
+    "nitro": "^3.0.260429-beta",
     "pg": "^8.16.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "tailwindcss": "^4.1.18",
+    "vite-tsconfig-paths": "^6.1.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
