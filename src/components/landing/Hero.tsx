@@ -55,7 +55,7 @@ export function Hero({ onTryWidget }: HeroProps) {
             <div className="flex mb-6">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 text-[12.5px] font-semibold text-orange-600 shadow-sm shadow-orange-100">
                 <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shrink-0" />
-                We don't let you miss a single inconvenience of your users
+                Building a universal gesture — Ctrl+F
               </div>
             </div>
 
@@ -67,32 +67,29 @@ export function Hero({ onTryWidget }: HeroProps) {
 
             {/* Stop guessing line */}
             <p className="text-[15px] font-semibold text-neutral-400 mb-4 tracking-tight">
-              Stop guessing what your users want. Start hearing it — the moment they feel it.
+              Stop guessing what your users want.
             </p>
 
             {/* Sub */}
             <p className="text-[16.5px] text-neutral-500 leading-[1.75] mb-8 font-normal">
-              Unknown paths. No feedback button. No email. No Discord link. You gave up.{' '}
-              <span className="text-neutral-700 font-medium">Your users are doing the same thing on your product — right now.</span>
-              {' '}FeedbackHook gives them one universal gesture:{' '}
-              <kbd className="px-1.5 py-0.5 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-700 font-mono text-[13px] shadow-sm">Ctrl+F</kbd>
-              {'. '}Instant. Frictionless. Buttery smooth.
+              We don't let you miss a single inconvenience of your users.
             </p>
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3 mb-10">
               <a
                 href="/auth/signup"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14.5px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/45 transition-all duration-200 no-underline cursor-pointer"
+                className="relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14.5px] font-semibold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/45 transition-shadow duration-300 no-underline cursor-pointer overflow-hidden group"
               >
-                Get your embed code — it's free
-                <svg width="14" height="14" viewBox="0 0 13 13" fill="none">
+                <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                <span className="relative">Get your embed code — it's free</span>
+                <svg className="relative" width="14" height="14" viewBox="0 0 13 13" fill="none">
                   <path d="M2 6.5h9M7 2.5L11 6.5l-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </a>
               <button
                 onClick={onTryWidget}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-neutral-200 bg-white text-[14.5px] font-semibold text-neutral-600 hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-neutral-200 bg-white text-[14.5px] font-semibold text-neutral-600 hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
               >
                 <span className="w-2 h-2 rounded-full bg-gradient-to-r from-orange-400 to-amber-400 shrink-0" />
                 See how it works ↓

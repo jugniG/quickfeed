@@ -166,7 +166,7 @@ export function ProblemSection() {
                   </span>
                   <span className="group flex items-center gap-1.5 text-gray-400 hover:text-green-400 transition-colors duration-200 cursor-pointer text-sm select-none">
                     <RepostIcon />
-                    <span className="group-hover:text-green-400 transition-colors duration-200">—</span>
+                    <span className="group-hover:text-green-400 transition-colors duration-200">0</span>
                   </span>
                   <span className="group flex items-center gap-1.5 text-gray-400 hover:text-pink-500 transition-colors duration-200 cursor-pointer text-sm select-none">
                     <LikeIcon />

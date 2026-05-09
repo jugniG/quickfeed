@@ -20,12 +20,12 @@ export function Navbar() {
       <div className="max-w-[1100px] mx-auto px-6 h-[60px] flex items-center justify-between">
         {/* Logo */}
         <a href="/" className="flex items-center gap-2 no-underline group">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-shadow">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-shadow duration-300">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
             </svg>
           </div>
-          <span className="font-bold text-[15px] text-[#0A0A0A] tracking-tight">FeedbackHook</span>
+          <span className="font-bold text-[15px] text-[#0A0A0A] tracking-tight">QuickFeed</span>
         </a>
 
         {/* Nav links */}
@@ -34,7 +34,7 @@ export function Navbar() {
             <a
               key={item}
               href="#"
-              className="px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-150 no-underline font-medium"
+              className="px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-200 no-underline font-medium"
             >
               {item}
             </a>
@@ -45,16 +45,17 @@ export function Navbar() {
         <div className="flex items-center gap-2.5">
           <a
             href="/auth/signin"
-            className="text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-colors px-3 py-1.5 rounded-lg hover:bg-neutral-100"
+            className="text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-all duration-200 px-3 py-1.5 rounded-lg hover:bg-neutral-100"
           >
             Sign in
           </a>
           <a
             href="/auth/signup"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 no-underline"
+            className="relative flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 no-underline overflow-hidden group"
           >
-            Get started
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+            <span className="relative">Get started</span>
+            <svg className="relative" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M2 6h8M6.5 2.5L10 6l-3.5 3.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>

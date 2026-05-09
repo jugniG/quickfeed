@@ -1,6 +1,6 @@
 import { i as __toESM } from "../_runtime.mjs";
 import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-BBkyo0Na.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-D_ZTL7g7.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function Navbar() {
@@ -19,7 +19,7 @@ function Navbar() {
 					href: "/",
 					className: "flex items-center gap-2 no-underline group",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-						className: "w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-shadow",
+						className: "w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-shadow duration-300",
 						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
 							width: "14",
 							height: "14",
@@ -34,7 +34,7 @@ function Navbar() {
 						})
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 						className: "font-bold text-[15px] text-[#0A0A0A] tracking-tight",
-						children: "FeedbackHook"
+						children: "QuickFeed"
 					})]
 				}),
 				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -46,7 +46,7 @@ function Navbar() {
 						"Docs"
 					].map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href: "#",
-						className: "px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-150 no-underline font-medium",
+						className: "px-3.5 py-1.5 text-[13.5px] text-neutral-500 hover:text-neutral-900 rounded-lg hover:bg-neutral-100 transition-all duration-200 no-underline font-medium",
 						children: item
 					}, item))
 				}),
@@ -54,24 +54,32 @@ function Navbar() {
 					className: "flex items-center gap-2.5",
 					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 						href: "/auth/signin",
-						className: "text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-colors px-3 py-1.5 rounded-lg hover:bg-neutral-100",
+						className: "text-[13.5px] text-neutral-600 hover:text-neutral-900 font-medium no-underline transition-all duration-200 px-3 py-1.5 rounded-lg hover:bg-neutral-100",
 						children: "Sign in"
 					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 						href: "/auth/signup",
-						className: "flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 no-underline",
-						children: ["Get started", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-							width: "12",
-							height: "12",
-							viewBox: "0 0 12 12",
-							fill: "none",
-							children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-								d: "M2 6h8M6.5 2.5L10 6l-3.5 3.5",
-								stroke: "white",
-								strokeWidth: "1.5",
-								strokeLinecap: "round",
-								strokeLinejoin: "round"
+						className: "relative flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13.5px] font-semibold shadow-md shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-300 no-underline overflow-hidden group",
+						children: [
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+								className: "relative",
+								children: "Get started"
+							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+								className: "relative",
+								width: "12",
+								height: "12",
+								viewBox: "0 0 12 12",
+								fill: "none",
+								children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+									d: "M2 6h8M6.5 2.5L10 6l-3.5 3.5",
+									stroke: "white",
+									strokeWidth: "1.5",
+									strokeLinecap: "round",
+									strokeLinejoin: "round"
+								})
 							})
-						})]
+						]
 					})]
 				})
 			]
@@ -129,7 +137,7 @@ function Hero({ onTryWidget }) {
 								className: "flex mb-6",
 								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 									className: "inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-200 bg-gradient-to-r from-orange-50 to-amber-50 text-[12.5px] font-semibold text-orange-600 shadow-sm shadow-orange-100",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shrink-0" }), "We don't let you miss a single inconvenience of your users"]
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 shrink-0" }), "Building a universal gesture — Ctrl+F"]
 								})
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", {
@@ -145,49 +153,41 @@ function Hero({ onTryWidget }) {
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "text-[15px] font-semibold text-neutral-400 mb-4 tracking-tight",
-								children: "Stop guessing what your users want. Start hearing it — the moment they feel it."
+								children: "Stop guessing what your users want."
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
 								className: "text-[16.5px] text-neutral-500 leading-[1.75] mb-8 font-normal",
-								children: [
-									"Unknown paths. No feedback button. No email. No Discord link. You gave up.",
-									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "text-neutral-700 font-medium",
-										children: "Your users are doing the same thing on your product — right now."
-									}),
-									" ",
-									"FeedbackHook gives them one universal gesture:",
-									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("kbd", {
-										className: "px-1.5 py-0.5 rounded-md bg-neutral-100 border border-neutral-200 text-neutral-700 font-mono text-[13px] shadow-sm",
-										children: "Ctrl+F"
-									}),
-									". ",
-									"Instant. Frictionless. Buttery smooth."
-								]
+								children: "We don't let you miss a single inconvenience of your users."
 							}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "flex flex-wrap items-center gap-3 mb-10",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 									href: "/auth/signup",
-									className: "inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14.5px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/45 transition-all duration-200 no-underline cursor-pointer",
-									children: ["Get your embed code — it's free", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-										width: "14",
-										height: "14",
-										viewBox: "0 0 13 13",
-										fill: "none",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-											d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
-											stroke: "white",
-											strokeWidth: "1.5",
-											strokeLinecap: "round",
-											strokeLinejoin: "round"
+									className: "relative inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14.5px] font-semibold shadow-lg shadow-orange-500/30 hover:shadow-orange-500/45 transition-shadow duration-300 no-underline cursor-pointer overflow-hidden group",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" }),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "relative",
+											children: "Get your embed code — it's free"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+											className: "relative",
+											width: "14",
+											height: "14",
+											viewBox: "0 0 13 13",
+											fill: "none",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+												d: "M2 6.5h9M7 2.5L11 6.5l-4 4",
+												stroke: "white",
+												strokeWidth: "1.5",
+												strokeLinecap: "round",
+												strokeLinejoin: "round"
+											})
 										})
-									})]
+									]
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 									onClick: onTryWidget,
-									className: "inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-neutral-200 bg-white text-[14.5px] font-semibold text-neutral-600 hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer",
+									className: "inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-neutral-200 bg-white text-[14.5px] font-semibold text-neutral-600 hover:border-orange-200 hover:bg-orange-50/50 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "w-2 h-2 rounded-full bg-gradient-to-r from-orange-400 to-amber-400 shrink-0" }), "See how it works ↓"]
 								})]
 							})
@@ -490,7 +490,7 @@ function ProblemSection() {
 											className: "group flex items-center gap-1.5 text-gray-400 hover:text-green-400 transition-colors duration-200 cursor-pointer text-sm select-none",
 											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(RepostIcon, {}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 												className: "group-hover:text-green-400 transition-colors duration-200",
-												children: "—"
+												children: "0"
 											})]
 										}),
 										/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
@@ -1160,23 +1160,31 @@ function FooterCTA() {
 								className: "flex flex-wrap items-center justify-center gap-3",
 								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("a", {
 									href: "/auth/signup",
-									className: "inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[15px] font-semibold hover:from-orange-600 hover:to-amber-600 shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-200 no-underline cursor-pointer",
-									children: ["Get your embed code — it's free", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
-										width: "14",
-										height: "14",
-										viewBox: "0 0 14 14",
-										fill: "none",
-										children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
-											d: "M2 7h10M7.5 2.5L12 7l-4.5 4.5",
-											stroke: "white",
-											strokeWidth: "1.5",
-											strokeLinecap: "round",
-											strokeLinejoin: "round"
+									className: "relative inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[15px] font-semibold shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-shadow duration-300 no-underline cursor-pointer overflow-hidden group",
+									children: [
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" }),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+											className: "relative",
+											children: "Get your embed code — it's free"
+										}),
+										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("svg", {
+											className: "relative",
+											width: "14",
+											height: "14",
+											viewBox: "0 0 14 14",
+											fill: "none",
+											children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("path", {
+												d: "M2 7h10M7.5 2.5L12 7l-4.5 4.5",
+												stroke: "white",
+												strokeWidth: "1.5",
+												strokeLinecap: "round",
+												strokeLinejoin: "round"
+											})
 										})
-									})]
+									]
 								}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 									href: "/auth/signin",
-									className: "inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-700 text-[15px] font-semibold hover:border-orange-300 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-200 no-underline cursor-pointer",
+									className: "inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-white border border-neutral-300 text-neutral-700 text-[15px] font-semibold hover:border-orange-300 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-300 no-underline cursor-pointer",
 									children: "Sign in"
 								})]
 							}),
@@ -1208,7 +1216,7 @@ function FooterCTA() {
 							})
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 							className: "text-[13.5px] font-bold text-neutral-700",
-							children: "FeedbackHook"
+							children: "QuickFeed"
 						})]
 					}),
 					/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -1222,7 +1230,7 @@ function FooterCTA() {
 							"Terms"
 						].map((link) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
 							href: "#",
-							className: "text-[12.5px] text-neutral-400 hover:text-orange-500 no-underline transition-colors",
+							className: "text-[12.5px] text-neutral-400 hover:text-orange-500 no-underline transition-colors duration-200",
 							children: link
 						}, link))
 					}),
@@ -1231,7 +1239,7 @@ function FooterCTA() {
 						children: [
 							"© ",
 							(/* @__PURE__ */ new Date()).getFullYear(),
-							" FeedbackHook"
+							" QuickFeed"
 						]
 					})
 				]
