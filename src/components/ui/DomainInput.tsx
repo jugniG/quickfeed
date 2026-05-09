@@ -147,6 +147,7 @@ export function DomainInput({
             placeholder="insightly.live"
             autoComplete="off"
             spellCheck={false}
+            autoFocus
             className={`flex-1 bg-transparent outline-none border-none font-mono ${
               isCompact ? 'text-[13px] px-2 py-2.5' : 'text-[14px] px-3 py-3'
             } text-neutral-800 placeholder:text-neutral-400 placeholder:font-sans`}

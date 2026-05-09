@@ -20,14 +20,13 @@ export function FooterCTA() {
               <span className="bg-gradient-to-r from-orange-500 to-amber-400 bg-clip-text text-transparent">with a buttery smooth flow.</span>
             </h2>
             <p className="text-[16px] text-neutral-500 leading-[1.7] mb-8 max-w-[480px] font-normal">
-              You've been on broken products that gave you nowhere to go. Don't be that product.{' '}
               Give your users one gesture, one moment, one place to tell you everything.
             </p>
 
             <div className="w-full max-w-[460px] mb-4">
               <DomainInput btnLabel="Add to your product →" />
             </div>
-            <p className="text-[12.5px] text-neutral-400 font-normal">No credit card required · 2 min setup · Cancel anytime</p>
+
           </div>
         </div>
 

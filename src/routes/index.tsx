@@ -42,13 +42,16 @@ function Home() {
       <WidgetOverlay isOpen={widgetOpen} onClose={() => setWidgetOpen(false)} />
 
       {!widgetOpen && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-neutral-200 shadow-sm text-neutral-500 text-xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30">
+          <button
+            onClick={() => setWidgetOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-orange-400 shadow-md text-neutral-600 text-xs cursor-pointer hover:border-orange-500 hover:shadow-orange-200 hover:shadow-lg transition-all duration-200"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
             Press{' '}
             <ShortcutKey size="sm" />
             {' '}anywhere to try the widget
-          </div>
+          </button>
         </div>
       )}
     </div>

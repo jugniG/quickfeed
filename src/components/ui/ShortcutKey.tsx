@@ -1,5 +1,3 @@
-import { Kbd } from "@heroui/react";
-
 /**
  * Renders the QuickFeed shortcut: Cmd+Shift+F
  * Usage: <ShortcutKey /> or <ShortcutKey size="sm" />
@@ -12,18 +10,15 @@ interface ShortcutKeyProps {
 export function ShortcutKey({ size = "md", className = "" }: ShortcutKeyProps) {
   const textSize =
     size === "sm" ? "text-[11px]" : size === "lg" ? "text-[15px]" : "text-[12px]";
+  const kbdBase = `inline-flex items-center justify-center rounded border border-neutral-200 bg-white shadow-sm text-neutral-700 font-mono px-1.5 py-0.5 leading-none`;
 
   return (
     <span className={`inline-flex items-center gap-1 ${textSize} ${className}`}>
-      <Kbd keys={["command"]} classNames={{ base: "bg-white border border-neutral-200 shadow-sm text-neutral-700" }} />
+      <kbd className={kbdBase}>⌘</kbd>
       <span className="text-neutral-400 font-normal">+</span>
-      <Kbd classNames={{ base: "bg-white border border-neutral-200 shadow-sm text-neutral-700 font-mono" }}>
-        Shift
-      </Kbd>
+      <kbd className={kbdBase}>Shift</kbd>
       <span className="text-neutral-400 font-normal">+</span>
-      <Kbd classNames={{ base: "bg-white border border-neutral-200 shadow-sm text-neutral-700 font-mono" }}>
-        F
-      </Kbd>
+      <kbd className={kbdBase}>F</kbd>
     </span>
   );
 }
