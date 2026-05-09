@@ -13,7 +13,7 @@ export const Route = createFileRoute('/login')({
 })
 
 function getFaviconUrl(domain: string) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`
+  return `https://icons.duckduckgo.com/ip3/${domain}.ico`
 }
 
 // A domain is "registered" with QuickFeed if it came from the CTA input
@@ -236,6 +236,7 @@ function Login() {
                       onChange={e => { setEmail(e.target.value); if (emailError) setEmailError(null) }}
                       placeholder="you@yourproduct.com"
                       autoComplete="email"
+                      autoFocus
                       className="flex-1 py-3 pr-3 text-[14px] text-neutral-800 bg-transparent outline-none border-none placeholder:text-neutral-400"
                     />
                   </div>

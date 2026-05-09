@@ -28,7 +28,7 @@ export const auth = betterAuth({
           return
         }
         const resend = new Resend(env.RESEND_API_KEY)
-        await resend.emails.send({
+        const response = await resend.emails.send({
           from: 'quickfeed@syncmate.xyz',
           to: email,
           subject: 'Your QuickFeed login link',
@@ -50,6 +50,7 @@ export const auth = betterAuth({
             </div>
           `,
         })
+        console.log('[Resend]', JSON.stringify(response))
       },
     }),
   ],
