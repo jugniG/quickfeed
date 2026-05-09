@@ -54,6 +54,7 @@ export const auth = betterAuth({
       },
     }),
   ],
+  	trustedOrigins: ["https://www.quickfeed.live", "https://quickfeed-tan.vercel.app"],
 })
 
 export type Session = typeof auth.$Infer.Session
