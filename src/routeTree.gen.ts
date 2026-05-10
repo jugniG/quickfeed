@@ -14,14 +14,14 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
-import { Route as ProtectedDashboardRouteImport } from './routes/_protected/dashboard'
 import { Route as ProtectedBillingRouteImport } from './routes/_protected/billing'
 import { Route as ApiFeedbackIndexRouteImport } from './routes/api/feedback/index'
+import { Route as ProtectedDashboardIndexRouteImport } from './routes/_protected/dashboard/index'
 import { Route as ApiWebhookDodoRouteImport } from './routes/api/webhook/dodo'
 import { Route as ApiRpcSplatRouteImport } from './routes/api.rpc.$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as ProtectedDashboardWebsiteIdRouteImport } from './routes/_protected/dashboard.$websiteId'
-import { Route as ProtectedDashboardWebsiteIdSettingsRouteImport } from './routes/_protected/dashboard.$websiteId.settings'
+import { Route as ProtectedDashboardWebsiteIdIndexRouteImport } from './routes/_protected/dashboard/$websiteId/index'
+import { Route as ProtectedDashboardWebsiteIdSettingsIndexRouteImport } from './routes/_protected/dashboard/$websiteId/settings/index'
 
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
@@ -47,11 +47,6 @@ const ApiSplatRoute = ApiSplatRouteImport.update({
   path: '/api/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedDashboardRoute = ProtectedDashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => ProtectedRouteRoute,
-} as any)
 const ProtectedBillingRoute = ProtectedBillingRouteImport.update({
   id: '/billing',
   path: '/billing',
@@ -61,6 +56,11 @@ const ApiFeedbackIndexRoute = ApiFeedbackIndexRouteImport.update({
   id: '/api/feedback/',
   path: '/api/feedback/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const ProtectedDashboardIndexRoute = ProtectedDashboardIndexRouteImport.update({
+  id: '/dashboard/',
+  path: '/dashboard/',
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
 const ApiWebhookDodoRoute = ApiWebhookDodoRouteImport.update({
   id: '/api/webhook/dodo',
@@ -77,17 +77,17 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProtectedDashboardWebsiteIdRoute =
-  ProtectedDashboardWebsiteIdRouteImport.update({
-    id: '/$websiteId',
-    path: '/$websiteId',
-    getParentRoute: () => ProtectedDashboardRoute,
+const ProtectedDashboardWebsiteIdIndexRoute =
+  ProtectedDashboardWebsiteIdIndexRouteImport.update({
+    id: '/dashboard/$websiteId/',
+    path: '/dashboard/$websiteId/',
+    getParentRoute: () => ProtectedRouteRoute,
   } as any)
-const ProtectedDashboardWebsiteIdSettingsRoute =
-  ProtectedDashboardWebsiteIdSettingsRouteImport.update({
-    id: '/settings',
-    path: '/settings',
-    getParentRoute: () => ProtectedDashboardWebsiteIdRoute,
+const ProtectedDashboardWebsiteIdSettingsIndexRoute =
+  ProtectedDashboardWebsiteIdSettingsIndexRouteImport.update({
+    id: '/dashboard/$websiteId/settings/',
+    path: '/dashboard/$websiteId/settings/',
+    getParentRoute: () => ProtectedRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -95,28 +95,28 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/billing': typeof ProtectedBillingRoute
-  '/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/dashboard/$websiteId': typeof ProtectedDashboardWebsiteIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
+  '/dashboard/': typeof ProtectedDashboardIndexRoute
   '/api/feedback/': typeof ApiFeedbackIndexRoute
-  '/dashboard/$websiteId/settings': typeof ProtectedDashboardWebsiteIdSettingsRoute
+  '/dashboard/$websiteId/': typeof ProtectedDashboardWebsiteIdIndexRoute
+  '/dashboard/$websiteId/settings/': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/billing': typeof ProtectedBillingRoute
-  '/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/dashboard/$websiteId': typeof ProtectedDashboardWebsiteIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
+  '/dashboard': typeof ProtectedDashboardIndexRoute
   '/api/feedback': typeof ApiFeedbackIndexRoute
-  '/dashboard/$websiteId/settings': typeof ProtectedDashboardWebsiteIdSettingsRoute
+  '/dashboard/$websiteId': typeof ProtectedDashboardWebsiteIdIndexRoute
+  '/dashboard/$websiteId/settings': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,14 +125,14 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/pricing': typeof PricingRoute
   '/_protected/billing': typeof ProtectedBillingRoute
-  '/_protected/dashboard': typeof ProtectedDashboardRouteWithChildren
   '/api/$': typeof ApiSplatRoute
-  '/_protected/dashboard/$websiteId': typeof ProtectedDashboardWebsiteIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/rpc/$': typeof ApiRpcSplatRoute
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
+  '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
   '/api/feedback/': typeof ApiFeedbackIndexRoute
-  '/_protected/dashboard/$websiteId/settings': typeof ProtectedDashboardWebsiteIdSettingsRoute
+  '/_protected/dashboard/$websiteId/': typeof ProtectedDashboardWebsiteIdIndexRoute
+  '/_protected/dashboard/$websiteId/settings/': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,27 +141,27 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/billing'
-    | '/dashboard'
     | '/api/$'
-    | '/dashboard/$websiteId'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/api/webhook/dodo'
+    | '/dashboard/'
     | '/api/feedback/'
-    | '/dashboard/$websiteId/settings'
+    | '/dashboard/$websiteId/'
+    | '/dashboard/$websiteId/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/pricing'
     | '/billing'
-    | '/dashboard'
     | '/api/$'
-    | '/dashboard/$websiteId'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/api/webhook/dodo'
+    | '/dashboard'
     | '/api/feedback'
+    | '/dashboard/$websiteId'
     | '/dashboard/$websiteId/settings'
   id:
     | '__root__'
@@ -170,14 +170,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/pricing'
     | '/_protected/billing'
-    | '/_protected/dashboard'
     | '/api/$'
-    | '/_protected/dashboard/$websiteId'
     | '/api/auth/$'
     | '/api/rpc/$'
     | '/api/webhook/dodo'
+    | '/_protected/dashboard/'
     | '/api/feedback/'
-    | '/_protected/dashboard/$websiteId/settings'
+    | '/_protected/dashboard/$websiteId/'
+    | '/_protected/dashboard/$websiteId/settings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -229,13 +229,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/dashboard': {
-      id: '/_protected/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof ProtectedDashboardRouteImport
-      parentRoute: typeof ProtectedRouteRoute
-    }
     '/_protected/billing': {
       id: '/_protected/billing'
       path: '/billing'
@@ -249,6 +242,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/feedback/'
       preLoaderRoute: typeof ApiFeedbackIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_protected/dashboard/': {
+      id: '/_protected/dashboard/'
+      path: '/dashboard'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof ProtectedDashboardIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
     '/api/webhook/dodo': {
       id: '/api/webhook/dodo'
@@ -271,58 +271,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_protected/dashboard/$websiteId': {
-      id: '/_protected/dashboard/$websiteId'
-      path: '/$websiteId'
-      fullPath: '/dashboard/$websiteId'
-      preLoaderRoute: typeof ProtectedDashboardWebsiteIdRouteImport
-      parentRoute: typeof ProtectedDashboardRoute
+    '/_protected/dashboard/$websiteId/': {
+      id: '/_protected/dashboard/$websiteId/'
+      path: '/dashboard/$websiteId'
+      fullPath: '/dashboard/$websiteId/'
+      preLoaderRoute: typeof ProtectedDashboardWebsiteIdIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
-    '/_protected/dashboard/$websiteId/settings': {
-      id: '/_protected/dashboard/$websiteId/settings'
-      path: '/settings'
-      fullPath: '/dashboard/$websiteId/settings'
-      preLoaderRoute: typeof ProtectedDashboardWebsiteIdSettingsRouteImport
-      parentRoute: typeof ProtectedDashboardWebsiteIdRoute
+    '/_protected/dashboard/$websiteId/settings/': {
+      id: '/_protected/dashboard/$websiteId/settings/'
+      path: '/dashboard/$websiteId/settings'
+      fullPath: '/dashboard/$websiteId/settings/'
+      preLoaderRoute: typeof ProtectedDashboardWebsiteIdSettingsIndexRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
   }
 }
-
-interface ProtectedDashboardWebsiteIdRouteChildren {
-  ProtectedDashboardWebsiteIdSettingsRoute: typeof ProtectedDashboardWebsiteIdSettingsRoute
-}
-
-const ProtectedDashboardWebsiteIdRouteChildren: ProtectedDashboardWebsiteIdRouteChildren =
-  {
-    ProtectedDashboardWebsiteIdSettingsRoute:
-      ProtectedDashboardWebsiteIdSettingsRoute,
-  }
-
-const ProtectedDashboardWebsiteIdRouteWithChildren =
-  ProtectedDashboardWebsiteIdRoute._addFileChildren(
-    ProtectedDashboardWebsiteIdRouteChildren,
-  )
-
-interface ProtectedDashboardRouteChildren {
-  ProtectedDashboardWebsiteIdRoute: typeof ProtectedDashboardWebsiteIdRouteWithChildren
-}
-
-const ProtectedDashboardRouteChildren: ProtectedDashboardRouteChildren = {
-  ProtectedDashboardWebsiteIdRoute:
-    ProtectedDashboardWebsiteIdRouteWithChildren,
-}
-
-const ProtectedDashboardRouteWithChildren =
-  ProtectedDashboardRoute._addFileChildren(ProtectedDashboardRouteChildren)
 
 interface ProtectedRouteRouteChildren {
   ProtectedBillingRoute: typeof ProtectedBillingRoute
-  ProtectedDashboardRoute: typeof ProtectedDashboardRouteWithChildren
+  ProtectedDashboardIndexRoute: typeof ProtectedDashboardIndexRoute
+  ProtectedDashboardWebsiteIdIndexRoute: typeof ProtectedDashboardWebsiteIdIndexRoute
+  ProtectedDashboardWebsiteIdSettingsIndexRoute: typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
 
 const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
   ProtectedBillingRoute: ProtectedBillingRoute,
-  ProtectedDashboardRoute: ProtectedDashboardRouteWithChildren,
+  ProtectedDashboardIndexRoute: ProtectedDashboardIndexRoute,
+  ProtectedDashboardWebsiteIdIndexRoute: ProtectedDashboardWebsiteIdIndexRoute,
+  ProtectedDashboardWebsiteIdSettingsIndexRoute:
+    ProtectedDashboardWebsiteIdSettingsIndexRoute,
 }
 
 const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(

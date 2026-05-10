@@ -55,7 +55,7 @@ function timeAgo(date: Date | string) {
   return `${day}d ago`
 }
 
-export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; websiteId: number }) {
+export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; websiteId: string }) {
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
   const [optimisticStatus, setOptimisticStatus] = useState<FeedbackStatus>(

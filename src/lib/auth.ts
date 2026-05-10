@@ -69,7 +69,7 @@ export const auth = betterAuth({
         return {
           user: {
             ...user,
-            subscriptionId: sub.id
+            subscriptionId: sub?.id
           },
           session
         }

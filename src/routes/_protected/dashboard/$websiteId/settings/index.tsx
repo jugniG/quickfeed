@@ -6,7 +6,7 @@ import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 import { useEffect, useRef, useState } from 'react'
 import { codeToHtml } from 'shiki'
 
-export const Route = createFileRoute('/_protected/dashboard/$websiteId/settings')({
+export const Route = createFileRoute('/_protected/dashboard/$websiteId/settings/')({
   component: WebsiteSettings,
 })
 
@@ -72,17 +72,16 @@ function ShikiBlock({ code, lang }: { code: string; lang: string }) {
 
 function WebsiteSettings() {
   const { websiteId } = Route.useParams()
-  const id = Number(websiteId)
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { data: session } = authClient.useSession()
   const user = session?.user
 
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
-  const site = websites.find((w) => w.id === id)
+  const site = websites.find((w) => w.id === websiteId)
 
   const deleteMutation = useMutation({
-    mutationFn: () => orpc.websites.delete.call({ id }),
+    mutationFn: () => orpc.websites.delete.call({ id: websiteId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: orpc.websites.list.key() })
       navigate({ to: '/dashboard' })
@@ -94,7 +93,7 @@ function WebsiteSettings() {
   const embedCode = `<!-- QuickFeed Widget -->
 <script>
   window.__quickfeed = {
-    websiteId: ${id},
+    websiteId: '${websiteId}',
     apiBase: '${origin}',
   };
 </script>
@@ -131,7 +130,7 @@ function WebsiteSettings() {
             onClick={() => navigate({ to: '/dashboard/$websiteId', params: { websiteId } })}
             className="hover:text-neutral-700 transition-colors"
           >
-            {site?.domain ?? `#${id}`}
+            {site?.domain ?? 'Website'}
           </button>
           <span className="text-neutral-200">/</span>
           <span className="text-neutral-600 font-medium">Settings</span>

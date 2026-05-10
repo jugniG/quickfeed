@@ -1,4 +1,4 @@
-import { pgSchema, serial, text, timestamp, boolean, index, integer } from 'drizzle-orm/pg-core'
+import { pgSchema, serial, text, timestamp, boolean, index, integer, uuid } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 export const quickfeedSchema = pgSchema('quickfeed')
@@ -78,7 +78,7 @@ export const verification = quickfeedSchema.table(
 export const websites = quickfeedSchema.table(
   'websites',
   {
-    id: serial('id').primaryKey(),
+    id: uuid('id').defaultRandom().primaryKey(),
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
@@ -92,7 +92,7 @@ export const feedbacks = quickfeedSchema.table(
   'feedbacks',
   {
     id: serial('id').primaryKey(),
-    websiteId: integer('website_id')
+    websiteId: uuid('website_id')
       .notNull()
       .references(() => websites.id, { onDelete: 'cascade' }),
     message: text('message').notNull(),

@@ -6,7 +6,7 @@ import { orpc } from '#/orpc/client'
 import { AddWebsiteModal } from '#/components/dashboard/AddWebsiteModal'
 import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 
-export const Route = createFileRoute('/_protected/dashboard')({
+export const Route = createFileRoute('/_protected/dashboard/')({
   component: Dashboard,
 })
 
@@ -122,7 +122,7 @@ function Dashboard() {
   )
 }
 
-function WebsiteCard({ id, domain, feedbackCount }: { id: number; domain: string; feedbackCount?: number }) {
+function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string; feedbackCount?: number }) {
   const navigate = useNavigate()
   const faviconUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`
 
@@ -152,7 +152,7 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: number; domain: string
           Active
         </span>
         <button
-          onClick={() => navigate({ to: '/dashboard/$websiteId', params: { websiteId: String(id) } })}
+          onClick={() => navigate({ to: '/dashbaord/$websiteId', params: { websiteId: id } })}
           className="text-[12px] text-neutral-400 hover:text-orange-500 font-medium transition-colors"
         >
           View →

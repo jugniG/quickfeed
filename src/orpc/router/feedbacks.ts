@@ -9,7 +9,7 @@ export type FeedbackStatus = typeof FEEDBACK_STATUSES[number]
 
 // List feedbacks for a website (verifies ownership)
 export const listFeedbacks = authed
-  .input(z.object({ websiteId: z.number() }))
+  .input(z.object({ websiteId: z.string().uuid() }))
   .handler(async ({ input, context }) => {
     // Verify user owns this website
     const [site] = await db

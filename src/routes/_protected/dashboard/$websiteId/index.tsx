@@ -7,7 +7,7 @@ import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 import { useState } from 'react'
 import type { FeedbackStatus } from '#/orpc/router/feedbacks'
 
-export const Route = createFileRoute('/_protected/dashboard/$websiteId')({
+export const Route = createFileRoute('/_protected/dashboard/$websiteId/')({
   component: WebsiteDetail,
 })
 
@@ -22,7 +22,6 @@ const FILTER_OPTIONS: { label: string; value: 'all' | FeedbackStatus }[] = [
 
 function WebsiteDetail() {
   const { websiteId } = Route.useParams()
-  const id = Number(websiteId)
   const navigate = useNavigate()
   const { data: session } = authClient.useSession()
   const user = session?.user
@@ -30,10 +29,10 @@ function WebsiteDetail() {
 
   // Get website info from the websites list
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
-  const site = websites.find(w => w.id === id)
+  const site = websites.find(w => w.id === websiteId)
 
   const { data: feedbacks = [], isLoading } = useQuery(
-    orpc.feedbacks.list.queryOptions({ input: { websiteId: id } })
+    orpc.feedbacks.list.queryOptions({ input: { websiteId } })
   )
 
   const filtered = filter === 'all'
@@ -73,7 +72,7 @@ function WebsiteDetail() {
               />
             )}
             <h1 className="text-[18px] font-bold tracking-[-0.02em] text-[#0A0A0A]">
-              {site?.domain ?? `Website #${id}`}
+              {site?.domain ?? 'Website'}
             </h1>
           </div>
           <div className="ml-auto flex items-center gap-3">
@@ -160,7 +159,7 @@ function WebsiteDetail() {
         {!isLoading && filtered.length > 0 && (
           <div className="space-y-3">
             {filtered.map(fb => (
-              <FeedbackCard key={fb.id} feedback={fb} websiteId={id} />
+              <FeedbackCard key={fb.id} feedback={fb} websiteId={websiteId} />
             ))}
           </div>
         )}

@@ -37,7 +37,7 @@ export const addWebsite = authed
   })
 
 export const deleteWebsite = authed
-  .input(z.object({ id: z.number() }))
+  .input(z.object({ id: z.string().uuid() }))
   .handler(async ({ input, context }) => {
     const [deleted] = await db
       .delete(websites)
