@@ -1,20 +1,19 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
-import { magicLink } from 'better-auth/plugins'
+import { customSession, magicLink } from 'better-auth/plugins'
 import { db } from '#/db/index'
 import { Resend } from 'resend'
 import { env } from '#/env'
-import { user, session, account, verification } from '#/db/schema'
-import { getRequestHeaders } from '@tanstack/react-start/server'
-import { createServerFn } from '@tanstack/react-start'
+import { user as userSchema, session, account, verification, subscriptions } from '#/db/schema'
+import { eq, and } from 'drizzle-orm'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
-    schema: { user, session, account, verification },
+    schema: { user: userSchema, session, account, verification },
   }),
-  baseURL:env.BETTER_AUTH_URL,
+  baseURL: env.BETTER_AUTH_URL,
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID ?? '',
@@ -56,16 +55,31 @@ export const auth = betterAuth({
         console.log('[Resend]', JSON.stringify(response))
       },
     }),
+    customSession(async ({ user, session }) => {
+      try {
+        const userId = user.id
+
+        // Fetch active subscription
+        const [sub] = await db
+          .select()
+          .from(subscriptions)
+          .where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, 'active')))
+          .limit(1)
+
+        return {
+          user: {
+            ...user,
+            subscriptionId: sub.id
+          },
+          session
+        }
+      } catch (error) {
+        console.error("Failed to get user details", error)
+        throw error
+      }
+    }),
   ],
-  	trustedOrigins: ["https://www.quickfeed.live", "https://quickfeed-tan.vercel.app"],
+  trustedOrigins: ["https://www.quickfeed.live", "https://quickfeed-tan.vercel.app"],
 })
 
 export type Session = typeof auth.$Infer.Session
-
-export const getSession = createServerFn({ method: 'GET' }).handler(async () => {
-  const headers = getRequestHeaders()  
-  const session = await auth.api.getSession({
-    headers,
-  })
-  return session
-})

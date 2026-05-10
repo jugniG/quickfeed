@@ -1,13 +1,18 @@
+import { getSession } from '#/lib/auth-client'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import { getSessionAndSub } from '#/lib/server-fns'
 
 export const Route = createFileRoute('/_protected')({
   beforeLoad: async ({ location }) => {
-    const { session, hasSubscription } = await getSessionAndSub()
+    console.log('a');
+    
+    const session = await getSession()
 
-    if (!session) {
+    if (!session?.user) {
       throw redirect({ to: '/login' })
     }
+
+    // Subscription is now included in session.user.subscription
+    const hasSubscription = !!session.user.subscriptionId
 
     // Billing page is always accessible — avoids redirect loop
     const isBillingPage = location.pathname === '/billing'
