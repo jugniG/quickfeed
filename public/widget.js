@@ -84,14 +84,14 @@
   display:block;
 }
 #qf-msg:focus{border-color:#f97316}
-#qf-name,#qf-email{
+#qf-email{
   width:100%;box-sizing:border-box;
   border:1.5px solid #e5e5e5;
   padding:10px 12px;font-size:14px;font-family:inherit;
   margin-top:8px;outline:none;transition:border-color .15s;background:transparent;
   display:block;
 }
-#qf-name:focus,#qf-email:focus{border-color:#f97316}
+#qf-email:focus{border-color:#f97316}
 #qf-row{display:flex;gap:8px;margin-top:12px}
 #qf-submit{
   flex:2;padding:10px;border:none;
@@ -133,7 +133,6 @@
       <textarea id="qf-msg" placeholder="Give us feedback…"></textarea>
     </div>
     <div id="qf-status"></div>
-    <input id="qf-name"  type="text"  placeholder="Your name (optional)" />
     <input id="qf-email" type="email" placeholder="Email (optional)" />
     <div id="qf-row">
       <button id="qf-cancel">Cancel</button>
@@ -168,7 +167,6 @@
   var imagesEl  = document.getElementById('qf-images')
   var statusEl  = document.getElementById('qf-status')
   var msgEl     = document.getElementById('qf-msg')
-  var nameEl    = document.getElementById('qf-name')
   var emailEl   = document.getElementById('qf-email')
   var submitBtn = document.getElementById('qf-submit')
   var cancelBtn = document.getElementById('qf-cancel')
@@ -183,7 +181,7 @@
   cancelBtn.style.background   = btn2Bg
   cancelBtn.style.color        = btn2Text
   cancelBtn.style.borderRadius = btnBorderRadius + 'px'
-  ;[msgEl, nameEl, emailEl].forEach(function(el) {
+  ;[msgEl, emailEl].forEach(function(el) {
     el.style.borderRadius = Math.min(btnBorderRadius, 16) + 'px'
   })
 
@@ -282,7 +280,6 @@
       form.style.display = ''
       successEl.style.display = 'none'
       msgEl.value = ''
-      nameEl.value = ''
       emailEl.value = ''
       imagesEl.innerHTML = ''
       // revoke all blob URLs
@@ -335,7 +332,6 @@
           websiteId: websiteId,
           message: message,
           imageFiles: imageFiles,   // [{ data: "data:image/png;base64,...", type: "image/png" }]
-          submitterName:  nameEl.value.trim() || null,
           submitterEmail: emailEl.value.trim() || null,
           url: window.location.href,
           userAgent: navigator.userAgent,

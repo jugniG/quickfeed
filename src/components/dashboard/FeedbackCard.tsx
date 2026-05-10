@@ -7,7 +7,6 @@ type Feedback = {
   id: number
   message: string
   submitterEmail: string | null
-  submitterName: string | null
   url: string | null
   status: string
   createdAt: Date | string
@@ -198,21 +197,15 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
 
         {/* Meta row */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-neutral-400">
-          {(feedback.submitterName || feedback.submitterEmail) && (
-            <span className="flex items-center gap-1">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <circle cx="6" cy="4" r="2.5" stroke="currentColor" strokeWidth="1.2"/>
-                <path d="M1.5 10.5c0-2.21 2.015-4 4.5-4s4.5 1.79 4.5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-              </svg>
-              {feedback.submitterName || feedback.submitterEmail}
-            </span>
-          )}
+          <span className="flex items-center gap-1">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="4" r="2.5" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M1.5 10.5c0-2.21 2.015-4 4.5-4s4.5 1.79 4.5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            {feedback.submitterEmail || 'Anonymous'}
+          </span>
           {feedback.url && (
             <span className="flex items-center gap-1">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 1.5h4.5v9H1.5V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M4.5 7.5l6-6M8 1.5h3v3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
               <code className="bg-neutral-100 text-neutral-500 text-[11px] px-1.5 py-0.5 rounded-md font-mono">
                 {getPathname(feedback.url)}
               </code>

@@ -130,7 +130,8 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string
       params={{ websiteId: String(id) }}
       className="block bg-white rounded-2xl border border-neutral-200 p-5 hover:border-orange-200 hover:shadow-[0_4px_20px_rgba(251,146,60,0.1)] transition-all duration-200 no-underline group"
     >
-      <div className="flex items-center gap-3 mb-4">
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-5">
         <div className="w-10 h-10 rounded-xl border border-neutral-100 bg-neutral-50 flex items-center justify-center shrink-0 overflow-hidden">
           <img
             src={faviconUrl}
@@ -143,14 +144,36 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string
             }}
           />
         </div>
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="text-[14px] font-semibold text-neutral-800 truncate">{domain}</div>
-          <div className="text-[12px] text-neutral-400">{feedbackCount ?? 0} {(feedbackCount ?? 0) === 1 ? 'report' : 'reports'}</div>
+          <div className="text-[12px] text-neutral-400 mt-0.5">
+            <a
+              href={`https://${domain}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              className="hover:text-orange-400 transition-colors"
+            >
+              {domain}
+            </a>
+          </div>
         </div>
       </div>
-      <div className="flex items-center justify-end">
-        <span className="text-[12px] text-neutral-400 group-hover:text-orange-500 font-medium transition-colors">
-          View →
+
+      {/* Footer */}
+      <div className="flex items-center justify-between pt-3.5 border-t border-neutral-100">
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 border border-orange-100 text-[11.5px] font-semibold text-orange-500">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path d="M1 7.5V8.5H2L7.5 3 6.5 2 1 7.5Z" fill="currentColor"/>
+            <circle cx="8" cy="2" r="1.2" fill="currentColor"/>
+          </svg>
+          {feedbackCount ?? 0} {(feedbackCount ?? 0) === 1 ? 'response' : 'responses'}
+        </span>
+        <span className="text-[12px] font-semibold text-neutral-400 group-hover:text-orange-500 transition-colors flex items-center gap-1">
+          View feedback
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </span>
       </div>
     </Link>

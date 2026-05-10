@@ -55,7 +55,7 @@ export const Route = createFileRoute('/api/feedback/')(({
       POST: async ({ request }: { request: Request }) => {
         try {
           const body = await request.json()
-          const { websiteId, message, submitterEmail, submitterName, url, userAgent, imageFiles } = body
+          const { websiteId, message, submitterEmail, url, userAgent, imageFiles } = body
 
           if (!websiteId || !message?.trim()) {
             return new Response(
@@ -119,7 +119,6 @@ export const Route = createFileRoute('/api/feedback/')(({
               websiteId: String(websiteId),
               message: String(message).trim(),
               submitterEmail: submitterEmail ? String(submitterEmail) : null,
-              submitterName: submitterName ? String(submitterName) : null,
               url: url ? String(url) : null,
               userAgent: userAgent ?? request.headers.get('user-agent') ?? null,
               status: 'unassigned',
