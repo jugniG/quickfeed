@@ -21,6 +21,8 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1045.0",
+    "@aws-sdk/s3-request-presigner": "^3.1045.0",
     "@heroui/react": "^2.8.9",
     "@orpc/client": "^1.13.6",
     "@orpc/json-schema": "^1.13.6",
