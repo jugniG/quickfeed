@@ -1,23 +1,28 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createServerFn } from '@tanstack/react-start'
 import { getServerSession } from '#/lib/session'
 import { getUserSubscription } from '#/orpc/middleware/subscription'
 
+// Server-only fn — DB + Dodo SDK never touch the client bundle
+const getSessionAndSub = createServerFn().handler(async () => {
+  const session = await getServerSession()
+  if (!session) return { session: null, hasSubscription: false }
+  const sub = await getUserSubscription(session.user.id)
+  return { session, hasSubscription: !!sub }
+})
+
 export const Route = createFileRoute('/_protected')({
   beforeLoad: async ({ location }) => {
-    const session = await getServerSession()
+    const { session, hasSubscription } = await getSessionAndSub()
 
-    // Not logged in → login
     if (!session) {
       throw redirect({ to: '/login' })
     }
 
-    // Billing page itself is always accessible (avoid redirect loop)
+    // Billing page is always accessible — avoids redirect loop
     const isBillingPage = location.pathname === '/billing'
-    if (!isBillingPage) {
-      const subscription = await getUserSubscription(session.user.id)
-      if (!subscription) {
-        throw redirect({ to: '/pricing' })
-      }
+    if (!isBillingPage && !hasSubscription) {
+      throw redirect({ to: '/pricing' })
     }
 
     return { session }
