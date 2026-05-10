@@ -86,6 +86,7 @@ interface ModalConfig {
   bgColor: string
   blur: boolean
   overlayColor: string
+  overlayOpacity: number
   titleColor: string
   descriptionColor: string
   btnPrimaryBg: string
@@ -110,7 +111,8 @@ const DEFAULT_CONFIG: ModalConfig = {
   position: 'bottom-center',
   bgColor: '#ffffff',
   blur: true,
-  overlayColor: 'rgba(0,0,0,0.45)',
+  overlayColor: '#000000',
+  overlayOpacity: 0.45,
   titleColor: '#0a0a0a',
   descriptionColor: '#737373',
   btnPrimaryBg: '#f97316',
@@ -167,7 +169,7 @@ function ModalPreview({ config }: { config: ModalConfig }) {
       {/* fake page bg */}
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#f0f0f0_0%,#e8e8e8_100%)]" style={{ zIndex: 0 }} />
       {/* overlay */}
-      <div className="absolute inset-0" style={{ background: config.overlayColor, backdropFilter: config.blur ? 'blur(4px)' : undefined, zIndex: 5 }} />
+      <div className="absolute inset-0" style={{ background: config.overlayColor, opacity: config.overlayOpacity, backdropFilter: config.blur ? 'blur(4px)' : undefined, zIndex: 5 }} />
       {/* modal panel */}
       <div
         style={{
@@ -304,6 +306,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
   data-bg="${config.bgColor}"
   data-blur="${config.blur}"
   data-overlay="${config.overlayColor}"
+  data-overlay-opacity="${config.overlayOpacity}"
   data-title-color="${config.titleColor}"
   data-desc-color="${config.descriptionColor}"
   data-btn-bg="${config.btnPrimaryBg}"
@@ -377,6 +380,21 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
             <div className="space-y-3">
               <ColorInput label="Background" value={config.bgColor} onChange={v => set('bgColor', v)} />
               <ColorInput label="Overlay color" value={config.overlayColor} onChange={v => set('overlayColor', v)} />
+              <div className="flex items-center justify-between">
+                <span className="text-[13px] text-neutral-600">Overlay opacity</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.05}
+                    value={config.overlayOpacity}
+                    onChange={e => set('overlayOpacity', Number(e.target.value))}
+                    className="w-24 accent-orange-500"
+                  />
+                  <span className="text-[12px] text-neutral-500 w-8 text-right">{Math.round(config.overlayOpacity * 100)}%</span>
+                </div>
+              </div>
               <div className="flex items-center justify-between">
                 <span className="text-[13px] text-neutral-600">Background blur</span>
                 <button
