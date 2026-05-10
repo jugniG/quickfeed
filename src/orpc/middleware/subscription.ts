@@ -2,7 +2,7 @@ import { ORPCError } from '@orpc/client'
 import { db } from '#/db/index'
 import { subscriptions } from '#/db/schema'
 import { and, eq } from 'drizzle-orm'
-import { authed } from './auth'
+import { authed } from '../middleware'
 
 /**
  * Returns the active subscription for the current user, or throws FORBIDDEN.

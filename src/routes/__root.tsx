@@ -18,6 +18,7 @@ interface MyRouterContext {
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  notFoundComponent: NotFound,
   head: () => ({
     meta: [
       {
@@ -97,6 +98,50 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   }),
   shellComponent: RootDocument,
 })
+
+function NotFound() {
+  return (
+    <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        {/* 404 Icon */}
+        <div className="mb-8">
+          <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 shadow-lg shadow-orange-500/10">
+            <span className="text-5xl">🔍</span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-[clamp(2rem,4vw,3rem)] font-black tracking-[-0.04em] text-[#0A0A0A] mb-3">
+          Page Not Found
+        </h1>
+
+        {/* Description */}
+        <p className="text-[15px] text-neutral-500 leading-relaxed mb-8">
+          The page you're looking for doesn't exist or has been moved.
+        </p>
+
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <a
+            href="/"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14px] font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-200 no-underline"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M14 8H2M2 8l5-5M2 8l5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+            Go Home
+          </a>
+          <a
+            href="/dashboard"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-neutral-200 text-[14px] font-semibold text-neutral-700 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 no-underline"
+          >
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (

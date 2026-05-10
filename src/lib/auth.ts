@@ -6,6 +6,8 @@ import { db } from '#/db/index'
 import { Resend } from 'resend'
 import { env } from '#/env'
 import { user, session, account, verification } from '#/db/schema'
+import { getRequestHeaders } from '@tanstack/react-start/server'
+import { createServerFn } from '@tanstack/react-start'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -59,3 +61,11 @@ export const auth = betterAuth({
 })
 
 export type Session = typeof auth.$Infer.Session
+
+export const getSession = createServerFn({ method: 'GET' }).handler(async () => {
+  const headers = getRequestHeaders()  
+  const session = await auth.api.getSession({
+    headers,
+  })
+  return session
+})

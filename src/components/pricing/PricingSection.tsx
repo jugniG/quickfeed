@@ -1,19 +1,20 @@
 import { useState } from 'react'
+import { Slider } from '@heroui/react'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const STORAGE_TIERS = [
-  { mb: 100,  label: '100 MB',  feedbacks: '~500' },
-  { mb: 500,  label: '500 MB',  feedbacks: '~2,500' },
-  { mb: 1024, label: '1 GB',    feedbacks: '~5,000' },
-  { mb: 2048, label: '2 GB',    feedbacks: '~10,000' },
-  { mb: 3072, label: '3 GB',    feedbacks: '~15,000' },
-  { mb: 4096, label: '4 GB',    feedbacks: '~20,000' },
-  { mb: 5120, label: '5 GB',    feedbacks: '~25,000' },
+  { mb: 100, label: '100 MB', feedbacks: '~500' },
+  { mb: 500, label: '500 MB', feedbacks: '~2,500' },
+  { mb: 1024, label: '1 GB', feedbacks: '~5,000' },
+  { mb: 2048, label: '2 GB', feedbacks: '~10,000' },
+  { mb: 3072, label: '3 GB', feedbacks: '~15,000' },
+  { mb: 4096, label: '4 GB', feedbacks: '~20,000' },
+  { mb: 5120, label: '5 GB', feedbacks: '~25,000' },
 ]
 
 function getMonthlyPrice(mb: number) { return (mb / 100) * 2 }
-function getYearlyPrice(mb: number)  { return getMonthlyPrice(mb) * 0.8 }
+function getYearlyPrice(mb: number) { return getMonthlyPrice(mb) * 0.8 }
 function fmt(n: number) { return n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}` }
 
 // ─── Props ───────────────────────────────────────────────────────────────────
@@ -39,11 +40,11 @@ export function PricingSection({
   isPending = false,
   defaultTierIdx = 0,
 }: PricingSectionProps) {
-  const [sliderIdx, setSliderIdx]   = useState(defaultTierIdx)
-  const [interval, setInterval]     = useState<'monthly' | 'yearly'>('monthly')
-  const tier    = STORAGE_TIERS[sliderIdx]
+  const [sliderIdx, setSliderIdx] = useState(defaultTierIdx)
+  const [interval, setInterval] = useState<'monthly' | 'yearly'>('monthly')
+  const tier = STORAGE_TIERS[sliderIdx]
   const monthly = getMonthlyPrice(tier.mb)
-  const yearly  = getYearlyPrice(tier.mb)
+  const yearly = getYearlyPrice(tier.mb)
   const annualSaving = fmt((monthly - yearly) * 12)
 
   function handlePick(chosenInterval: 'monthly' | 'yearly') {
@@ -59,13 +60,13 @@ export function PricingSection({
 
       {/* Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-500/15 border border-orange-500/25 text-[12px] font-semibold text-orange-400 mb-5">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 text-[12px] font-semibold text-orange-600 mb-5">
           Simple pricing
         </div>
-        <h2 className="text-[38px] font-black tracking-[-0.04em] text-white leading-[1.1] mb-4">
+        <h2 className="text-[38px] font-black tracking-[-0.04em] text-[#0A0A0A] leading-[1.1] mb-4">
           Storage that scales<br />with your feedback
         </h2>
-        <p className="text-[15px] text-neutral-400 leading-relaxed">
+        <p className="text-[15px] text-neutral-500 leading-relaxed">
           $2 per 100 MB / month. Unlimited feedback entries, images &amp; screenshots.
         </p>
       </div>
@@ -75,37 +76,35 @@ export function PricingSection({
         {/* Tier badge + toggle */}
         <div className="flex items-center justify-between mb-4">
           {/* Current tier badge */}
-          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neutral-800 border border-neutral-700 text-[13px] font-semibold text-white">
-            <span className="text-amber-400">★</span>
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-neutral-200 text-[13px] font-semibold text-[#0A0A0A] shadow-sm">
+            <span className="text-amber-500">★</span>
             Up to {tier.feedbacks} feedbacks
-            <span className="text-neutral-500 font-normal">({tier.label} storage)</span>
+            <span className="text-neutral-400 font-normal">({tier.label} storage)</span>
           </div>
 
           {/* Monthly / Yearly toggle */}
           <div className="relative flex items-center">
             {interval === 'yearly' && (
-              <span className="absolute -top-5 right-0 text-[11px] text-orange-400 font-semibold whitespace-nowrap">
-                2 months free ↗
+              <span className="absolute -top-5 right-0 text-[11px] text-orange-500 font-semibold whitespace-nowrap">
+                20% off ↗
               </span>
             )}
-            <div className="flex items-center p-1 rounded-xl bg-neutral-800 border border-neutral-700 gap-1">
+            <div className="flex items-center p-1 rounded-xl bg-white border border-neutral-200 gap-1 shadow-sm">
               <button
                 onClick={() => setInterval('monthly')}
-                className={`px-4 py-1.5 rounded-lg text-[13px] font-semibold transition-all duration-200 ${
-                  interval === 'monthly'
-                    ? 'bg-white text-neutral-900 shadow-sm'
-                    : 'text-neutral-400 hover:text-neutral-200'
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-[13px] font-semibold transition-all duration-200 ${interval === 'monthly'
+                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/25'
+                    : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
               >
                 Monthly
               </button>
               <button
                 onClick={() => setInterval('yearly')}
-                className={`px-4 py-1.5 rounded-lg text-[13px] font-semibold transition-all duration-200 ${
-                  interval === 'yearly'
-                    ? 'bg-white text-neutral-900 shadow-sm'
-                    : 'text-neutral-400 hover:text-neutral-200'
-                }`}
+                className={`px-4 py-1.5 rounded-lg text-[13px] font-semibold transition-all duration-200 ${interval === 'yearly'
+                    ? 'bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-md shadow-orange-500/25'
+                    : 'text-neutral-500 hover:text-neutral-900'
+                  }`}
               >
                 Yearly
               </button>
@@ -118,30 +117,19 @@ export function PricingSection({
           <span className="text-[12px] text-neutral-500 w-10 shrink-0">
             {STORAGE_TIERS[0].label}
           </span>
-          <div className="flex-1 relative">
-            <input
-              type="range"
-              min={0}
-              max={STORAGE_TIERS.length - 1}
-              step={1}
-              value={sliderIdx}
-              onChange={e => setSliderIdx(Number(e.target.value))}
-              className="w-full h-2 appearance-none rounded-full cursor-pointer
-                [&::-webkit-slider-thumb]:appearance-none
-                [&::-webkit-slider-thumb]:w-5
-                [&::-webkit-slider-thumb]:h-5
-                [&::-webkit-slider-thumb]:rounded-full
-                [&::-webkit-slider-thumb]:bg-white
-                [&::-webkit-slider-thumb]:border-2
-                [&::-webkit-slider-thumb]:border-orange-500
-                [&::-webkit-slider-thumb]:shadow-md
-                [&::-webkit-slider-thumb]:cursor-pointer
-                [&::-webkit-slider-runnable-track]:rounded-full"
-              style={{
-                background: `linear-gradient(to right, #f97316 0%, #f97316 ${(sliderIdx / (STORAGE_TIERS.length - 1)) * 100}%, #404040 ${(sliderIdx / (STORAGE_TIERS.length - 1)) * 100}%, #404040 100%)`,
-              }}
-            />
-          </div>
+          <Slider
+            aria-label="Storage tier"
+            className="flex-1"
+            value={sliderIdx}
+            onChange={(value) => setSliderIdx(Array.isArray(value) ? value[0] : value)}
+            minValue={0}
+            maxValue={STORAGE_TIERS.length - 1}
+            step={1}
+            size="lg"
+            color="warning"
+            showTooltip={true}
+            getTooltipValue={(value) => `${STORAGE_TIERS[Number(value)].label} : ${STORAGE_TIERS[Number(value)].feedbacks} feedbacks`}
+          />
           <span className="text-[12px] text-neutral-500 w-10 shrink-0 text-right">
             {STORAGE_TIERS[STORAGE_TIERS.length - 1].label}
           </span>
@@ -152,12 +140,12 @@ export function PricingSection({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
 
         {/* Monthly card */}
-        <div className="bg-neutral-800/60 border border-neutral-700 rounded-2xl p-7 flex flex-col">
+        <div className="bg-white border border-neutral-200 rounded-2xl p-7 flex flex-col shadow-sm hover:shadow-lg hover:border-orange-200 transition-all duration-300">
           <div className="text-[11px] font-bold tracking-widest text-neutral-400 uppercase mb-4">
             Monthly
           </div>
           <div className="flex items-end gap-1.5 mb-1">
-            <span className="text-[44px] font-black tracking-[-0.04em] text-white leading-none">
+            <span className="text-[44px] font-black tracking-[-0.04em] text-[#0A0A0A] leading-none">
               {fmt(monthly)}
             </span>
             <span className="text-[14px] text-neutral-500 mb-1.5">/month</span>
@@ -167,7 +155,7 @@ export function PricingSection({
           <ul className="space-y-3 mb-8 flex-1">
             <Feature label="Unlimited feedback entries" />
             <Feature label={`${tier.label} image storage`} />
-            <Feature label={`~${tier.feedbacks} feedbacks stored`} />
+            <Feature label={`${tier.feedbacks} feedbacks stored`} />
             <Feature label="Unlimited websites" />
             <Feature label="Screenshot capture" />
             <Feature label="Cancel anytime" />
@@ -176,20 +164,20 @@ export function PricingSection({
           <button
             onClick={() => handlePick('monthly')}
             disabled={isPending}
-            className="w-full py-3.5 rounded-xl border border-neutral-600 text-[14px] font-semibold text-white hover:border-neutral-400 hover:bg-neutral-700/50 transition-all duration-200 disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl border-2 border-neutral-200 text-[14px] font-semibold text-neutral-700 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 disabled:opacity-50"
           >
             {isPending ? 'Redirecting…' : 'Pick Monthly plan'}
           </button>
         </div>
 
         {/* Yearly card — highlighted */}
-        <div className="relative bg-neutral-800/60 border border-neutral-600 rounded-2xl p-7 flex flex-col overflow-hidden">
+        <div className="relative bg-white border-2 border-orange-200 rounded-2xl p-7 flex flex-col overflow-hidden shadow-lg shadow-orange-500/10 hover:shadow-xl hover:shadow-orange-500/15 transition-all duration-300">
           {/* Subtle glow */}
-          <div className="absolute -top-10 -right-10 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-10 -right-10 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
 
           {/* Quote — on top of card as requested */}
-          <div className="relative mb-5">
-            <p className="text-[12.5px] text-orange-300/80 italic leading-[1.6]">
+          <div className="relative mb-5 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-50/80 to-amber-50/80 border-l-[3px] border-orange-400">
+            <p className="text-[13px] text-orange-700 italic leading-[1.6] font-medium">
               "Iterating over user feedbacks is a long bet."
             </p>
           </div>
@@ -199,7 +187,7 @@ export function PricingSection({
           </div>
 
           <div className="flex items-end gap-1.5 mb-1">
-            <span className="text-[44px] font-black tracking-[-0.04em] text-white leading-none">
+            <span className="text-[44px] font-black tracking-[-0.04em] text-[#0A0A0A] leading-none">
               {fmt(yearly)}
             </span>
             <span className="text-[14px] text-neutral-500 mb-1.5">/month</span>
@@ -208,18 +196,18 @@ export function PricingSection({
             <span className="text-[12px] text-neutral-500">
               Billed {fmt(yearly * 12)}/year
             </span>
-            <span className="px-2 py-0.5 rounded-full bg-orange-500/20 border border-orange-500/30 text-[11px] font-bold text-orange-400">
+            <span className="px-2 py-0.5 rounded-full bg-orange-50 border border-orange-200 text-[11px] font-bold text-orange-600">
               Save {annualSaving}/yr
             </span>
           </div>
 
           <ul className="space-y-3 mb-8 flex-1">
-            <Feature label="Unlimited feedback entries" dark />
-            <Feature label={`${tier.label} image storage`} dark />
-            <Feature label={`~${tier.feedbacks} feedbacks stored`} dark />
-            <Feature label="Unlimited websites" dark />
-            <Feature label="Screenshot capture" dark />
-            <Feature label="Priority support" dark />
+            <Feature label="Unlimited feedback entries" />
+            <Feature label={`${tier.label} image storage`} />
+            <Feature label={`${tier.feedbacks} feedbacks stored`} />
+            <Feature label="Unlimited websites" />
+            <Feature label="Screenshot capture" />
+            <Feature label="Priority support" />
           </ul>
 
           <button
@@ -236,7 +224,7 @@ export function PricingSection({
       </div>
 
       {/* Footer note */}
-      <p className="text-center text-[12px] text-neutral-600 mt-8">
+      <p className="text-center text-[12px] text-neutral-500 mt-8">
         Payments secured by DodoPayments · No hidden fees · Cancel anytime
       </p>
     </div>
@@ -254,12 +242,12 @@ export function PricingSection({
 
 // ─── Feature row ──────────────────────────────────────────────────────────────
 
-function Feature({ label, dark = false }: { label: string; dark?: boolean }) {
+function Feature({ label }: { label: string }) {
   return (
-    <li className={`flex items-center gap-2.5 text-[13px] ${dark ? 'text-neutral-300' : 'text-neutral-300'}`}>
-      <span className="w-4 h-4 rounded-full bg-orange-500/15 border border-orange-500/30 flex items-center justify-center shrink-0">
+    <li className="flex items-center gap-2.5 text-[13px] text-neutral-600">
+      <span className="w-4 h-4 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center shrink-0">
         <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-          <path d="M1.5 4l1.5 1.5 3.5-3" stroke="#fb923c" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M1.5 4l1.5 1.5 3.5-3" stroke="#f97316" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </span>
       {label}

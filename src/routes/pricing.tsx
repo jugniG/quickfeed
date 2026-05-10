@@ -56,28 +56,6 @@ function PricingPage() {
 
   return (
     <>
-      {/* Nav */}
-      <header className="h-[60px] border-b border-neutral-800 bg-[#111111]/90 backdrop-blur-sm flex items-center justify-between px-6 sticky top-0 z-50">
-        <a href="/" className="flex items-center gap-2 no-underline">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
-            </svg>
-          </div>
-          <span className="text-[15px] text-white tracking-tight font-bold">QuickFeed</span>
-        </a>
-        <div className="flex items-center gap-3">
-          {session?.user ? (
-            <a href="/dashboard" className="text-[13.5px] font-semibold text-orange-400 hover:text-orange-300 no-underline transition-colors">
-              Dashboard →
-            </a>
-          ) : (
-            <a href="/login" className="text-[13.5px] font-semibold text-neutral-400 hover:text-white no-underline transition-colors">
-              Sign in
-            </a>
-          )}
-        </div>
-      </header>
 
       <PricingSection
         standalone

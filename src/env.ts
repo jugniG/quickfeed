@@ -12,6 +12,7 @@ export const env = createEnv({
     DODO_PAYMENTS_API_KEY: z.string().optional(),
     DODO_PAYMENTS_WEBHOOK_KEY: z.string().optional(),
     DODO_PAYMENTS_ENVIRONMENT: z.enum(['test_mode', 'live_mode']).default('test_mode'),
+    DODO_PAYMENTS_BRAND_ID: z.string().default('brnd_0NeWz10YD3zma6IcD4bd5'),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,

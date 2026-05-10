@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { and, eq } from 'drizzle-orm'
 import { db } from '#/db/index'
 import { feedbacks, websites } from '#/db/schema'
-import { authed } from '#/orpc/middleware/auth'
+import { authed } from '#/orpc/middleware'
 
 export const FEEDBACK_STATUSES = ['unassigned', 'pending', 'inprogress', 'completed', 'rejected'] as const
 export type FeedbackStatus = typeof FEEDBACK_STATUSES[number]

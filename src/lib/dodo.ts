@@ -65,7 +65,7 @@ export async function getOrCreateProduct(
   const priceCents = Math.round(priceUsd * 100)
 
   const product = await dodo.products.create({
-    name: `QuickFeed ${label} — ${interval === 'yearly' ? 'Yearly' : 'Monthly'}`,
+    name: `QuickFeed ${label} - ${interval === 'yearly' ? 'Yearly' : 'Monthly'}`,
     description: `${label} feedback storage, billed ${interval === 'yearly' ? 'yearly (20% off)' : 'monthly'}. $${priceUsd.toFixed(2)}/mo.`,
     tax_category: 'saas',
     price: {
@@ -86,6 +86,7 @@ export async function getOrCreateProduct(
       storageMb: String(storageMb),
       interval,
     },
+    brand_id: env.DODO_PAYMENTS_BRAND_ID,
   })
 
   // 3. Cache in DB

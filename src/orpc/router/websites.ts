@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { and, eq } from 'drizzle-orm'
 import { db } from '#/db/index'
 import { websites } from '#/db/schema'
-import { authed } from '#/orpc/middleware/auth'
+import { authed } from '#/orpc/middleware'
 
 export const listWebsites = authed.handler(async ({ context }) => {
   return db

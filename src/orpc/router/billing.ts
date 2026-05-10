@@ -2,10 +2,9 @@ import { z } from 'zod'
 import { eq, and } from 'drizzle-orm'
 import { db } from '#/db/index'
 import { subscriptions } from '#/db/schema'
-import { authed } from '#/orpc/middleware/auth'
+import { authed, base } from '#/orpc/middleware'
 import { dodo, getOrCreateProduct, getMonthlyPrice, getYearlyPrice, STORAGE_TIERS, STORAGE_LABELS } from '#/lib/dodo'
 import { ORPCError } from '@orpc/client'
-import { os } from '@orpc/server'
 
 // Get current subscription for the user
 export const getSubscription = authed
@@ -20,7 +19,7 @@ export const getSubscription = authed
   })
 
 // Get all plans (for pricing display — no product IDs needed client-side)
-export const getPlans = os
+export const getPlans = base
   .input(z.void())
   .handler(async () => {
     return STORAGE_TIERS.map((storageMb) => ({
@@ -49,7 +48,6 @@ export const createCheckout = authed
       product_cart: [{ product_id: productId, quantity: 1 }],
       customer: {
         email: context.user.email,
-        name: context.user.name ?? context.user.email,
       },
       // return_url is the single redirect URL (success or cancel)
       return_url: input.successUrl,

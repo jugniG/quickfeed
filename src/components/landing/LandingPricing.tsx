@@ -30,7 +30,7 @@ export function LandingPricing() {
   }
 
   return (
-    <section id="pricing" className="bg-[#111111]">
+    <section id="pricing" className="bg-[#FAFAFA]">
       <PricingSection
         triggerCheckout={triggerCheckout}
         isPending={checkoutMutation.isPending}
