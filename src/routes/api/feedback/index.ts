@@ -107,4 +107,4 @@ export const Route = createFileRoute('/api/feedback/')(({
       },
     },
   },
-} as any))
+}))
