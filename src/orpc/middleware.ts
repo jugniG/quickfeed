@@ -1,6 +1,7 @@
 import { os } from '@orpc/server'
 import { ORPCError } from '@orpc/client'
-import { getSession } from '#/lib/auth'
+import { auth } from '#/lib/auth'
+import { getRequestHeaders } from '@tanstack/react-start/server'
 
 export interface ORPCContext {
   headers: Headers | Record<string, string>
@@ -28,7 +29,8 @@ export const base = os
 
 // Authed procedure - use for protected routes
 export const authed = base.use(async ({ context, next }) => {
-  const session = await getSession()
+  const headers = getRequestHeaders()
+  const session = await auth.api.getSession({ headers })
 
   if (!session?.user) {
     console.log('session', session);
