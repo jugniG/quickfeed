@@ -51,8 +51,8 @@ const features = [
 
 const comingSoon = {
   icon: '💌',
-  title: 'Thank-you cards',
-  desc: 'When you fix a user\'s reported issue, send them a personal card — right inside the product. A small gesture that turns a frustration into loyalty.',
+  title: 'Personal touch cards',
+  desc: 'When you fix a user\'s reported issue, send them a handcrafted card right inside the product. That personal touch turns a frustration into lasting loyalty.',
   note: 'Like Appwrite\'s bottom-left announcement cards — but for your users\' resolved problems.',
   accent: 'from-pink-400 to-rose-300',
   iconBg: 'bg-pink-50',
