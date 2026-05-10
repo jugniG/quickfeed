@@ -159,6 +159,22 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeroUIProvider>
           {children}
         </HeroUIProvider>
+        <script
+          src="https://www.quickfeed.live/widget.js"
+          data-website-id="1ef5b9d4-8256-4c5a-85ce-b119bc9380b8"
+          data-position="center"
+          data-bg="#ffffff"
+          data-blur="true"
+          data-overlay="rgba(0,0,0,0.45)"
+          data-title-color="#0a0a0a"
+          data-desc-color="#737373"
+          data-btn-bg="#f97316"
+          data-btn-text="#ffffff"
+          data-btn2-bg="#f5f5f5"
+          data-btn2-text="#555555"
+          data-radius="20"
+          defer
+        />
         <TanStackDevtools
           config={{
             position: 'bottom-right',
