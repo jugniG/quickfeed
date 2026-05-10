@@ -128,6 +128,22 @@ export const subscriptions = quickfeedSchema.table(
   (table) => [index('subscriptions_userId_idx').on(table.userId)],
 )
 
+// Cache for auto-created Dodo product IDs per tier/interval
+// Populated lazily on first checkout for each combination
+export const dodoProductCache = quickfeedSchema.table(
+  'dodo_product_cache',
+  {
+    id: serial('id').primaryKey(),
+    storageMb: integer('storage_mb').notNull(),
+    billingInterval: text('billing_interval').notNull(), // monthly | yearly
+    dodoProductId: text('dodo_product_id').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (table) => [
+    index('dodo_product_cache_tier_idx').on(table.storageMb, table.billingInterval),
+  ],
+)
+
 export const subscriptionRelations = relations(subscriptions, ({ one }) => ({
   user: one(user, { fields: [subscriptions.userId], references: [user.id] }),
 }))

@@ -3,7 +3,7 @@ import { eq, and } from 'drizzle-orm'
 import { db } from '#/db/index'
 import { subscriptions } from '#/db/schema'
 import { authed } from '#/orpc/middleware/auth'
-import { dodo, getProductId, getMonthlyPrice, getYearlyPrice, STORAGE_TIERS, STORAGE_LABELS } from '#/lib/dodo'
+import { dodo, getOrCreateProduct, getMonthlyPrice, getYearlyPrice, STORAGE_TIERS, STORAGE_LABELS } from '#/lib/dodo'
 import { ORPCError } from '@orpc/client'
 import { os } from '@orpc/server'
 
@@ -19,7 +19,7 @@ export const getSubscription = authed
     return sub ?? null
   })
 
-// Get all plans (for pricing display)
+// Get all plans (for pricing display — no product IDs needed client-side)
 export const getPlans = os
   .input(z.void())
   .handler(async () => {
@@ -28,8 +28,6 @@ export const getPlans = os
       label: STORAGE_LABELS[storageMb],
       monthlyPrice: getMonthlyPrice(storageMb),
       yearlyPrice: getYearlyPrice(storageMb),
-      monthlyProductId: getProductId(storageMb, 'monthly'),
-      yearlyProductId: getProductId(storageMb, 'yearly'),
     }))
   })
 
@@ -44,10 +42,8 @@ export const createCheckout = authed
     }),
   )
   .handler(async ({ input, context }) => {
-    const productId = getProductId(input.storageMb, input.interval)
-    if (!productId) {
-      throw new ORPCError('BAD_REQUEST', { message: `No product configured for ${input.storageMb}MB ${input.interval}` })
-    }
+    // Auto-creates product in Dodo if it doesn't exist yet, caches in DB
+    const productId = await getOrCreateProduct(input.storageMb, input.interval)
 
     const session = await dodo.checkoutSessions.create({
       product_cart: [{ product_id: productId, quantity: 1 }],
@@ -132,8 +128,7 @@ export const changePlan = authed
 
     if (!sub) throw new ORPCError('NOT_FOUND', { message: 'No active subscription' })
 
-    const newProductId = getProductId(input.storageMb, input.interval)
-    if (!newProductId) throw new ORPCError('BAD_REQUEST', { message: 'Plan not found' })
+    const newProductId = await getOrCreateProduct(input.storageMb, input.interval)
 
     // SDK requires product_id, quantity, and proration_billing_mode
     await dodo.subscriptions.changePlan(sub.dodoSubscriptionId, {

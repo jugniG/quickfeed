@@ -1,9 +1,11 @@
 import DodoPayments from 'dodopayments'
 import { env } from '#/env'
+import { db } from '#/db/index'
+import { dodoProductCache } from '#/db/schema'
+import { and, eq } from 'drizzle-orm'
 
 export const dodo = new DodoPayments({
   bearerToken: env.DODO_PAYMENTS_API_KEY ?? 'placeholder',
-  webhookKey: env.DODO_PAYMENTS_WEBHOOK_KEY ?? null,
   environment: env.DODO_PAYMENTS_ENVIRONMENT,
 })
 
@@ -22,24 +24,76 @@ export const STORAGE_LABELS: Record<number, string> = {
 }
 
 // Price in dollars per month
-// $2 per 100MB
 export function getMonthlyPrice(storageMb: number): number {
   return (storageMb / 100) * 2
 }
 
 export function getYearlyPrice(storageMb: number): number {
-  // 20% off yearly, billed as monthly equivalent
   return getMonthlyPrice(storageMb) * 0.8
 }
 
-// Product IDs from Dodo — keys are `${storageMb}_${interval}`
-// These must be set from the env or hardcoded after creating products in Dodo dashboard
-export const PRODUCT_IDS: Record<string, string> = {
-  // populated from env vars at runtime
-}
+/**
+ * Returns the Dodo product ID for a given tier/interval.
+ * Checks DB cache first. If not found, creates the product via Dodo API,
+ * caches the ID, then returns it.
+ *
+ * This means zero manual product setup — products are created on first checkout.
+ */
+export async function getOrCreateProduct(
+  storageMb: number,
+  interval: 'monthly' | 'yearly',
+): Promise<string> {
+  // 1. Check DB cache
+  const [cached] = await db
+    .select()
+    .from(dodoProductCache)
+    .where(
+      and(
+        eq(dodoProductCache.storageMb, storageMb),
+        eq(dodoProductCache.billingInterval, interval),
+      ),
+    )
+    .limit(1)
 
-export function getProductId(storageMb: number, interval: 'monthly' | 'yearly'): string | undefined {
-  const key = `${storageMb}_${interval}`
-  const envKey = `DODO_PRODUCT_${storageMb}_${interval.toUpperCase()}`
-  return process.env[envKey] ?? PRODUCT_IDS[key]
+  if (cached) return cached.dodoProductId
+
+  // 2. Create product in Dodo
+  const label = STORAGE_LABELS[storageMb] ?? `${storageMb} MB`
+  const monthlyUsd = getMonthlyPrice(storageMb)
+  const priceUsd = interval === 'yearly' ? getYearlyPrice(storageMb) : monthlyUsd
+  // Dodo prices are in cents (smallest denomination)
+  const priceCents = Math.round(priceUsd * 100)
+
+  const product = await dodo.products.create({
+    name: `QuickFeed ${label} — ${interval === 'yearly' ? 'Yearly' : 'Monthly'}`,
+    description: `${label} feedback storage, billed ${interval === 'yearly' ? 'yearly (20% off)' : 'monthly'}. $${priceUsd.toFixed(2)}/mo.`,
+    tax_category: 'saas',
+    price: {
+      type: 'recurring_price',
+      currency: 'USD',
+      price: priceCents,
+      discount: 0,
+      purchasing_power_parity: false,
+      // charge every 1 month
+      payment_frequency_count: 1,
+      payment_frequency_interval: 'month',
+      // subscription period: 1 month (monthly) or 12 months (yearly)
+      subscription_period_count: interval === 'yearly' ? 12 : 1,
+      subscription_period_interval: interval === 'yearly' ? 'month' : 'month',
+      tax_inclusive: false,
+    },
+    metadata: {
+      storageMb: String(storageMb),
+      interval,
+    },
+  })
+
+  // 3. Cache in DB
+  await db.insert(dodoProductCache).values({
+    storageMb,
+    billingInterval: interval,
+    dodoProductId: product.product_id,
+  })
+
+  return product.product_id
 }
