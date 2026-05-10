@@ -92,7 +92,7 @@ export const feedbacks = quickfeedSchema.table(
   'feedbacks',
   {
     id: serial('id').primaryKey(),
-    websiteId: serial('website_id')
+    websiteId: integer('website_id')
       .notNull()
       .references(() => websites.id, { onDelete: 'cascade' }),
     message: text('message').notNull(),

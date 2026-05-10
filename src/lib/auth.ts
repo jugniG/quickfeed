@@ -12,6 +12,7 @@ export const auth = betterAuth({
     provider: 'pg',
     schema: { user, session, account, verification },
   }),
+  baseURL:env.BETTER_AUTH_URL,
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID ?? '',
