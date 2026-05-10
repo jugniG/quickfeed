@@ -36,7 +36,7 @@ export const Route = createFileRoute('/api/feedback/')({
           const [site] = await db
             .select({ id: websites.id })
             .from(websites)
-            .where(eq(websites.id, Number(websiteId)))
+            .where(eq(websites.id, String(websiteId)))
 
           if (!site) {
             return new Response(JSON.stringify({ error: 'Website not found' }), {
@@ -48,7 +48,7 @@ export const Route = createFileRoute('/api/feedback/')({
           const [feedback] = await db
             .insert(feedbacks)
             .values({
-              websiteId: Number(websiteId),
+              websiteId: String(websiteId),
               message: String(message).trim(),
               submitterEmail: submitterEmail ? String(submitterEmail) : null,
               submitterName: submitterName ? String(submitterName) : null,

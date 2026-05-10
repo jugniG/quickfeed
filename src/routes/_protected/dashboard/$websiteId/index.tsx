@@ -22,7 +22,6 @@ const FILTER_OPTIONS: { label: string; value: 'all' | FeedbackStatus }[] = [
 
 function WebsiteDetail() {
   const { websiteId } = Route.useParams()
-  const id = Number(websiteId)
   const { data: session } = authClient.useSession()
   const user = session?.user
   const [filter, setFilter] = useState<'all' | FeedbackStatus>('all')

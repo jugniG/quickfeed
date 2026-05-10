@@ -122,7 +122,7 @@ function Dashboard() {
   )
 }
 
-function WebsiteCard({ id, domain, feedbackCount }: { id: number; domain: string; feedbackCount?: number }) {
+function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string; feedbackCount?: number }) {
   const faviconUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`
 
   return (

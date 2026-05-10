@@ -61,7 +61,7 @@ function ShikiBlock({ code, lang }: { code: string; lang: string }) {
         <CopyButton text={code} />
       </div>
       <div
-        className="overflow-x-auto text-[13px] leading-[1.7] [&>pre]:p-5"
+        className="text-[13px] leading-[1.7] [&>pre]:p-5 [&>pre]:whitespace-pre-wrap [&>pre]:break-all"
         style={{ background: '#0d1117' }}
         // biome-ignore lint: shiki output is safe
         dangerouslySetInnerHTML={{ __html: html }}
@@ -149,36 +149,32 @@ function ModalPreview({ config }: { config: ModalConfig }) {
   const positionStyle: React.CSSProperties = (() => {
     const base: React.CSSProperties = { position: 'absolute', zIndex: 10 }
     switch (config.position) {
-      case 'center':       return { ...base, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
-      case 'bottom-center':return { ...base, bottom: 16, left: '50%', transform: 'translateX(-50%)' }
-      case 'bottom-right': return { ...base, bottom: 16, right: 16 }
-      case 'bottom-left':  return { ...base, bottom: 16, left: 16 }
-      case 'top-center':   return { ...base, top: 16, left: '50%', transform: 'translateX(-50%)' }
-      case 'top-right':    return { ...base, top: 16, right: 16 }
-      case 'top-left':     return { ...base, top: 16, left: 16 }
-      default:             return base
+      case 'center':        return { ...base, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
+      case 'bottom-center': return { ...base, bottom: 16, left: '50%', transform: 'translateX(-50%)' }
+      case 'bottom-right':  return { ...base, bottom: 16, right: 16 }
+      case 'bottom-left':   return { ...base, bottom: 16, left: 16 }
+      case 'top-center':    return { ...base, top: 16, left: '50%', transform: 'translateX(-50%)' }
+      case 'top-right':     return { ...base, top: 16, right: 16 }
+      case 'top-left':      return { ...base, top: 16, left: 16 }
+      default:              return base
     }
   })()
 
   return (
-    <div
-      className="relative w-full overflow-hidden"
-      style={{ height: 260, background: config.overlayColor, backdropFilter: config.blur ? 'blur(4px)' : undefined }}
-    >
-      {/* fake page bg behind overlay */}
+    <div className="relative w-full overflow-hidden" style={{ height: 280 }}>
+      {/* fake page bg */}
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#f0f0f0_0%,#e8e8e8_100%)]" style={{ zIndex: 0 }} />
-      <div className="absolute inset-0" style={{ background: config.overlayColor, zIndex: 5 }} />
-
-      {/* panel */}
+      {/* overlay */}
+      <div className="absolute inset-0" style={{ background: config.overlayColor, backdropFilter: config.blur ? 'blur(4px)' : undefined, zIndex: 5 }} />
+      {/* modal panel */}
       <div
         style={{
           ...positionStyle,
           background: config.bgColor,
           borderRadius: config.borderRadius,
           padding: '16px',
-          width: 220,
+          width: 200,
           boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
-          backdropFilter: config.blur ? 'blur(8px)' : undefined,
         }}
       >
         <div style={{ fontSize: 13, fontWeight: 700, color: config.titleColor, marginBottom: 4 }}>
@@ -203,7 +199,17 @@ function ModalPreview({ config }: { config: ModalConfig }) {
 
 // ─── Generate Tab ─────────────────────────────────────────────────────────────
 
-function GenerateTab({ site, embedCode, id }: { site: { domain: string; id: number } | undefined; embedCode: string; id: number }) {
+function GenerateTab({
+  site,
+  embedCode,
+  onDelete,
+  isDeleting,
+}: {
+  site: { domain: string; id: string } | undefined
+  embedCode: string
+  onDelete: () => void
+  isDeleting: boolean
+}) {
   return (
     <div className="space-y-5">
       {/* Domain */}
@@ -254,22 +260,44 @@ function GenerateTab({ site, embedCode, id }: { site: { domain: string; id: numb
           ))}
         </ol>
       </section>
+
+      {/* Danger Zone */}
+      <section className="bg-white rounded-2xl border border-red-200 p-6">
+        <h2 className="text-[14px] font-semibold text-red-600 mb-1">Danger Zone</h2>
+        <p className="text-[13px] text-neutral-400 mb-4">
+          Deleting this website is permanent. All associated feedback will be removed.
+        </p>
+        <button
+          onClick={onDelete}
+          disabled={isDeleting}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-[13px] font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
+        >
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path d="M2.5 4h10M6 4V2.5h3V4M5.5 7v4.5M9.5 7v4.5M3.5 4l.75 8.5h6.5L11.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          {isDeleting ? 'Deleting…' : 'Delete Website'}
+        </button>
+      </section>
     </div>
   )
 }
 
 // ─── Custom Modal Tab ────────────────────────────────────────────────────────
 
-function CustomModalTab({ id }: { id: number }) {
+function CustomModalTab({ websiteId }: { websiteId: string }) {
   const [config, setConfig] = useState<ModalConfig>(DEFAULT_CONFIG)
 
   function set<K extends keyof ModalConfig>(key: K, value: ModalConfig[K]) {
     setConfig(prev => ({ ...prev, [key]: value }))
   }
 
+  function resetConfig() {
+    setConfig(DEFAULT_CONFIG)
+  }
+
   const customEmbedCode = `<script
   src="https://www.quickfeed.live/widget.js"
-  data-website-id="${id}"
+  data-website-id="${websiteId}"
   data-position="${config.position}"
   data-bg="${config.bgColor}"
   data-blur="${config.blur}"
@@ -285,99 +313,123 @@ function CustomModalTab({ id }: { id: number }) {
 ><\/script>`
 
   return (
-    <div className="grid grid-cols-1 gap-5">
-      {/* Preview */}
-      <section className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-neutral-100">
-          <h2 className="text-[14px] font-semibold text-neutral-800">Live Preview</h2>
-          <p className="text-[12px] text-neutral-400 mt-0.5">Updates as you edit options below.</p>
-        </div>
-        <ModalPreview config={config} />
-      </section>
+    <div className="space-y-5">
+      {/* Side-by-side: preview + controls */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
 
-      {/* Controls */}
-      <section className="bg-white rounded-2xl border border-neutral-200 p-6 space-y-6">
-        <div>
-          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Position</h3>
-          <div className="flex flex-wrap gap-2">
-            {POSITION_OPTIONS.map(opt => (
-              <button
-                key={opt.value}
-                onClick={() => set('position', opt.value)}
-                className={`px-3 py-1.5 rounded-xl text-[12px] font-medium border transition-all ${
-                  config.position === opt.value
-                    ? 'bg-orange-500 text-white border-orange-500'
-                    : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-300'
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="h-px bg-neutral-100" />
-
-        <div>
-          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Modal Card</h3>
-          <div className="space-y-3">
-            <ColorInput label="Background" value={config.bgColor} onChange={v => set('bgColor', v)} />
-            <ColorInput label="Overlay color" value={config.overlayColor} onChange={v => set('overlayColor', v)} />
-            <div className="flex items-center justify-between">
-              <span className="text-[13px] text-neutral-600">Background blur</span>
-              <button
-                onClick={() => set('blur', !config.blur)}
-                className={`relative w-10 h-5 rounded-full transition-colors ${config.blur ? 'bg-orange-500' : 'bg-neutral-200'}`}
-              >
-                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${config.blur ? 'left-5' : 'left-0.5'}`} />
-              </button>
+        {/* Preview — sticky so it stays visible while scrolling controls */}
+        <div className="lg:sticky lg:top-6">
+          <section className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+            <div className="px-5 py-4 border-b border-neutral-100">
+              <h2 className="text-[14px] font-semibold text-neutral-800">Live Preview</h2>
+              <p className="text-[12px] text-neutral-400 mt-0.5">Updates as you edit options.</p>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-[13px] text-neutral-600">Border radius</span>
-              <div className="flex items-center gap-2">
-                <input
-                  type="range"
-                  min={0}
-                  max={32}
-                  value={config.borderRadius}
-                  onChange={e => set('borderRadius', Number(e.target.value))}
-                  className="w-28 accent-orange-500"
-                />
-                <span className="text-[12px] text-neutral-500 w-8 text-right">{config.borderRadius}px</span>
+            <ModalPreview config={config} />
+          </section>
+        </div>
+
+        {/* Controls */}
+        <section className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-5">
+          {/* Header with Reset */}
+          <div className="flex items-center justify-between">
+            <h3 className="text-[13px] font-semibold text-neutral-700">Customise</h3>
+            <button
+              onClick={resetConfig}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-200 text-neutral-500 text-[12px] font-medium hover:border-neutral-300 hover:text-neutral-700 transition-colors"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M1.5 6A4.5 4.5 0 1 0 3 2.5M1.5 6V3M1.5 6H4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Reset to defaults
+            </button>
+          </div>
+
+          <div className="h-px bg-neutral-100" />
+
+          {/* Position */}
+          <div>
+            <h3 className="text-[12px] font-semibold text-neutral-500 uppercase tracking-wide mb-2.5">Position</h3>
+            <div className="flex flex-wrap gap-1.5">
+              {POSITION_OPTIONS.map(opt => (
+                <button
+                  key={opt.value}
+                  onClick={() => set('position', opt.value)}
+                  className={`px-2.5 py-1 rounded-lg text-[12px] font-medium border transition-all ${
+                    config.position === opt.value
+                      ? 'bg-orange-500 text-white border-orange-500'
+                      : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-300'
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="h-px bg-neutral-100" />
+
+          {/* Modal Card */}
+          <div>
+            <h3 className="text-[12px] font-semibold text-neutral-500 uppercase tracking-wide mb-2.5">Modal Card</h3>
+            <div className="space-y-3">
+              <ColorInput label="Background" value={config.bgColor} onChange={v => set('bgColor', v)} />
+              <ColorInput label="Overlay color" value={config.overlayColor} onChange={v => set('overlayColor', v)} />
+              <div className="flex items-center justify-between">
+                <span className="text-[13px] text-neutral-600">Background blur</span>
+                <button
+                  onClick={() => set('blur', !config.blur)}
+                  className={`relative w-10 h-5 rounded-full transition-colors ${config.blur ? 'bg-orange-500' : 'bg-neutral-200'}`}
+                >
+                  <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${config.blur ? 'left-5' : 'left-0.5'}`} />
+                </button>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[13px] text-neutral-600">Border radius</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min={0}
+                    max={32}
+                    value={config.borderRadius}
+                    onChange={e => set('borderRadius', Number(e.target.value))}
+                    className="w-24 accent-orange-500"
+                  />
+                  <span className="text-[12px] text-neutral-500 w-8 text-right">{config.borderRadius}px</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="h-px bg-neutral-100" />
+          <div className="h-px bg-neutral-100" />
 
-        <div>
-          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Text Colors</h3>
-          <div className="space-y-3">
-            <ColorInput label="Title" value={config.titleColor} onChange={v => set('titleColor', v)} />
-            <ColorInput label="Description" value={config.descriptionColor} onChange={v => set('descriptionColor', v)} />
+          {/* Text Colors */}
+          <div>
+            <h3 className="text-[12px] font-semibold text-neutral-500 uppercase tracking-wide mb-2.5">Text Colors</h3>
+            <div className="space-y-3">
+              <ColorInput label="Title" value={config.titleColor} onChange={v => set('titleColor', v)} />
+              <ColorInput label="Description" value={config.descriptionColor} onChange={v => set('descriptionColor', v)} />
+            </div>
           </div>
-        </div>
 
-        <div className="h-px bg-neutral-100" />
+          <div className="h-px bg-neutral-100" />
 
-        <div>
-          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Buttons</h3>
-          <div className="space-y-3">
-            <ColorInput label="Primary background" value={config.btnPrimaryBg} onChange={v => set('btnPrimaryBg', v)} />
-            <ColorInput label="Primary text" value={config.btnPrimaryText} onChange={v => set('btnPrimaryText', v)} />
-            <ColorInput label="Secondary background" value={config.btnSecondaryBg} onChange={v => set('btnSecondaryBg', v)} />
-            <ColorInput label="Secondary text" value={config.btnSecondaryText} onChange={v => set('btnSecondaryText', v)} />
+          {/* Buttons */}
+          <div>
+            <h3 className="text-[12px] font-semibold text-neutral-500 uppercase tracking-wide mb-2.5">Buttons</h3>
+            <div className="space-y-3">
+              <ColorInput label="Primary background" value={config.btnPrimaryBg} onChange={v => set('btnPrimaryBg', v)} />
+              <ColorInput label="Primary text" value={config.btnPrimaryText} onChange={v => set('btnPrimaryText', v)} />
+              <ColorInput label="Secondary background" value={config.btnSecondaryBg} onChange={v => set('btnSecondaryBg', v)} />
+              <ColorInput label="Secondary text" value={config.btnSecondaryText} onChange={v => set('btnSecondaryText', v)} />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
 
       {/* Generated code */}
       <section className="bg-white rounded-2xl border border-neutral-200 p-6">
         <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Custom Embed Code</h2>
-        <p className="text-[13px] text-neutral-400 mb-4">
-          Copy this to apply your custom theme.
-        </p>
+        <p className="text-[13px] text-neutral-400 mb-4">Copy this to apply your custom theme.</p>
         <ShikiBlock code={customEmbedCode} lang="html" />
       </section>
     </div>
@@ -394,8 +446,6 @@ function WebsiteSettings() {
   const user = session?.user
   const [tab, setTab] = useState<'generate' | 'custom'>('generate')
 
-  const id = Number(websiteId)
-
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
   const site = websites.find((w) => w.id === websiteId)
 
@@ -407,7 +457,7 @@ function WebsiteSettings() {
     },
   })
 
-  const embedCode = `<script src="https://www.quickfeed.live/widget.js" data-website-id="${id}" defer></script>`
+  const embedCode = `<script src="https://www.quickfeed.live/widget.js" data-website-id="${websiteId}" defer></script>`
 
   function handleDelete() {
     if (!site) return
@@ -426,7 +476,7 @@ function WebsiteSettings() {
     <div className="min-h-screen bg-[#FAFAFA]">
       <DashboardTopbar user={user} />
 
-      <main className="max-w-[700px] mx-auto px-6 py-10">
+      <main className="max-w-[900px] mx-auto px-6 py-10">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-8 text-[13px] text-neutral-400">
           <Link to="/dashboard" className="hover:text-neutral-700 transition-colors no-underline">
@@ -438,7 +488,7 @@ function WebsiteSettings() {
             params={{ websiteId }}
             className="hover:text-neutral-700 transition-colors no-underline"
           >
-            {site?.domain ?? `#${id}`}
+            {site?.domain ?? websiteId}
           </Link>
           <span className="text-neutral-200">/</span>
           <span className="text-neutral-600 font-medium">Settings</span>
@@ -474,28 +524,15 @@ function WebsiteSettings() {
 
         {/* Tab content */}
         {tab === 'generate' ? (
-          <GenerateTab site={site} embedCode={embedCode} id={id} />
+          <GenerateTab
+            site={site}
+            embedCode={embedCode}
+            onDelete={handleDelete}
+            isDeleting={deleteMutation.isPending}
+          />
         ) : (
-          <CustomModalTab id={id} />
+          <CustomModalTab websiteId={websiteId} />
         )}
-
-        {/* Danger Zone — always visible */}
-        <section className="bg-white rounded-2xl border border-red-200 p-6 mt-5">
-          <h2 className="text-[14px] font-semibold text-red-600 mb-1">Danger Zone</h2>
-          <p className="text-[13px] text-neutral-400 mb-4">
-            Deleting this website is permanent. All associated feedback will be removed.
-          </p>
-          <button
-            onClick={handleDelete}
-            disabled={deleteMutation.isPending}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 border border-red-200 text-red-600 text-[13px] font-semibold hover:bg-red-100 transition-colors disabled:opacity-50"
-          >
-            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-              <path d="M2.5 4h10M6 4V2.5h3V4M5.5 7v4.5M9.5 7v4.5M3.5 4l.75 8.5h6.5L11.5 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            {deleteMutation.isPending ? 'Deleting…' : 'Delete Website'}
-          </button>
-        </section>
       </main>
     </div>
   )
