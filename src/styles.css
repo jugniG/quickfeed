@@ -38,3 +38,12 @@ body {
 }
 
 button { cursor: pointer; }
+
+::selection {
+  background-color: rgba(249, 115, 22, 0.18);
+  color: #c2410c;
+}
+::-moz-selection {
+  background-color: rgba(249, 115, 22, 0.18);
+  color: #c2410c;
+}
