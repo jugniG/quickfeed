@@ -93,6 +93,7 @@ interface ModalConfig {
   btnSecondaryBg: string
   btnSecondaryText: string
   borderRadius: number
+  btnBorderRadius: number
 }
 
 const POSITION_OPTIONS: { value: ModalPosition; label: string }[] = [
@@ -117,6 +118,7 @@ const DEFAULT_CONFIG: ModalConfig = {
   btnSecondaryBg: '#f5f5f5',
   btnSecondaryText: '#555555',
   borderRadius: 20,
+  btnBorderRadius: 8,
 }
 
 // ─── Color Input ─────────────────────────────────────────────────────────────
@@ -185,10 +187,10 @@ function ModalPreview({ config }: { config: ModalConfig }) {
         </div>
         <div style={{ background: '#f5f5f5', borderRadius: 8, height: 36, marginBottom: 8 }} />
         <div style={{ display: 'flex', gap: 6 }}>
-          <div style={{ flex: 1, background: config.btnSecondaryBg, color: config.btnSecondaryText, borderRadius: 8, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
+          <div style={{ flex: 1, background: config.btnSecondaryBg, color: config.btnSecondaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
             Cancel
           </div>
-          <div style={{ flex: 2, background: config.btnPrimaryBg, color: config.btnPrimaryText, borderRadius: 8, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
+          <div style={{ flex: 2, background: config.btnPrimaryBg, color: config.btnPrimaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
             Send
           </div>
         </div>
@@ -309,6 +311,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
   data-btn2-bg="${config.btnSecondaryBg}"
   data-btn2-text="${config.btnSecondaryText}"
   data-radius="${config.borderRadius}"
+  data-btn-radius="${config.btnBorderRadius}"
   defer
 ><\/script>`
 
@@ -384,7 +387,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
                 </button>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-[13px] text-neutral-600">Border radius</span>
+                <span className="text-[13px] text-neutral-600">Modal border radius</span>
                 <div className="flex items-center gap-2">
                   <input
                     type="range"
@@ -395,6 +398,20 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
                     className="w-24 accent-orange-500"
                   />
                   <span className="text-[12px] text-neutral-500 w-8 text-right">{config.borderRadius}px</span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[13px] text-neutral-600">Button border radius</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="range"
+                    min={0}
+                    max={32}
+                    value={config.btnBorderRadius}
+                    onChange={e => set('btnBorderRadius', Number(e.target.value))}
+                    className="w-24 accent-orange-500"
+                  />
+                  <span className="text-[12px] text-neutral-500 w-8 text-right">{config.btnBorderRadius}px</span>
                 </div>
               </div>
             </div>
