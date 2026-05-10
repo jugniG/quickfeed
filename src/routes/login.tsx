@@ -40,12 +40,26 @@ function Login() {
   const navigate = useNavigate()
   const { faviconOk, loaded } = useDomainMeta(domain)
 
-  // Redirect if already logged in
+  // Redirect if already logged in — resume checkout intent if present
   useEffect(() => {
     authClient.getSession().then(({ data }) => {
-      if (data?.session) navigate({ to: '/dashboard' })
+      if (data?.session) redirectAfterAuth()
     })
   }, [])
+
+  function redirectAfterAuth() {
+    const raw = sessionStorage.getItem('checkout_intent')
+    if (raw) {
+      sessionStorage.removeItem('checkout_intent')
+      try {
+        const { storageMb, interval } = JSON.parse(raw)
+        // Go to pricing with intent embedded — pricing page will auto-trigger checkout
+        window.location.href = `/pricing?storageMb=${storageMb}&interval=${interval}&autoCheckout=1`
+        return
+      } catch {}
+    }
+    navigate({ to: '/dashboard' })
+  }
 
   const [email, setEmail] = useState('')
   const [emailSent, setEmailSent] = useState(false)
@@ -62,9 +76,13 @@ function Login() {
     setEmailError(null)
     setEmailLoading(true)
     try {
+      const intent = sessionStorage.getItem('checkout_intent')
+      const cb = intent
+        ? (() => { try { const { storageMb, interval } = JSON.parse(intent); return `/pricing?storageMb=${storageMb}&interval=${interval}&autoCheckout=1` } catch { return '/dashboard' } })()
+        : '/dashboard'
       await authClient.signIn.magicLink({
         email,
-        callbackURL: '/dashboard',
+        callbackURL: cb,
       })
       setEmailSent(true)
     } catch {
@@ -77,9 +95,13 @@ function Login() {
   async function handleGoogle() {
     setGoogleLoading(true)
     try {
+      const intent = sessionStorage.getItem('checkout_intent')
+      const cb = intent
+        ? (() => { try { const { storageMb, interval } = JSON.parse(intent); return `/pricing?storageMb=${storageMb}&interval=${interval}&autoCheckout=1` } catch { return '/dashboard' } })()
+        : '/dashboard'
       await authClient.signIn.social({
         provider: 'google',
-        callbackURL: '/dashboard',
+        callbackURL: cb,
       })
     } catch {
       setGoogleLoading(false)

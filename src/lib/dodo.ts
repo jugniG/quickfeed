@@ -76,10 +76,10 @@ export async function getOrCreateProduct(
       purchasing_power_parity: false,
       // charge every 1 month
       payment_frequency_count: 1,
-      payment_frequency_interval: 'month',
+      payment_frequency_interval: 'Month',
       // subscription period: 1 month (monthly) or 12 months (yearly)
       subscription_period_count: interval === 'yearly' ? 12 : 1,
-      subscription_period_interval: interval === 'yearly' ? 'month' : 'month',
+      subscription_period_interval: 'Month',
       tax_inclusive: false,
     },
     metadata: {

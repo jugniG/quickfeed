@@ -9,6 +9,7 @@ import { ProblemSection } from '../components/landing/ProblemSection'
 import { WidgetOverlay } from '../components/landing/WidgetDemo'
 import { FeaturesGrid } from '../components/landing/FeaturesGrid'
 import { FooterCTA } from '../components/landing/FooterCTA'
+import { LandingPricing } from '../components/landing/LandingPricing'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -37,6 +38,7 @@ function Home() {
       {/* <HowItWorks /> */}
       {/* <WidgetDemoSection onTryWidget={() => setWidgetOpen(true)} /> */}
       <FeaturesGrid />
+      <LandingPricing />
       <FooterCTA />
 
       <WidgetOverlay isOpen={widgetOpen} onClose={() => setWidgetOpen(false)} />
