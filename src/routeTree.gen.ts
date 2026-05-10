@@ -15,7 +15,6 @@ import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as ProtectedBillingRouteImport } from './routes/_protected/billing'
-import { Route as ApiUploadIndexRouteImport } from './routes/api/upload/index'
 import { Route as ApiFeedbackIndexRouteImport } from './routes/api/feedback/index'
 import { Route as ProtectedDashboardIndexRouteImport } from './routes/_protected/dashboard/index'
 import { Route as ApiWebhookDodoRouteImport } from './routes/api/webhook/dodo'
@@ -52,11 +51,6 @@ const ProtectedBillingRoute = ProtectedBillingRouteImport.update({
   id: '/billing',
   path: '/billing',
   getParentRoute: () => ProtectedRouteRoute,
-} as any)
-const ApiUploadIndexRoute = ApiUploadIndexRouteImport.update({
-  id: '/api/upload/',
-  path: '/api/upload/',
-  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiFeedbackIndexRoute = ApiFeedbackIndexRouteImport.update({
   id: '/api/feedback/',
@@ -107,7 +101,6 @@ export interface FileRoutesByFullPath {
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
   '/dashboard/': typeof ProtectedDashboardIndexRoute
   '/api/feedback/': typeof ApiFeedbackIndexRoute
-  '/api/upload/': typeof ApiUploadIndexRoute
   '/dashboard/$websiteId/': typeof ProtectedDashboardWebsiteIdIndexRoute
   '/dashboard/$websiteId/settings/': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
@@ -122,7 +115,6 @@ export interface FileRoutesByTo {
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
   '/dashboard': typeof ProtectedDashboardIndexRoute
   '/api/feedback': typeof ApiFeedbackIndexRoute
-  '/api/upload': typeof ApiUploadIndexRoute
   '/dashboard/$websiteId': typeof ProtectedDashboardWebsiteIdIndexRoute
   '/dashboard/$websiteId/settings': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
@@ -139,7 +131,6 @@ export interface FileRoutesById {
   '/api/webhook/dodo': typeof ApiWebhookDodoRoute
   '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
   '/api/feedback/': typeof ApiFeedbackIndexRoute
-  '/api/upload/': typeof ApiUploadIndexRoute
   '/_protected/dashboard/$websiteId/': typeof ProtectedDashboardWebsiteIdIndexRoute
   '/_protected/dashboard/$websiteId/settings/': typeof ProtectedDashboardWebsiteIdSettingsIndexRoute
 }
@@ -156,7 +147,6 @@ export interface FileRouteTypes {
     | '/api/webhook/dodo'
     | '/dashboard/'
     | '/api/feedback/'
-    | '/api/upload/'
     | '/dashboard/$websiteId/'
     | '/dashboard/$websiteId/settings/'
   fileRoutesByTo: FileRoutesByTo
@@ -171,7 +161,6 @@ export interface FileRouteTypes {
     | '/api/webhook/dodo'
     | '/dashboard'
     | '/api/feedback'
-    | '/api/upload'
     | '/dashboard/$websiteId'
     | '/dashboard/$websiteId/settings'
   id:
@@ -187,7 +176,6 @@ export interface FileRouteTypes {
     | '/api/webhook/dodo'
     | '/_protected/dashboard/'
     | '/api/feedback/'
-    | '/api/upload/'
     | '/_protected/dashboard/$websiteId/'
     | '/_protected/dashboard/$websiteId/settings/'
   fileRoutesById: FileRoutesById
@@ -202,7 +190,6 @@ export interface RootRouteChildren {
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute
   ApiWebhookDodoRoute: typeof ApiWebhookDodoRoute
   ApiFeedbackIndexRoute: typeof ApiFeedbackIndexRoute
-  ApiUploadIndexRoute: typeof ApiUploadIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -248,13 +235,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/billing'
       preLoaderRoute: typeof ProtectedBillingRouteImport
       parentRoute: typeof ProtectedRouteRoute
-    }
-    '/api/upload/': {
-      id: '/api/upload/'
-      path: '/api/upload'
-      fullPath: '/api/upload/'
-      preLoaderRoute: typeof ApiUploadIndexRouteImport
-      parentRoute: typeof rootRouteImport
     }
     '/api/feedback/': {
       id: '/api/feedback/'
@@ -337,7 +317,6 @@ const rootRouteChildren: RootRouteChildren = {
   ApiRpcSplatRoute: ApiRpcSplatRoute,
   ApiWebhookDodoRoute: ApiWebhookDodoRoute,
   ApiFeedbackIndexRoute: ApiFeedbackIndexRoute,
-  ApiUploadIndexRoute: ApiUploadIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

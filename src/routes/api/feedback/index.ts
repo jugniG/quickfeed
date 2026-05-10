@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { db } from '#/db/index'
 import { feedbacks, websites } from '#/db/schema'
 import { eq } from 'drizzle-orm'
+import { uploadImageToR2 } from '#/lib/r2'
+import crypto from 'node:crypto'
 
 const cors = {
   'Access-Control-Allow-Origin': '*',
@@ -10,12 +12,38 @@ const cors = {
   'Content-Type': 'application/json',
 }
 
-/** Normalize a raw origin/url to bare hostname, e.g. "https://foo.com/page" → "foo.com" */
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+const MAX_BYTES = 5 * 1024 * 1024
+const MAX_IMAGES = 5
+
 function toHostname(raw: string): string {
   try {
     return new URL(raw.includes('://') ? raw : `https://${raw}`).hostname.replace(/^www\./, '')
   } catch {
     return raw.replace(/^www\./, '')
+  }
+}
+
+/** Upload a base64 data URL to R2, returns public URL */
+async function uploadBase64ToR2(dataUrl: string, websiteId: string): Promise<string | null> {
+  try {
+    // "data:image/png;base64,AAAA..."
+    const match = dataUrl.match(/^data:(image\/[a-z+]+);base64,(.+)$/)
+    if (!match) return null
+
+    const mimeType = match[1]
+    if (!ALLOWED_TYPES.includes(mimeType)) return null
+
+    const base64Data = match[2]
+    const buffer = Buffer.from(base64Data, 'base64')
+    if (buffer.byteLength > MAX_BYTES) return null
+
+    const ext = mimeType.split('/')[1].replace('jpeg', 'jpg').replace('+xml', '')
+    const key = `feedback/${websiteId}/${crypto.randomUUID()}.${ext}`
+
+    return await uploadImageToR2(buffer, key, mimeType)
+  } catch {
+    return null
   }
 }
 
@@ -27,7 +55,7 @@ export const Route = createFileRoute('/api/feedback/')(({
       POST: async ({ request }: { request: Request }) => {
         try {
           const body = await request.json()
-          const { websiteId, message, submitterEmail, submitterName, url, userAgent, images } = body
+          const { websiteId, message, submitterEmail, submitterName, url, userAgent, imageFiles } = body
 
           if (!websiteId || !message?.trim()) {
             return new Response(
@@ -37,14 +65,11 @@ export const Route = createFileRoute('/api/feedback/')(({
           }
 
           // ── Domain verification ─────────────────────────────────────────────
-          // Accept request only if the Origin/Referer matches the registered domain.
-          // We skip strict check in dev (localhost / 127.x).
-          const origin  = request.headers.get('origin')  || ''
-          const referer = request.headers.get('referer') || ''
+          const origin      = request.headers.get('origin')  || ''
+          const referer     = request.headers.get('referer') || ''
           const requestHost = toHostname(origin || referer)
           const isLocalhost = ['localhost', '127.0.0.1', ''].includes(requestHost)
 
-          // Fetch site
           const [site] = await db
             .select({ id: websites.id, domain: websites.domain })
             .from(websites)
@@ -52,8 +77,7 @@ export const Route = createFileRoute('/api/feedback/')(({
 
           if (!site) {
             return new Response(JSON.stringify({ error: 'Website not found' }), {
-              status: 404,
-              headers: cors,
+              status: 404, headers: cors,
             })
           }
 
@@ -70,14 +94,24 @@ export const Route = createFileRoute('/api/feedback/')(({
           }
           // ───────────────────────────────────────────────────────────────────
 
-          // Validate images — must be array of strings from our R2 bucket
-          const publicUrl = process.env.CF_R2_PUBLIC_URL ?? ''
-          const safeImages: string[] = Array.isArray(images)
-            ? images
-                .filter((img): img is string => typeof img === 'string')
-                .filter(img => !publicUrl || img.startsWith(publicUrl))
-                .slice(0, 5) // max 5 images
-            : []
+          // ── Upload images to R2 ─────────────────────────────────────────────
+          const safeImages: string[] = []
+
+          if (Array.isArray(imageFiles)) {
+            const toUpload = imageFiles
+              .filter((f): f is { data: string; type: string } =>
+                f && typeof f.data === 'string' && typeof f.type === 'string'
+              )
+              .slice(0, MAX_IMAGES)
+
+            await Promise.all(
+              toUpload.map(async (f) => {
+                const uploadedUrl = await uploadBase64ToR2(f.data, String(websiteId))
+                if (uploadedUrl) safeImages.push(uploadedUrl)
+              })
+            )
+          }
+          // ───────────────────────────────────────────────────────────────────
 
           const [feedback] = await db
             .insert(feedbacks)
@@ -94,14 +128,12 @@ export const Route = createFileRoute('/api/feedback/')(({
             .returning()
 
           return new Response(JSON.stringify({ ok: true, id: feedback.id }), {
-            status: 201,
-            headers: cors,
+            status: 201, headers: cors,
           })
         } catch (err) {
           console.error('[feedback api]', err)
           return new Response(JSON.stringify({ error: 'Internal server error' }), {
-            status: 500,
-            headers: cors,
+            status: 500, headers: cors,
           })
         }
       },

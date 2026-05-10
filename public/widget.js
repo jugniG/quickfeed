@@ -32,7 +32,6 @@
   var btn2Bg          = attr('data-btn2-bg', '#f5f5f5')
   var btn2Text        = attr('data-btn2-text', '#555555')
 
-  // hex → rgba
   function hexToRgba(hex, a) {
     var c = hex.replace('#', '')
     if (c.length === 3) c = c[0]+c[0]+c[1]+c[1]+c[2]+c[2]
@@ -110,9 +109,7 @@
 #qf-success{display:none;text-align:center;padding:24px 0}
 #qf-success .qf-check{font-size:36px;display:block;margin-bottom:8px}
 #qf-success p{margin:0;color:#555;font-size:14px}
-#qf-upload-progress{
-  font-size:12px;color:#999;margin-top:4px;min-height:16px;
-}
+#qf-status{font-size:12px;color:#999;margin-top:4px;min-height:16px;}
 `
   document.head.appendChild(style)
 
@@ -135,7 +132,7 @@
     <div id="qf-textarea-wrap">
       <textarea id="qf-msg" placeholder="Give us feedback…"></textarea>
     </div>
-    <div id="qf-upload-progress"></div>
+    <div id="qf-status"></div>
     <input id="qf-name"  type="text"  placeholder="Your name (optional)" />
     <input id="qf-email" type="email" placeholder="Email (optional)" />
     <div id="qf-row">
@@ -169,7 +166,7 @@
   var form      = document.getElementById('qf-form')
   var successEl = document.getElementById('qf-success')
   var imagesEl  = document.getElementById('qf-images')
-  var progressEl= document.getElementById('qf-upload-progress')
+  var statusEl  = document.getElementById('qf-status')
   var msgEl     = document.getElementById('qf-msg')
   var nameEl    = document.getElementById('qf-name')
   var emailEl   = document.getElementById('qf-email')
@@ -190,30 +187,31 @@
     el.style.borderRadius = Math.min(btnBorderRadius, 16) + 'px'
   })
 
-  // ── Image state ──────────────────────────────────────────────────────────────
-  var uploadedUrls = [] // confirmed R2 URLs
-  var pendingCount = 0
+  // ── Image state — local files only, no upload until submit ───────────────────
+  var pendingFiles = [] // { file: File, blobUrl: string, thumbEl: Element }
+  var MAX_IMAGES = 5
+  var MAX_BYTES  = 5 * 1024 * 1024
 
-  function setProgress(msg) {
-    progressEl.textContent = msg || ''
+  function setStatus(msg) {
+    statusEl.textContent = msg || ''
   }
 
-  function addImageThumb(url, isLocal) {
+  function addThumb(blobUrl, index) {
     var wrap = document.createElement('div')
     wrap.className = 'qf-img-thumb'
-    if (isLocal) wrap.style.opacity = '0.5'
 
     var img = document.createElement('img')
-    img.src = url
+    img.src = blobUrl
 
     var rm = document.createElement('button')
     rm.className = 'qf-img-remove'
     rm.innerHTML = '&times;'
     rm.title = 'Remove'
     rm.addEventListener('click', function() {
-      // remove from uploadedUrls
-      uploadedUrls = uploadedUrls.filter(function(u) { return u !== url })
+      URL.revokeObjectURL(blobUrl)
+      pendingFiles = pendingFiles.filter(function(pf) { return pf.blobUrl !== blobUrl })
       wrap.remove()
+      setStatus('')
     })
 
     wrap.appendChild(img)
@@ -222,59 +220,41 @@
     return wrap
   }
 
-  function uploadFile(file) {
+  function addImage(file) {
     if (!file || !file.type.startsWith('image/')) return
-    if (uploadedUrls.length + pendingCount >= 5) {
-      setProgress('Max 5 images.')
+    if (pendingFiles.length >= MAX_IMAGES) {
+      setStatus('Max ' + MAX_IMAGES + ' images.')
       return
     }
-
-    pendingCount++
-    setProgress('Uploading…')
-
-    // show local preview while uploading
-    var localUrl = URL.createObjectURL(file)
-    var thumb = addImageThumb(localUrl, true)
-
-    var fd = new FormData()
-    fd.append('file', file)
-    fd.append('websiteId', websiteId)
-
-    fetch(API_BASE + '/api/upload/', { method: 'POST', body: fd })
-      .then(function(r) { return r.json() })
-      .then(function(data) {
-        pendingCount--
-        if (data.ok && data.url) {
-          uploadedUrls.push(data.url)
-          // swap preview src to real URL
-          thumb.querySelector('img').src = data.url
-          thumb.style.opacity = '1'
-          // update remove button to use real URL
-          thumb.querySelector('.qf-img-remove').addEventListener('click', function() {
-            uploadedUrls = uploadedUrls.filter(function(u) { return u !== data.url })
-          })
-          setProgress(pendingCount > 0 ? 'Uploading…' : '')
-        } else {
-          thumb.remove()
-          setProgress('Upload failed: ' + (data.error || 'error'))
-        }
-      })
-      .catch(function() {
-        pendingCount--
-        thumb.remove()
-        setProgress('Upload failed.')
-      })
+    if (file.size > MAX_BYTES) {
+      setStatus('Max file size is 5 MB.')
+      return
+    }
+    var blobUrl = URL.createObjectURL(file)
+    var thumb = addThumb(blobUrl)
+    pendingFiles.push({ file: file, blobUrl: blobUrl, thumb: thumb })
+    setStatus('')
   }
 
-  // ── Paste handler (images from clipboard) ────────────────────────────────────
+  // ── Convert File → base64 ────────────────────────────────────────────────────
+  function fileToBase64(file) {
+    return new Promise(function(resolve, reject) {
+      var reader = new FileReader()
+      reader.onload  = function() { resolve(reader.result) } // "data:image/png;base64,..."
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+  }
+
+  // ── Paste handler ────────────────────────────────────────────────────────────
   function handlePaste(e) {
     if (!isOpen) return
-    var items = (e.clipboardData || e.originalEvent && e.originalEvent.clipboardData || {}).items
+    var items = (e.clipboardData || (e.originalEvent && e.originalEvent.clipboardData) || {}).items
     if (!items) return
     for (var i = 0; i < items.length; i++) {
       if (items[i].type.startsWith('image/')) {
         e.preventDefault()
-        uploadFile(items[i].getAsFile())
+        addImage(items[i].getAsFile())
         break
       }
     }
@@ -288,7 +268,7 @@
     if (isOpen) return
     isOpen = true
     overlay.classList.add('qf-visible')
-    overlay.getBoundingClientRect() // force reflow
+    overlay.getBoundingClientRect()
     overlay.classList.add('qf-open')
     setTimeout(function() { msgEl.focus() }, 60)
   }
@@ -299,22 +279,21 @@
     overlay.classList.remove('qf-open')
     setTimeout(function () {
       overlay.classList.remove('qf-visible')
-      // reset
       form.style.display = ''
       successEl.style.display = 'none'
       msgEl.value = ''
       nameEl.value = ''
       emailEl.value = ''
       imagesEl.innerHTML = ''
-      uploadedUrls = []
-      pendingCount = 0
-      setProgress('')
+      // revoke all blob URLs
+      pendingFiles.forEach(function(pf) { URL.revokeObjectURL(pf.blobUrl) })
+      pendingFiles = []
+      setStatus('')
       submitBtn.disabled = false
       submitBtn.textContent = 'Send feedback'
     }, 230)
   }
 
-  // Keyboard shortcuts
   document.addEventListener('keydown', function (e) {
     if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'F' || e.key === 'f')) {
       e.preventDefault()
@@ -323,21 +302,15 @@
     if (e.key === 'Escape' && isOpen) closeWidget()
   })
 
-  // Click backdrop to close
   overlay.addEventListener('click', function (e) {
     if (e.target === overlay) closeWidget()
   })
   cancelBtn.addEventListener('click', closeWidget)
 
-  // Expose globally
   window.QuickFeed = { open: openWidget, close: closeWidget }
 
   // ── Submit ───────────────────────────────────────────────────────────────────
   submitBtn.addEventListener('click', function () {
-    if (pendingCount > 0) {
-      setProgress('Please wait for uploads to finish…')
-      return
-    }
     var message = msgEl.value.trim()
     if (!message) {
       msgEl.style.borderColor = '#ef4444'
@@ -347,21 +320,28 @@
     msgEl.style.borderColor = ''
     submitBtn.disabled = true
     submitBtn.textContent = 'Sending…'
+    setStatus('')
 
-    fetch(API_BASE + '/api/feedback/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        websiteId: websiteId,
-        message: message,
-        images: uploadedUrls,
-        submitterName:  nameEl.value.trim() || null,
-        submitterEmail: emailEl.value.trim() || null,
-        url: window.location.href,
-        userAgent: navigator.userAgent,
-      }),
-    })
-      .then(function(r) { return r.json() })
+    // Convert all pending files to base64 then submit
+    Promise.all(pendingFiles.map(function(pf) {
+      return fileToBase64(pf.file).then(function(dataUrl) {
+        return { data: dataUrl, type: pf.file.type }
+      })
+    })).then(function(imageFiles) {
+      return fetch(API_BASE + '/api/feedback/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          websiteId: websiteId,
+          message: message,
+          imageFiles: imageFiles,   // [{ data: "data:image/png;base64,...", type: "image/png" }]
+          submitterName:  nameEl.value.trim() || null,
+          submitterEmail: emailEl.value.trim() || null,
+          url: window.location.href,
+          userAgent: navigator.userAgent,
+        }),
+      })
+    }).then(function(r) { return r.json() })
       .then(function(data) {
         if (data.ok) {
           form.style.display = 'none'
@@ -370,13 +350,13 @@
         } else {
           submitBtn.disabled = false
           submitBtn.textContent = 'Send feedback'
-          setProgress('Error: ' + (data.error || 'Unknown'))
+          setStatus('Error: ' + (data.error || 'Unknown'))
         }
       })
       .catch(function() {
         submitBtn.disabled = false
         submitBtn.textContent = 'Send feedback'
-        setProgress('Network error. Try again.')
+        setStatus('Network error. Try again.')
       })
   })
 })()
