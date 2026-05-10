@@ -10,8 +10,8 @@ export const Route = createFileRoute('/_protected/dashboard/$websiteId/')({
 })
 
 const FILTER_OPTIONS: { label: string; value: 'all' | FeedbackStatus }[] = [
-  { label: 'All', value: 'all' },
   { label: 'Unassigned', value: 'unassigned' },
+  { label: 'All', value: 'all' },
   { label: 'Pending', value: 'pending' },
   { label: 'In Progress', value: 'inprogress' },
   { label: 'Completed', value: 'completed' },
@@ -22,22 +22,26 @@ function WebsiteDetail() {
   const { websiteId } = Route.useParams()
 
 
-  const [filter, setFilter] = useState<'all' | FeedbackStatus>('all')
+  const [filter, setFilter] = useState<'all' | FeedbackStatus>('unassigned')
 
   // Get website info from the websites list
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
   const site = websites.find(w => w.id === websiteId)
 
-  const { data: feedbacks = [], isLoading } = useQuery(
+  // Fetch all for counts, filtered for display
+  const { data: allFeedbacks = [] } = useQuery(
     orpc.feedbacks.list.queryOptions({ input: { websiteId } })
   )
+  const { data: feedbacks = [], isLoading } = useQuery(
+    orpc.feedbacks.list.queryOptions({
+      input: { websiteId, ...(filter !== 'all' ? { status: filter } : {}) }
+    })
+  )
 
-  const filtered = filter === 'all'
-    ? feedbacks
-    : feedbacks.filter(f => f.status === filter)
+  const filtered = feedbacks
 
-  // Count by status
-  const counts = feedbacks.reduce<Record<string, number>>((acc, f) => {
+  // Count by status from all feedbacks
+  const counts = allFeedbacks.reduce<Record<string, number>>((acc, f) => {
     acc[f.status] = (acc[f.status] || 0) + 1
     return acc
   }, {})
@@ -74,7 +78,7 @@ function WebsiteDetail() {
           </div>
           <div className="ml-auto flex items-center gap-3">
             <span className="text-[13px] text-neutral-400">
-              {feedbacks.length} {feedbacks.length === 1 ? 'feedback' : 'feedbacks'}
+              {allFeedbacks.length} {allFeedbacks.length === 1 ? 'feedback' : 'feedbacks'}
             </span>
             <Link
               to="/dashboard/$websiteId/settings"
@@ -131,7 +135,7 @@ function WebsiteDetail() {
         )}
 
         {/* Empty state */}
-        {!isLoading && feedbacks.length === 0 && (
+        {!isLoading && allFeedbacks.length === 0 && (
           <div className="rounded-2xl border border-dashed border-neutral-200 bg-white p-16 flex flex-col items-center text-center">
             <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mb-5">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-orange-400">
@@ -146,7 +150,7 @@ function WebsiteDetail() {
         )}
 
         {/* Filtered empty state */}
-        {!isLoading && feedbacks.length > 0 && filtered.length === 0 && (
+        {!isLoading && allFeedbacks.length > 0 && filtered.length === 0 && (
           <div className="rounded-2xl border border-dashed border-neutral-200 bg-white p-12 flex flex-col items-center text-center">
             <p className="text-[14px] text-neutral-400">No feedback with this status.</p>
           </div>

@@ -9,7 +9,10 @@ export type FeedbackStatus = typeof FEEDBACK_STATUSES[number]
 
 // List feedbacks for a website (verifies ownership)
 export const listFeedbacks = authed
-  .input(z.object({ websiteId: z.string().uuid() }))
+  .input(z.object({
+    websiteId: z.string().uuid(),
+    status: z.enum(FEEDBACK_STATUSES).optional(),
+  }))
   .handler(async ({ input, context }) => {
     // Verify user owns this website
     const [site] = await db
@@ -18,10 +21,13 @@ export const listFeedbacks = authed
       .where(and(eq(websites.id, input.websiteId), eq(websites.userId, context.user.id)))
     if (!site) throw new Error('Not found')
 
+    const conditions = [eq(feedbacks.websiteId, input.websiteId)]
+    if (input.status) conditions.push(eq(feedbacks.status, input.status))
+
     return db
       .select()
       .from(feedbacks)
-      .where(eq(feedbacks.websiteId, input.websiteId))
+      .where(and(...conditions))
       .orderBy(feedbacks.createdAt)
   })
 
