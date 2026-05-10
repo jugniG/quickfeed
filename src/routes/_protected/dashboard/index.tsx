@@ -152,7 +152,7 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string
           Active
         </span>
         <button
-          onClick={() => navigate({ to: '/dashbaord/$websiteId', params: { websiteId: id } })}
+          onClick={() => navigate({ to: '/dashboard/$websiteId', params: { websiteId: id } })}
           className="text-[12px] text-neutral-400 hover:text-orange-500 font-medium transition-colors"
         >
           View →

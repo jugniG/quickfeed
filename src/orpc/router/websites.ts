@@ -11,7 +11,7 @@ export const listWebsites = authed.handler(async ({ context }) => {
       userId: websites.userId,
       domain: websites.domain,
       createdAt: websites.createdAt,
-      feedbackCount: sql<number>`(select count(*)::int from quickfeed.feedbacks f where f.website_id = ${websites.id})`,
+      feedbackCount: sql<number>`(select count(*)::int from quickfeed.feedbacks f where f.website_id = quickfeed.websites.id)`,
     })
     .from(websites)
     .where(eq(websites.userId, context.user.id))

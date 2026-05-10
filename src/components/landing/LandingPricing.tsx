@@ -21,7 +21,7 @@ export function LandingPricing() {
         storageMb,
         interval,
         successUrl: `${window.location.origin}/billing?success=1`,
-        cancelUrl: `${window.location.origin}/pricing`,
+        cancelUrl: `${window.location.origin}/billing`,
       })
       if (result.url) window.location.href = result.url
     } catch (err: any) {
