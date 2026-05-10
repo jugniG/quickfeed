@@ -1,4 +1,4 @@
-import { pgSchema, serial, text, timestamp, boolean, index } from 'drizzle-orm/pg-core'
+import { pgSchema, serial, text, timestamp, boolean, index, integer } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 export const quickfeedSchema = pgSchema('quickfeed')
@@ -106,6 +106,31 @@ export const feedbacks = quickfeedSchema.table(
   },
   (table) => [index('feedbacks_websiteId_idx').on(table.websiteId)],
 )
+
+export const subscriptions = quickfeedSchema.table(
+  'subscriptions',
+  {
+    id: serial('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    dodoSubscriptionId: text('dodo_subscription_id').notNull().unique(),
+    dodoCustomerId: text('dodo_customer_id'),
+    productId: text('product_id').notNull(),
+    status: text('status').notNull().default('active'), // active | cancelled | expired | on_hold
+    storageMb: integer('storage_mb').notNull().default(100),
+    billingInterval: text('billing_interval').notNull().default('monthly'), // monthly | yearly
+    currentPeriodEnd: timestamp('current_period_end'),
+    cancelAtNextBilling: boolean('cancel_at_next_billing').default(false).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (table) => [index('subscriptions_userId_idx').on(table.userId)],
+)
+
+export const subscriptionRelations = relations(subscriptions, ({ one }) => ({
+  user: one(user, { fields: [subscriptions.userId], references: [user.id] }),
+}))
 
 export const websiteRelations = relations(websites, ({ one, many }) => ({
   user: one(user, { fields: [websites.userId], references: [user.id] }),

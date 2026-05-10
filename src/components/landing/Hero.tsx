@@ -3,10 +3,10 @@ import { ShortcutKey } from '../ui/ShortcutKey'
 import { DomainInput } from '../ui/DomainInput'
 
 interface HeroProps {
-  onTryWidget: () => void
+  onTryWidget?: () => void
 }
 
-export function Hero({ onTryWidget }: HeroProps) {
+export function Hero({ onTryWidget: _onTryWidget }: HeroProps) {
   const [blobPos, setBlobPos] = useState({ x: 50, y: 40 })
 
   useEffect(() => {

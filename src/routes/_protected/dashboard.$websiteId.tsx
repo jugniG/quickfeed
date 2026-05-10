@@ -33,7 +33,7 @@ function WebsiteDetail() {
   const site = websites.find(w => w.id === id)
 
   const { data: feedbacks = [], isLoading } = useQuery(
-    orpc.feedbacks.list.queryOptions({ websiteId: id })
+    orpc.feedbacks.list.queryOptions({ input: { websiteId: id } })
   )
 
   const filtered = filter === 'all'

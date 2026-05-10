@@ -66,7 +66,7 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
   const mutation = useMutation(
     orpc.feedbacks.updateStatus.mutationOptions({
       onSuccess: () => {
-        queryClient.invalidateQueries(orpc.feedbacks.list.queryOptions({ websiteId }))
+        queryClient.invalidateQueries(orpc.feedbacks.list.queryOptions({ input: { websiteId } }))
       },
     })
   )

@@ -8,6 +8,7 @@ import {
 } from '@heroui/dropdown'
 import { authClient } from '#/lib/auth-client'
 
+
 type User = {
   name?: string | null
   email?: string | null
@@ -111,6 +112,7 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
             <DropdownItem
               key="billing"
               className="py-2 text-[13px] text-neutral-700"
+              onPress={() => { window.location.href = '/billing' }}
               startContent={
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-neutral-400">
                   <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.2"/>
