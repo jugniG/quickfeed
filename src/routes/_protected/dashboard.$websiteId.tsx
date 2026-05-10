@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
@@ -76,9 +76,22 @@ function WebsiteDetail() {
               {site?.domain ?? `Website #${id}`}
             </h1>
           </div>
-          <span className="ml-auto text-[13px] text-neutral-400">
-            {feedbacks.length} {feedbacks.length === 1 ? 'feedback' : 'feedbacks'}
-          </span>
+          <div className="ml-auto flex items-center gap-3">
+            <span className="text-[13px] text-neutral-400">
+              {feedbacks.length} {feedbacks.length === 1 ? 'feedback' : 'feedbacks'}
+            </span>
+            <Link
+              to="/dashboard/$websiteId/settings"
+              params={{ websiteId }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-neutral-200 text-[12.5px] font-medium text-neutral-500 hover:text-neutral-800 hover:border-neutral-300 transition-colors"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 9a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" strokeWidth="1.2"/>
+                <path d="M11.5 7c0-.28-.03-.55-.07-.82l1.44-1.12-1.37-2.37-1.72.7A5.01 5.01 0 007.82 2.5L7.5 1h-1l-.32 1.5a5.01 5.01 0 00-1.96.89l-1.72-.7L1.13 5.06l1.44 1.12C2.53 6.45 2.5 6.72 2.5 7s.03.55.07.82L1.13 8.94l1.37 2.37 1.72-.7c.6.38 1.25.67 1.96.89L6.5 13h1l.32-1.5a5.01 5.01 0 001.96-.89l1.72.7 1.37-2.37-1.44-1.12c.04-.27.07-.54.07-.82z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round"/>
+              </svg>
+              Settings
+            </Link>
+          </div>
         </div>
 
         {/* Filter pills */}

@@ -1,15 +1,22 @@
 import { z } from 'zod'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, sql } from 'drizzle-orm'
 import { db } from '#/db/index'
 import { websites } from '#/db/schema'
 import { authed } from '#/orpc/middleware'
 
 export const listWebsites = authed.handler(async ({ context }) => {
-  return db
-    .select()
+  const rows = await db
+    .select({
+      id: websites.id,
+      userId: websites.userId,
+      domain: websites.domain,
+      createdAt: websites.createdAt,
+      feedbackCount: sql<number>`(select count(*)::int from quickfeed.feedbacks f where f.website_id = ${websites.id})`,
+    })
     .from(websites)
     .where(eq(websites.userId, context.user.id))
     .orderBy(websites.createdAt)
+  return rows
 })
 
 export const addWebsite = authed

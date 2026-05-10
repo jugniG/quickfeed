@@ -298,7 +298,7 @@ function BillingPage() {
             {/* Info box */}
             <div className="bg-orange-50 border border-orange-100 rounded-2xl p-5">
               <p className="text-[13px] text-orange-700 leading-[1.6]">
-                <strong>Storage is used for feedback screenshots.</strong> If you exceed your storage limit, new screenshots won't be captured until you upgrade.
+                <strong>Storage counts toward both feedback text and screenshots.</strong> If you exceed your limit, new submissions won't be stored until you upgrade.
               </p>
             </div>
           </div>

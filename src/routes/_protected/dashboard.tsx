@@ -107,7 +107,7 @@ function Dashboard() {
         {!isLoading && websites.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {websites.map((site) => (
-              <WebsiteCard key={site.id} id={site.id} domain={site.domain} />
+              <WebsiteCard key={site.id} id={site.id} domain={site.domain} feedbackCount={(site as any).feedbackCount} />
             ))}
           </div>
         )}
@@ -122,7 +122,7 @@ function Dashboard() {
   )
 }
 
-function WebsiteCard({ id, domain }: { id: number; domain: string }) {
+function WebsiteCard({ id, domain, feedbackCount }: { id: number; domain: string; feedbackCount?: number }) {
   const navigate = useNavigate()
   const faviconUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`
 
@@ -143,7 +143,7 @@ function WebsiteCard({ id, domain }: { id: number; domain: string }) {
         </div>
         <div className="min-w-0">
           <div className="text-[14px] font-semibold text-neutral-800 truncate">{domain}</div>
-          <div className="text-[12px] text-neutral-400">0 reports</div>
+          <div className="text-[12px] text-neutral-400">{feedbackCount ?? 0} {(feedbackCount ?? 0) === 1 ? 'report' : 'reports'}</div>
         </div>
       </div>
       <div className="flex items-center justify-between">
