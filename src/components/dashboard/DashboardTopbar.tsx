@@ -9,13 +9,10 @@ import {
 import { Link } from '@tanstack/react-router'
 import { authClient } from '#/lib/auth-client'
 
-type User = {
-  name?: string | null
-  email?: string | null
-  image?: string | null
-}
+export function DashboardTopbar() {
+  const { data: session } = authClient.useSession()
+  const user = session?.user
 
-export function DashboardTopbar({ user }: { user: User | undefined }) {
   function signOut() {
     authClient.signOut({
       fetchOptions: { onSuccess: () => { window.location.href = '/login' } },
@@ -31,7 +28,8 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
     .join('')
 
   return (
-    <header className="h-[60px] border-b border-neutral-200 bg-white relative flex items-center justify-between px-6 shrink-0 min-w-0">
+    <header className="h-[60px] border-b border-neutral-200 bg-white shrink-0">
+      <div className="max-w-[1100px] mx-auto px-6 h-full relative flex items-center justify-between">
       {/* Brand */}
       <Link to="/dashboard" className="flex items-center gap-2 no-underline">
         <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30">
@@ -171,6 +169,7 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
           </DropdownSection>
         </DropdownMenu>
       </Dropdown>
+      </div>
     </header>
   )
 }

@@ -1,8 +1,6 @@
 import { createFileRoute, useSearch } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
-import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 import { useState, useEffect } from 'react'
 
 export const Route = createFileRoute('/_protected/billing')({
@@ -27,8 +25,8 @@ function getYearlyPrice(mb: number) { return getMonthlyPrice(mb) * 0.8 }
 function fmt(n: number) { return n % 1 === 0 ? `$${n}` : `$${n.toFixed(2)}` }
 
 function BillingPage() {
-  const { data: session } = authClient.useSession()
-  const user = session?.user
+
+
   const queryClient = useQueryClient()
   const { success } = useSearch({ from: '/_protected/billing' })
   const [showSuccessBanner, setShowSuccessBanner] = useState(!!success)
@@ -115,8 +113,8 @@ function BillingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      <DashboardTopbar user={user} />
+    <>
+
 
       <main className="max-w-[680px] mx-auto px-6 py-10">
 
@@ -304,7 +302,7 @@ function BillingPage() {
           </div>
         )}
       </main>
-    </div>
+    </>
   )
 }
 

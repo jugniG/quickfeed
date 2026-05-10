@@ -1,18 +1,17 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { authClient } from '#/lib/auth-client'
+
 import { orpc } from '#/orpc/client'
 import { AddWebsiteModal } from '#/components/dashboard/AddWebsiteModal'
-import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 
 export const Route = createFileRoute('/_protected/dashboard/')({
   component: Dashboard,
 })
 
 function Dashboard() {
-  const { data: session } = authClient.useSession()
-  const user = session?.user
+
+
   const queryClient = useQueryClient()
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -33,8 +32,8 @@ function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      <DashboardTopbar user={user} />
+    <>
+
 
       {/* Main */}
       <main className="max-w-[1100px] mx-auto px-6 py-10">
@@ -118,7 +117,7 @@ function Dashboard() {
         onClose={() => setModalOpen(false)}
         onAdd={handleAddWebsite}
       />
-    </div>
+    </>
   )
 }
 

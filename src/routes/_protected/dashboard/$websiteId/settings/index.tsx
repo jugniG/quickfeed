@@ -1,8 +1,6 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
-import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 import { useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { codeToHtml } from 'shiki'
@@ -477,8 +475,8 @@ function WebsiteSettings() {
   const { websiteId } = Route.useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { data: session } = authClient.useSession()
-  const user = session?.user
+
+
   const [tab, setTab] = useState<'generate' | 'custom'>('generate')
 
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
@@ -508,8 +506,8 @@ function WebsiteSettings() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      <DashboardTopbar user={user} />
+    <>
+
 
       <main className="max-w-[900px] mx-auto px-6 py-10">
         {/* Breadcrumb */}
@@ -569,6 +567,6 @@ function WebsiteSettings() {
           <CustomModalTab websiteId={websiteId} />
         )}
       </main>
-    </div>
+    </>
   )
 }

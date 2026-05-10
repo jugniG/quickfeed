@@ -1,9 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
 import { FeedbackCard } from '#/components/dashboard/FeedbackCard'
-import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
 import { useState } from 'react'
 import type { FeedbackStatus } from '#/orpc/router/feedbacks'
 
@@ -22,8 +20,8 @@ const FILTER_OPTIONS: { label: string; value: 'all' | FeedbackStatus }[] = [
 
 function WebsiteDetail() {
   const { websiteId } = Route.useParams()
-  const { data: session } = authClient.useSession()
-  const user = session?.user
+
+
   const [filter, setFilter] = useState<'all' | FeedbackStatus>('all')
 
   // Get website info from the websites list
@@ -45,8 +43,8 @@ function WebsiteDetail() {
   }, {})
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      <DashboardTopbar user={user} />
+    <>
+
 
       <main className="max-w-[820px] mx-auto px-6 py-10">
         {/* Back + title */}
@@ -163,6 +161,6 @@ function WebsiteDetail() {
           </div>
         )}
       </main>
-    </div>
+    </>
   )
 }
