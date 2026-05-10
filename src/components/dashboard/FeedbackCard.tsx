@@ -11,6 +11,7 @@ type Feedback = {
   url: string | null
   status: string
   createdAt: Date | string
+  images?: string[] | null
 }
 
 const STATUS_CONFIG: Record<FeedbackStatus, { label: string; className: string; dot: string }> = {
@@ -55,13 +56,51 @@ function timeAgo(date: Date | string) {
   return `${day}d ago`
 }
 
+function getPathname(url: string) {
+  try { return new URL(url).pathname || '/' } catch { return url }
+}
+
+// ── Lightbox ─────────────────────────────────────────────────────────────────
+function Lightbox({ src, onClose }: { src: string; onClose: () => void }) {
+  useEffect(() => {
+    function handler(e: KeyboardEvent) { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [onClose])
+
+  return (
+    <div
+      className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+        </svg>
+      </button>
+      <img
+        src={src}
+        alt="Feedback attachment"
+        className="max-w-full max-h-[90vh] rounded-xl object-contain shadow-2xl"
+        onClick={e => e.stopPropagation()}
+      />
+    </div>
+  )
+}
+
 export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; websiteId: string }) {
   const queryClient = useQueryClient()
   const [open, setOpen] = useState(false)
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
   const [optimisticStatus, setOptimisticStatus] = useState<FeedbackStatus>(
     (feedback.status as FeedbackStatus) || 'unassigned'
   )
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const images = feedback.images?.filter(Boolean) ?? []
 
   const mutation = useMutation(
     orpc.feedbacks.updateStatus.mutationOptions({
@@ -71,7 +110,6 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
     })
   )
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return
     function handler(e: MouseEvent) {
@@ -96,14 +134,69 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
   const cfg = STATUS_CONFIG[optimisticStatus] ?? STATUS_CONFIG.unassigned
 
   return (
-    <div className="bg-white rounded-2xl border border-neutral-200 p-5 hover:border-neutral-300 hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-200">
-      {/* Message */}
-      <p className="text-[14px] text-neutral-800 leading-[1.65] mb-4">
-        "{feedback.message}"
-      </p>
+    <>
+      {lightboxSrc && <Lightbox src={lightboxSrc} onClose={() => setLightboxSrc(null)} />}
 
-      {/* Meta row */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-5 hover:border-neutral-300 hover:shadow-[0_2px_12px_rgba(0,0,0,0.06)] transition-all duration-200">
+
+        {/* Top row: time + status */}
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-[11.5px] text-neutral-400">{timeAgo(feedback.createdAt)}</span>
+
+          {/* Status dropdown */}
+          <div className="relative shrink-0" ref={dropdownRef}>
+            <button
+              onClick={() => setOpen(v => !v)}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11.5px] font-semibold transition-all ${cfg.className}`}
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+              {cfg.label}
+              <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-60">
+                <path d="M2.5 3.75L5 6.25l2.5-2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            {open && (
+              <div className="absolute right-0 top-full mt-1.5 w-[152px] bg-white rounded-xl border border-neutral-200 shadow-[0_8px_24px_rgba(0,0,0,0.1)] z-50 py-1 overflow-hidden">
+                {STATUSES.map(s => {
+                  const c = STATUS_CONFIG[s]
+                  return (
+                    <button
+                      key={s}
+                      onClick={() => handleStatusChange(s)}
+                      className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] font-medium transition-colors hover:bg-neutral-50 ${s === optimisticStatus ? 'opacity-50 pointer-events-none' : 'text-neutral-700'}`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${c.dot}`} />
+                      {c.label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Message */}
+        <p className="text-[14px] text-neutral-800 leading-[1.65] mb-4">
+          "{feedback.message}"
+        </p>
+
+        {/* Images */}
+        {images.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setLightboxSrc(src)}
+                className="w-16 h-16 rounded-lg overflow-hidden border border-neutral-200 hover:border-orange-300 hover:shadow-md transition-all shrink-0 focus:outline-none"
+              >
+                <img src={src} alt={`attachment ${i + 1}`} className="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Meta row */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-neutral-400">
           {(feedback.submitterName || feedback.submitterEmail) && (
             <span className="flex items-center gap-1">
@@ -115,49 +208,19 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
             </span>
           )}
           {feedback.url && (
-            <span className="flex items-center gap-1 truncate max-w-[180px]">
+            <span className="flex items-center gap-1">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                 <path d="M6 1.5h4.5v9H1.5V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 <path d="M4.5 7.5l6-6M8 1.5h3v3" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              {(() => { try { return new URL(feedback.url).pathname } catch { return feedback.url } })()}
+              <code className="bg-neutral-100 text-neutral-500 text-[11px] px-1.5 py-0.5 rounded-md font-mono">
+                {getPathname(feedback.url)}
+              </code>
             </span>
           )}
-          <span>{timeAgo(feedback.createdAt)}</span>
         </div>
 
-        {/* Status dropdown */}
-        <div className="relative shrink-0" ref={dropdownRef}>
-          <button
-            onClick={() => setOpen(v => !v)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-[11.5px] font-semibold transition-all ${cfg.className}`}
-          >
-            <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
-            {cfg.label}
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className="opacity-60">
-              <path d="M2.5 3.75L5 6.25l2.5-2.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-
-          {open && (
-            <div className="absolute right-0 top-full mt-1.5 w-[152px] bg-white rounded-xl border border-neutral-200 shadow-[0_8px_24px_rgba(0,0,0,0.1)] z-50 py-1 overflow-hidden">
-              {STATUSES.map(s => {
-                const c = STATUS_CONFIG[s]
-                return (
-                  <button
-                    key={s}
-                    onClick={() => handleStatusChange(s)}
-                    className={`w-full flex items-center gap-2 px-3 py-2 text-[12px] font-medium transition-colors hover:bg-neutral-50 ${s === optimisticStatus ? 'opacity-50 pointer-events-none' : 'text-neutral-700'}`}
-                  >
-                    <span className={`w-2 h-2 rounded-full ${c.dot}`} />
-                    {c.label}
-                  </button>
-                )
-              })}
-            </div>
-          )}
-        </div>
       </div>
-    </div>
+    </>
   )
 }
