@@ -1,14 +1,17 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
 import { DashboardTopbar } from '#/components/dashboard/DashboardTopbar'
-import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import { codeToHtml } from 'shiki'
 
 export const Route = createFileRoute('/_protected/dashboard/$websiteId/settings/')({
   component: WebsiteSettings,
 })
+
+// ─── Copy Button ─────────────────────────────────────────────────────────────
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false)
@@ -42,15 +45,13 @@ function CopyButton({ text }: { text: string }) {
   )
 }
 
+// ─── Shiki Block ─────────────────────────────────────────────────────────────
+
 function ShikiBlock({ code, lang }: { code: string; lang: string }) {
   const [html, setHtml] = useState<string>('')
-  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    codeToHtml(code, {
-      lang,
-      theme: 'github-dark',
-    }).then(setHtml)
+    codeToHtml(code, { lang, theme: 'github-dark' }).then(setHtml)
   }, [code, lang])
 
   return (
@@ -60,8 +61,7 @@ function ShikiBlock({ code, lang }: { code: string; lang: string }) {
         <CopyButton text={code} />
       </div>
       <div
-        ref={containerRef}
-        className="overflow-x-auto text-[13px] leading-[1.7]"
+        className="overflow-x-auto text-[13px] leading-[1.7] [&>pre]:p-5"
         style={{ background: '#0d1117' }}
         // biome-ignore lint: shiki output is safe
         dangerouslySetInnerHTML={{ __html: html }}
@@ -70,12 +70,331 @@ function ShikiBlock({ code, lang }: { code: string; lang: string }) {
   )
 }
 
+// ─── Modal Position options ───────────────────────────────────────────────────
+
+type ModalPosition =
+  | 'center'
+  | 'bottom-center'
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'top-center'
+  | 'top-right'
+  | 'top-left'
+
+interface ModalConfig {
+  position: ModalPosition
+  bgColor: string
+  blur: boolean
+  overlayColor: string
+  titleColor: string
+  descriptionColor: string
+  btnPrimaryBg: string
+  btnPrimaryText: string
+  btnSecondaryBg: string
+  btnSecondaryText: string
+  borderRadius: number
+}
+
+const POSITION_OPTIONS: { value: ModalPosition; label: string }[] = [
+  { value: 'center', label: 'Center' },
+  { value: 'bottom-center', label: 'Bottom Center' },
+  { value: 'bottom-right', label: 'Bottom Right' },
+  { value: 'bottom-left', label: 'Bottom Left' },
+  { value: 'top-center', label: 'Top Center' },
+  { value: 'top-right', label: 'Top Right' },
+  { value: 'top-left', label: 'Top Left' },
+]
+
+const DEFAULT_CONFIG: ModalConfig = {
+  position: 'bottom-center',
+  bgColor: '#ffffff',
+  blur: true,
+  overlayColor: 'rgba(0,0,0,0.45)',
+  titleColor: '#0a0a0a',
+  descriptionColor: '#737373',
+  btnPrimaryBg: '#f97316',
+  btnPrimaryText: '#ffffff',
+  btnSecondaryBg: '#f5f5f5',
+  btnSecondaryText: '#555555',
+  borderRadius: 20,
+}
+
+// ─── Color Input ─────────────────────────────────────────────────────────────
+
+function ColorInput({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="flex items-center justify-between">
+      <span className="text-[13px] text-neutral-600">{label}</span>
+      <div className="flex items-center gap-2">
+        <input
+          type="color"
+          value={value.startsWith('rgba') ? '#000000' : value}
+          onChange={e => onChange(e.target.value)}
+          className="w-8 h-8 rounded-lg border border-neutral-200 cursor-pointer p-0.5"
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={e => onChange(e.target.value)}
+          className="w-28 text-[12px] font-mono border border-neutral-200 rounded-lg px-2 py-1.5 outline-none focus:border-orange-400"
+        />
+      </div>
+    </div>
+  )
+}
+
+// ─── Modal Preview ────────────────────────────────────────────────────────────
+
+function ModalPreview({ config }: { config: ModalConfig }) {
+  const positionStyle: React.CSSProperties = (() => {
+    const base: React.CSSProperties = { position: 'absolute', zIndex: 10 }
+    switch (config.position) {
+      case 'center':       return { ...base, top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }
+      case 'bottom-center':return { ...base, bottom: 16, left: '50%', transform: 'translateX(-50%)' }
+      case 'bottom-right': return { ...base, bottom: 16, right: 16 }
+      case 'bottom-left':  return { ...base, bottom: 16, left: 16 }
+      case 'top-center':   return { ...base, top: 16, left: '50%', transform: 'translateX(-50%)' }
+      case 'top-right':    return { ...base, top: 16, right: 16 }
+      case 'top-left':     return { ...base, top: 16, left: 16 }
+      default:             return base
+    }
+  })()
+
+  return (
+    <div
+      className="relative w-full overflow-hidden"
+      style={{ height: 260, background: config.overlayColor, backdropFilter: config.blur ? 'blur(4px)' : undefined }}
+    >
+      {/* fake page bg behind overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#f0f0f0_0%,#e8e8e8_100%)]" style={{ zIndex: 0 }} />
+      <div className="absolute inset-0" style={{ background: config.overlayColor, zIndex: 5 }} />
+
+      {/* panel */}
+      <div
+        style={{
+          ...positionStyle,
+          background: config.bgColor,
+          borderRadius: config.borderRadius,
+          padding: '16px',
+          width: 220,
+          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+          backdropFilter: config.blur ? 'blur(8px)' : undefined,
+        }}
+      >
+        <div style={{ fontSize: 13, fontWeight: 700, color: config.titleColor, marginBottom: 4 }}>
+          Share your feedback
+        </div>
+        <div style={{ fontSize: 11, color: config.descriptionColor, marginBottom: 10 }}>
+          What's on your mind?
+        </div>
+        <div style={{ background: '#f5f5f5', borderRadius: 8, height: 36, marginBottom: 8 }} />
+        <div style={{ display: 'flex', gap: 6 }}>
+          <div style={{ flex: 1, background: config.btnSecondaryBg, color: config.btnSecondaryText, borderRadius: 8, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
+            Cancel
+          </div>
+          <div style={{ flex: 2, background: config.btnPrimaryBg, color: config.btnPrimaryText, borderRadius: 8, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
+            Send
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Generate Tab ─────────────────────────────────────────────────────────────
+
+function GenerateTab({ site, embedCode, id }: { site: { domain: string; id: number } | undefined; embedCode: string; id: number }) {
+  return (
+    <div className="space-y-5">
+      {/* Domain */}
+      <section className="bg-white rounded-2xl border border-neutral-200 p-6">
+        <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Domain</h2>
+        <p className="text-[13px] text-neutral-400 mb-4">The domain this widget is attached to.</p>
+        <div className="flex items-center gap-3">
+          {site && (
+            <img
+              src={`https://icons.duckduckgo.com/ip3/${site.domain}.ico`}
+              alt=""
+              className="w-5 h-5 object-contain"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+            />
+          )}
+          <span className="text-[15px] font-semibold text-neutral-800">{site?.domain ?? '…'}</span>
+        </div>
+      </section>
+
+      {/* Embed Script */}
+      <section className="bg-white rounded-2xl border border-neutral-200 p-6">
+        <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Embed Script</h2>
+        <p className="text-[13px] text-neutral-400 mb-4">
+          Paste this snippet into your site's{' '}
+          <code className="font-mono bg-neutral-100 px-1 py-0.5 rounded text-[12px]">&lt;head&gt;</code>{' '}
+          or before the closing{' '}
+          <code className="font-mono bg-neutral-100 px-1 py-0.5 rounded text-[12px]">&lt;/body&gt;</code> tag.
+        </p>
+        <ShikiBlock code={embedCode} lang="html" />
+      </section>
+
+      {/* How it works */}
+      <section className="bg-white rounded-2xl border border-neutral-200 p-6">
+        <h2 className="text-[14px] font-semibold text-neutral-800 mb-4">How it works</h2>
+        <ol className="space-y-3">
+          {[
+            'Copy the embed snippet above.',
+            `Paste it into your site's HTML before the closing </body> tag.`,
+            'The feedback button will appear on your site automatically.',
+            'Responses show up in your QuickFeed dashboard in real time.',
+          ].map((step, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="w-5 h-5 rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-[11px] font-bold text-orange-500 shrink-0 mt-0.5">
+                {i + 1}
+              </span>
+              <span className="text-[13px] text-neutral-600">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  )
+}
+
+// ─── Custom Modal Tab ────────────────────────────────────────────────────────
+
+function CustomModalTab({ id }: { id: number }) {
+  const [config, setConfig] = useState<ModalConfig>(DEFAULT_CONFIG)
+
+  function set<K extends keyof ModalConfig>(key: K, value: ModalConfig[K]) {
+    setConfig(prev => ({ ...prev, [key]: value }))
+  }
+
+  const customEmbedCode = `<script
+  src="https://www.quickfeed.live/widget.js"
+  data-website-id="${id}"
+  data-position="${config.position}"
+  data-bg="${config.bgColor}"
+  data-blur="${config.blur}"
+  data-overlay="${config.overlayColor}"
+  data-title-color="${config.titleColor}"
+  data-desc-color="${config.descriptionColor}"
+  data-btn-bg="${config.btnPrimaryBg}"
+  data-btn-text="${config.btnPrimaryText}"
+  data-btn2-bg="${config.btnSecondaryBg}"
+  data-btn2-text="${config.btnSecondaryText}"
+  data-radius="${config.borderRadius}"
+  defer
+><\/script>`
+
+  return (
+    <div className="grid grid-cols-1 gap-5">
+      {/* Preview */}
+      <section className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
+        <div className="px-6 py-4 border-b border-neutral-100">
+          <h2 className="text-[14px] font-semibold text-neutral-800">Live Preview</h2>
+          <p className="text-[12px] text-neutral-400 mt-0.5">Updates as you edit options below.</p>
+        </div>
+        <ModalPreview config={config} />
+      </section>
+
+      {/* Controls */}
+      <section className="bg-white rounded-2xl border border-neutral-200 p-6 space-y-6">
+        <div>
+          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Position</h3>
+          <div className="flex flex-wrap gap-2">
+            {POSITION_OPTIONS.map(opt => (
+              <button
+                key={opt.value}
+                onClick={() => set('position', opt.value)}
+                className={`px-3 py-1.5 rounded-xl text-[12px] font-medium border transition-all ${
+                  config.position === opt.value
+                    ? 'bg-orange-500 text-white border-orange-500'
+                    : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-300'
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="h-px bg-neutral-100" />
+
+        <div>
+          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Modal Card</h3>
+          <div className="space-y-3">
+            <ColorInput label="Background" value={config.bgColor} onChange={v => set('bgColor', v)} />
+            <ColorInput label="Overlay color" value={config.overlayColor} onChange={v => set('overlayColor', v)} />
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] text-neutral-600">Background blur</span>
+              <button
+                onClick={() => set('blur', !config.blur)}
+                className={`relative w-10 h-5 rounded-full transition-colors ${config.blur ? 'bg-orange-500' : 'bg-neutral-200'}`}
+              >
+                <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${config.blur ? 'left-5' : 'left-0.5'}`} />
+              </button>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[13px] text-neutral-600">Border radius</span>
+              <div className="flex items-center gap-2">
+                <input
+                  type="range"
+                  min={0}
+                  max={32}
+                  value={config.borderRadius}
+                  onChange={e => set('borderRadius', Number(e.target.value))}
+                  className="w-28 accent-orange-500"
+                />
+                <span className="text-[12px] text-neutral-500 w-8 text-right">{config.borderRadius}px</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="h-px bg-neutral-100" />
+
+        <div>
+          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Text Colors</h3>
+          <div className="space-y-3">
+            <ColorInput label="Title" value={config.titleColor} onChange={v => set('titleColor', v)} />
+            <ColorInput label="Description" value={config.descriptionColor} onChange={v => set('descriptionColor', v)} />
+          </div>
+        </div>
+
+        <div className="h-px bg-neutral-100" />
+
+        <div>
+          <h3 className="text-[13px] font-semibold text-neutral-700 mb-3">Buttons</h3>
+          <div className="space-y-3">
+            <ColorInput label="Primary background" value={config.btnPrimaryBg} onChange={v => set('btnPrimaryBg', v)} />
+            <ColorInput label="Primary text" value={config.btnPrimaryText} onChange={v => set('btnPrimaryText', v)} />
+            <ColorInput label="Secondary background" value={config.btnSecondaryBg} onChange={v => set('btnSecondaryBg', v)} />
+            <ColorInput label="Secondary text" value={config.btnSecondaryText} onChange={v => set('btnSecondaryText', v)} />
+          </div>
+        </div>
+      </section>
+
+      {/* Generated code */}
+      <section className="bg-white rounded-2xl border border-neutral-200 p-6">
+        <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Custom Embed Code</h2>
+        <p className="text-[13px] text-neutral-400 mb-4">
+          Copy this to apply your custom theme.
+        </p>
+        <ShikiBlock code={customEmbedCode} lang="html" />
+      </section>
+    </div>
+  )
+}
+
+// ─── Main ────────────────────────────────────────────────────────────────────
+
 function WebsiteSettings() {
   const { websiteId } = Route.useParams()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { data: session } = authClient.useSession()
   const user = session?.user
+  const [tab, setTab] = useState<'generate' | 'custom'>('generate')
+
+  const id = Number(websiteId)
 
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
   const site = websites.find((w) => w.id === websiteId)
@@ -88,23 +407,14 @@ function WebsiteSettings() {
     },
   })
 
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://quickfeed.app'
-
-  const embedCode = `<!-- QuickFeed Widget -->
-<script>
-  window.__quickfeed = {
-    websiteId: '${websiteId}',
-    apiBase: '${origin}',
-  };
-</script>
-<script src="${origin}/widget.js" defer></script>`
+  const embedCode = `<script src="https://www.quickfeed.live/widget.js" data-website-id="${id}" defer></script>`
 
   function handleDelete() {
     if (!site) return
     const input = window.prompt(
       `To delete "${site.domain}", type the domain name to confirm:`,
     )
-    if (input === null) return // cancelled
+    if (input === null) return
     if (input.trim() !== site.domain) {
       alert(`Domain didn't match. Type exactly: ${site.domain}`)
       return
@@ -119,55 +429,58 @@ function WebsiteSettings() {
       <main className="max-w-[700px] mx-auto px-6 py-10">
         {/* Breadcrumb */}
         <div className="flex items-center gap-2 mb-8 text-[13px] text-neutral-400">
-          <button
-            onClick={() => navigate({ to: '/dashboard' })}
-            className="hover:text-neutral-700 transition-colors"
-          >
+          <Link to="/dashboard" className="hover:text-neutral-700 transition-colors no-underline">
             Websites
-          </button>
+          </Link>
           <span className="text-neutral-200">/</span>
-          <button
-            onClick={() => navigate({ to: '/dashboard/$websiteId', params: { websiteId } })}
-            className="hover:text-neutral-700 transition-colors"
+          <Link
+            to="/dashboard/$websiteId"
+            params={{ websiteId }}
+            className="hover:text-neutral-700 transition-colors no-underline"
           >
-            {site?.domain ?? 'Website'}
-          </button>
+            {site?.domain ?? `#${id}`}
+          </Link>
           <span className="text-neutral-200">/</span>
           <span className="text-neutral-600 font-medium">Settings</span>
         </div>
 
-        <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#0A0A0A] mb-8">
+        <h1 className="text-[22px] font-bold tracking-[-0.02em] text-[#0A0A0A] mb-6">
           Site Settings
         </h1>
 
-        {/* Domain */}
-        <section className="bg-white rounded-2xl border border-neutral-200 p-6 mb-5">
-          <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Domain</h2>
-          <p className="text-[13px] text-neutral-400 mb-4">The domain this widget is attached to.</p>
-          <div className="flex items-center gap-3">
-            {site && (
-              <img
-                src={`https://icons.duckduckgo.com/ip3/${site.domain}.ico`}
-                alt=""
-                className="w-5 h-5 object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
-              />
-            )}
-            <span className="text-[15px] font-semibold text-neutral-800">{site?.domain ?? '…'}</span>
-          </div>
-        </section>
+        {/* Tabs */}
+        <div className="flex items-center gap-1 p-1 bg-neutral-100 rounded-xl mb-6 w-fit">
+          <button
+            onClick={() => setTab('generate')}
+            className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
+              tab === 'generate'
+                ? 'bg-white text-neutral-900 shadow-sm'
+                : 'text-neutral-500 hover:text-neutral-700'
+            }`}
+          >
+            General
+          </button>
+          <button
+            onClick={() => setTab('custom')}
+            className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
+              tab === 'custom'
+                ? 'bg-white text-neutral-900 shadow-sm'
+                : 'text-neutral-500 hover:text-neutral-700'
+            }`}
+          >
+            Custom Modal
+          </button>
+        </div>
 
-        {/* Embed Script */}
-        <section className="bg-white rounded-2xl border border-neutral-200 p-6 mb-5">
-          <h2 className="text-[14px] font-semibold text-neutral-800 mb-1">Embed Script</h2>
-          <p className="text-[13px] text-neutral-400 mb-4">
-            Paste this snippet into your site's <code className="font-mono bg-neutral-100 px-1 py-0.5 rounded text-[12px]">&lt;head&gt;</code> or before the closing <code className="font-mono bg-neutral-100 px-1 py-0.5 rounded text-[12px]">&lt;/body&gt;</code> tag.
-          </p>
-          <ShikiBlock code={embedCode} lang="html" />
-        </section>
+        {/* Tab content */}
+        {tab === 'generate' ? (
+          <GenerateTab site={site} embedCode={embedCode} id={id} />
+        ) : (
+          <CustomModalTab id={id} />
+        )}
 
-        {/* Danger Zone */}
-        <section className="bg-white rounded-2xl border border-red-200 p-6">
+        {/* Danger Zone — always visible */}
+        <section className="bg-white rounded-2xl border border-red-200 p-6 mt-5">
           <h2 className="text-[14px] font-semibold text-red-600 mb-1">Danger Zone</h2>
           <p className="text-[13px] text-neutral-400 mb-4">
             Deleting this website is permanent. All associated feedback will be removed.

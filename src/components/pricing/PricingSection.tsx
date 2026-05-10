@@ -233,8 +233,7 @@ export function PricingSection({
   if (!standalone) return inner
 
   return (
-    <div className="min-h-screen bg-[#111111]">
-      <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(249,115,22,0.07)_0%,transparent_60%)] pointer-events-none" />
+    <div className="min-h-screen bg-[#FAFAFA]">
       <div className="relative z-10">{inner}</div>
     </div>
   )

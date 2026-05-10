@@ -6,8 +6,8 @@ import {
   DropdownSection,
   DropdownItem,
 } from '@heroui/dropdown'
+import { Link } from '@tanstack/react-router'
 import { authClient } from '#/lib/auth-client'
-
 
 type User = {
   name?: string | null
@@ -31,9 +31,9 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
     .join('')
 
   return (
-    <header className="h-[60px] border-b border-neutral-200 bg-white flex items-center justify-between px-6 shrink-0">
+    <header className="h-[60px] border-b border-neutral-200 bg-white relative flex items-center justify-between px-6 shrink-0 min-w-0">
       {/* Brand */}
-      <a href="/dashboard" className="flex items-center gap-2 no-underline">
+      <Link to="/dashboard" className="flex items-center gap-2 no-underline">
         <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-md shadow-orange-500/30">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
@@ -45,7 +45,23 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
         >
           QuickFeed
         </span>
-      </a>
+      </Link>
+
+      {/* Center nav */}
+      <nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1">
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-[13px] font-medium text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50 transition-colors no-underline"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-neutral-400">
+            <rect x="1.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+            <rect x="7.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+            <rect x="1.5" y="7.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+            <rect x="7.5" y="7.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+          </svg>
+          Dashboard
+        </Link>
+      </nav>
 
       {/* User dropdown */}
       <Dropdown placement="bottom-end" classNames={{ content: 'p-0 rounded-2xl border border-neutral-200 shadow-[0_8px_30px_rgba(0,0,0,0.10)] min-w-[220px] overflow-hidden' }}>
@@ -110,9 +126,24 @@ export function DashboardTopbar({ user }: { user: User | undefined }) {
           {/* Actions */}
           <DropdownSection classNames={{ group: 'py-1' }}>
             <DropdownItem
-              key="billing"
+              key="dashboard"
+              href="/dashboard"
               className="py-2 text-[13px] text-neutral-700"
-              onPress={() => { window.location.href = '/billing' }}
+              startContent={
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-neutral-400">
+                  <rect x="1.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="7.5" y="1.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="1.5" y="7.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+                  <rect x="7.5" y="7.5" width="5" height="5" rx="1.2" stroke="currentColor" strokeWidth="1.2"/>
+                </svg>
+              }
+            >
+              Dashboard
+            </DropdownItem>
+            <DropdownItem
+              key="billing"
+              href="/billing"
+              className="py-2 text-[13px] text-neutral-700"
               startContent={
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-neutral-400">
                   <rect x="1.5" y="3" width="11" height="8" rx="1.5" stroke="currentColor" strokeWidth="1.2"/>

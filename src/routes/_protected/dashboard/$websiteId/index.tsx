@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate, Link } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
 import { authClient } from '#/lib/auth-client'
 import { orpc } from '#/orpc/client'
@@ -22,7 +22,7 @@ const FILTER_OPTIONS: { label: string; value: 'all' | FeedbackStatus }[] = [
 
 function WebsiteDetail() {
   const { websiteId } = Route.useParams()
-  const navigate = useNavigate()
+  const id = Number(websiteId)
   const { data: session } = authClient.useSession()
   const user = session?.user
   const [filter, setFilter] = useState<'all' | FeedbackStatus>('all')
@@ -52,15 +52,15 @@ function WebsiteDetail() {
       <main className="max-w-[820px] mx-auto px-6 py-10">
         {/* Back + title */}
         <div className="flex items-center gap-4 mb-8">
-          <button
-            onClick={() => navigate({ to: '/dashboard' })}
-            className="flex items-center gap-1.5 text-[13px] text-neutral-400 hover:text-neutral-700 transition-colors"
+          <Link
+            to="/dashboard"
+            className="flex items-center gap-1.5 text-[13px] text-neutral-400 hover:text-neutral-700 transition-colors no-underline"
           >
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M9 2.5L4.5 7 9 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             Websites
-          </button>
+          </Link>
           <span className="text-neutral-200">/</span>
           <div className="flex items-center gap-2">
             {site && (

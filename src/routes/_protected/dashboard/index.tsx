@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { authClient } from '#/lib/auth-client'
@@ -122,12 +122,15 @@ function Dashboard() {
   )
 }
 
-function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string; feedbackCount?: number }) {
-  const navigate = useNavigate()
+function WebsiteCard({ id, domain, feedbackCount }: { id: number; domain: string; feedbackCount?: number }) {
   const faviconUrl = `https://icons.duckduckgo.com/ip3/${domain}.ico`
 
   return (
-    <div className="bg-white rounded-2xl border border-neutral-200 p-5 hover:border-orange-200 hover:shadow-[0_4px_20px_rgba(251,146,60,0.1)] transition-all duration-200 cursor-pointer group">
+    <Link
+      to="/dashboard/$websiteId"
+      params={{ websiteId: String(id) }}
+      className="block bg-white rounded-2xl border border-neutral-200 p-5 hover:border-orange-200 hover:shadow-[0_4px_20px_rgba(251,146,60,0.1)] transition-all duration-200 no-underline group"
+    >
       <div className="flex items-center gap-3 mb-4">
         <div className="w-10 h-10 rounded-xl border border-neutral-100 bg-neutral-50 flex items-center justify-center shrink-0 overflow-hidden">
           <img
@@ -146,18 +149,11 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string
           <div className="text-[12px] text-neutral-400">{feedbackCount ?? 0} {(feedbackCount ?? 0) === 1 ? 'report' : 'reports'}</div>
         </div>
       </div>
-      <div className="flex items-center justify-between">
-        <span className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-green-50 border border-green-100 text-[11px] font-semibold text-green-600">
-          <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-          Active
-        </span>
-        <button
-          onClick={() => navigate({ to: '/dashboard/$websiteId', params: { websiteId: id } })}
-          className="text-[12px] text-neutral-400 hover:text-orange-500 font-medium transition-colors"
-        >
+      <div className="flex items-center justify-end">
+        <span className="text-[12px] text-neutral-400 group-hover:text-orange-500 font-medium transition-colors">
           View →
-        </button>
+        </span>
       </div>
-    </div>
+    </Link>
   )
 }

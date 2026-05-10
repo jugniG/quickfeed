@@ -1,15 +1,35 @@
 ;(function () {
   'use strict'
 
-  var WIDGET_ID = 'qf-widget'
-  var config = window.__quickfeed || {}
-  var websiteId = config.websiteId
-  var apiBase = config.apiBase || 'https://quickfeed.app'
+  var API_BASE = 'https://www.quickfeed.live'
+
+  // Accept websiteId via data-website-id on the <script> tag itself
+  var scriptEl = document.currentScript
+  var websiteId =
+    (scriptEl && scriptEl.getAttribute('data-website-id'))
+    || (window.__quickfeed && window.__quickfeed.websiteId)
 
   if (!websiteId) {
-    console.warn('[QuickFeed] window.__quickfeed.websiteId is required')
+    console.warn('[QuickFeed] Add data-website-id="YOUR_ID" to your script tag.')
     return
   }
+
+  websiteId = String(websiteId)
+
+  // --- Read optional theme/position from data attrs ---
+  function attr(name, fallback) {
+    return (scriptEl && scriptEl.getAttribute(name)) || fallback
+  }
+  var position = attr('data-position', 'bottom-right')
+  var bgColor = attr('data-bg', '#ffffff')
+  var blurEnabled = attr('data-blur', 'true') !== 'false'
+  var overlayColor = attr('data-overlay', 'rgba(0,0,0,0.45)')
+  var titleColor = attr('data-title-color', '#0a0a0a')
+  var borderRadius = attr('data-radius', '20') + 'px'
+  var btnBg = attr('data-btn-bg', '#f97316')
+  var btnText = attr('data-btn-text', '#ffffff')
+  var btn2Bg = attr('data-btn2-bg', '#f5f5f5')
+  var btn2Text = attr('data-btn2-text', '#555555')
 
   // --- Styles ---
   var style = document.createElement('style')
@@ -45,6 +65,8 @@
   // --- Overlay + panel ---
   var overlay = document.createElement('div')
   overlay.id = 'qf-overlay'
+  overlay.style.background = overlayColor
+  if (blurEnabled) overlay.style.backdropFilter = 'blur(4px)'
   overlay.innerHTML = [
     '<div id="qf-panel">',
     '  <h3>Share your feedback</h3>',
@@ -65,14 +87,38 @@
   ].join('')
   document.body.appendChild(overlay)
 
+  // Apply theme to panel
   var panel = document.getElementById('qf-panel')
+  panel.style.background = bgColor
+  panel.style.borderRadius = borderRadius
+  panel.querySelector('h3').style.color = titleColor
+  var submitBtnEl = document.getElementById('qf-submit')
+  submitBtnEl.style.background = btnBg
+  submitBtnEl.style.color = btnText
+  var cancelBtnEl = document.getElementById('qf-cancel')
+  cancelBtnEl.style.background = btn2Bg
+  cancelBtnEl.style.color = btn2Text
+
+  // Apply position
+  var posMap = {
+    'center':        { top:'50%', left:'50%', transform:'translate(-50%,-50%)', alignItems:'center', justifyContent:'center', paddingBottom:'0' },
+    'bottom-center': { alignItems:'flex-end', justifyContent:'center', paddingBottom:'80px' },
+    'bottom-right':  { alignItems:'flex-end', justifyContent:'flex-end', paddingBottom:'80px', paddingRight:'24px' },
+    'bottom-left':   { alignItems:'flex-end', justifyContent:'flex-start', paddingBottom:'80px', paddingLeft:'24px' },
+    'top-center':    { alignItems:'flex-start', justifyContent:'center', paddingTop:'80px' },
+    'top-right':     { alignItems:'flex-start', justifyContent:'flex-end', paddingTop:'24px', paddingRight:'24px' },
+    'top-left':      { alignItems:'flex-start', justifyContent:'flex-start', paddingTop:'24px', paddingLeft:'24px' },
+  }
+  var pos = posMap[position] || posMap['bottom-center']
+  Object.assign(overlay.style, pos)
+
   var form = document.getElementById('qf-form')
   var successEl = document.getElementById('qf-success')
   var msgEl = document.getElementById('qf-msg')
   var nameEl = document.getElementById('qf-name')
   var emailEl = document.getElementById('qf-email')
-  var submitBtn = document.getElementById('qf-submit')
-  var cancelBtn = document.getElementById('qf-cancel')
+  var submitBtn = submitBtnEl
+  var cancelBtn = cancelBtnEl
 
   function openWidget() {
     overlay.classList.add('open')
@@ -81,7 +127,6 @@
 
   function closeWidget() {
     overlay.classList.remove('open')
-    // reset
     setTimeout(function () {
       form.style.display = ''
       successEl.style.display = 'none'
@@ -120,7 +165,7 @@
       userAgent: navigator.userAgent,
     }
 
-    fetch(apiBase + '/api/feedback/', {
+    fetch(API_BASE + '/api/feedback/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
