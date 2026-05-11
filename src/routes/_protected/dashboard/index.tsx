@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 
@@ -14,7 +14,7 @@ function Dashboard() {
 
   const queryClient = useQueryClient()
   const [modalOpen, setModalOpen] = useState(false)
-
+  const navigate = useNavigate()
   const { data: websites = [], isLoading } = useQuery(
     orpc.websites.list.queryOptions(),
   )
@@ -28,7 +28,10 @@ function Dashboard() {
   )
 
   async function handleAddWebsite(domain: string) {
-    await addMutation.mutateAsync({ domain })
+    const res = await addMutation.mutateAsync({ domain })
+    if (res.id) {
+      navigate({ to: '/dashboard/$websiteId/settings', params: { websiteId: res.id } })
+    }
   }
 
   return (
@@ -50,7 +53,7 @@ function Dashboard() {
           >
             <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
             <svg className="relative" width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+              <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
             </svg>
             <span className="relative">Add website</span>
           </button>
@@ -58,14 +61,14 @@ function Dashboard() {
 
         {/* Loading */}
         {isLoading && (
-          <div className="grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4].map((i) => (
+          <div className="grid md:grid-cols-3 gap-4">
+            {[1, 2, 3].map((i) => (
               <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-5 animate-pulse">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 rounded-xl bg-neutral-100 shrink-0" />
                   <div className="flex-1 space-y-2 min-w-0">
-                    <div className="h-3.5 bg-neutral-100 rounded w-2/3" />
-                    <div className="h-3 bg-neutral-100 rounded w-1/3" />
+                    <div className="h-3.5 bg-neutral-100 rounded w-36" />
+                    <div className="h-3 bg-neutral-100 rounded w-34" />
                   </div>
                 </div>
                 <div className="pt-3.5 border-t border-neutral-100">
@@ -81,10 +84,10 @@ function Dashboard() {
           <div className="rounded-2xl border border-dashed border-neutral-200 bg-white p-16 flex flex-col items-center text-center">
             <div className="w-14 h-14 rounded-2xl bg-orange-50 border border-orange-100 flex items-center justify-center mb-5">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-orange-400">
-                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5"/>
-                <path d="M12 3C12 3 9 7 9 12s3 9 3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M12 3C12 3 15 7 15 12s-3 9-3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                <path d="M3 12h18M4 7.5h16M4 16.5h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M12 3C12 3 9 7 9 12s3 9 3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M12 3C12 3 15 7 15 12s-3 9-3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M3 12h18M4 7.5h16M4 16.5h16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             </div>
             <h2 className="text-[16px] font-bold text-neutral-800 mb-2">No websites yet</h2>
@@ -97,7 +100,7 @@ function Dashboard() {
             >
               <span className="absolute inset-0 bg-gradient-to-r from-orange-600 to-amber-600 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-xl" />
               <svg className="relative" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+                <path d="M7 2v10M2 7h10" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
               </svg>
               <span className="relative">Add website</span>
             </button>
@@ -106,7 +109,7 @@ function Dashboard() {
 
         {/* Website cards */}
         {!isLoading && websites.length > 0 && (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid md:grid-cols-3 gap-4">
             {websites.map((site) => (
               <WebsiteCard key={site.id} id={site.id} domain={site.domain} feedbackCount={(site as any).feedbackCount} />
             ))}
@@ -163,18 +166,17 @@ function WebsiteCard({ id, domain, feedbackCount }: { id: string; domain: string
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between pt-3.5 border-t border-neutral-100">
+      <div className="flex items-center justify-between gap-8 pt-3.5 border-t border-neutral-100">
         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-50 border border-orange-100 text-[11.5px] font-semibold text-orange-500">
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M1 7.5V8.5H2L7.5 3 6.5 2 1 7.5Z" fill="currentColor"/>
-            <circle cx="8" cy="2" r="1.2" fill="currentColor"/>
+            <path d="M1 2.5C1 1.67 1.67 1 2.5 1h5c.83 0 1.5.67 1.5 1.5v3.75c0 .83-.67 1.5-1.5 1.5H5.25L2.5 9.25V7.75H2.5C1.67 7.75 1 7.08 1 6.25V2.5Z" fill="currentColor" />
           </svg>
           {feedbackCount ?? 0} {(feedbackCount ?? 0) === 1 ? 'response' : 'responses'}
         </span>
         <span className="text-[12px] font-semibold text-neutral-400 group-hover:text-orange-500 transition-colors flex items-center gap-1">
           View feedback
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M2.5 6h7M6.5 3l3 3-3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </span>
       </div>

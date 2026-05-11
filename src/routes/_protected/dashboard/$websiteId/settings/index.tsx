@@ -87,6 +87,7 @@ interface ModalConfig {
   overlayOpacity: number
   titleColor: string
   descriptionColor: string
+  inputColor: string
   btnPrimaryBg: string
   btnPrimaryText: string
   btnSecondaryBg: string
@@ -113,6 +114,7 @@ const DEFAULT_CONFIG: ModalConfig = {
   overlayOpacity: 0.45,
   titleColor: '#0a0a0a',
   descriptionColor: '#737373',
+  inputColor: '#0a0a0a',
   btnPrimaryBg: '#f97316',
   btnPrimaryText: '#ffffff',
   btnSecondaryBg: '#f5f5f5',
@@ -162,8 +164,10 @@ function ModalPreview({ config }: { config: ModalConfig }) {
     }
   })()
 
+  const inputBorderRadius = Math.min(config.btnBorderRadius, 16)
+
   return (
-    <div className="relative w-full overflow-hidden" style={{ height: 280 }}>
+    <div className="relative w-full overflow-hidden" style={{ height: 320 }}>
       {/* fake page bg */}
       <div className="absolute inset-0 bg-[linear-gradient(135deg,#f0f0f0_0%,#e8e8e8_100%)]" style={{ zIndex: 0 }} />
       {/* overlay */}
@@ -175,23 +179,39 @@ function ModalPreview({ config }: { config: ModalConfig }) {
           background: config.bgColor,
           borderRadius: config.borderRadius,
           padding: '16px',
-          width: 200,
-          boxShadow: '0 8px 32px rgba(0,0,0,0.18)',
+          width: 220,
+          boxShadow: '0 24px 64px rgba(0,0,0,0.22)',
         }}
       >
-        <div style={{ fontSize: 13, fontWeight: 700, color: config.titleColor, marginBottom: 4 }}>
+        <div style={{ fontSize: 13, fontWeight: 700, color: config.titleColor, marginBottom: 2 }}>
           Share your feedback
         </div>
         <div style={{ fontSize: 11, color: config.descriptionColor, marginBottom: 10 }}>
-          What's on your mind?
+          We read every response.
         </div>
-        <div style={{ background: '#f5f5f5', borderRadius: 8, height: 36, marginBottom: 8 }} />
+        {/* Paste hint */}
+        <div style={{ fontSize: 9, color: '#aaa', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 3 }}>
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <rect x="1" y="3" width="7" height="8" rx="1" stroke="currentColor" strokeWidth="1.2"/>
+            <path d="M3 3V2a1 1 0 011-1h5a1 1 0 011 1v7a1 1 0 01-1 1H9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+          </svg>
+          Paste an image with Ctrl+V
+        </div>
+        {/* Textarea */}
+        <div style={{ background: 'transparent', border: '1.5px solid #e5e5e5', borderRadius: inputBorderRadius, padding: '8px', fontSize: 11, color: config.inputColor, marginBottom: 6, minHeight: 48 }}>
+          Give us feedback…
+        </div>
+        {/* Email input */}
+        <div style={{ background: 'transparent', border: '1.5px solid #e5e5e5', borderRadius: inputBorderRadius, padding: '6px 8px', fontSize: 11, color: config.inputColor, marginBottom: 8 }}>
+          Email (optional)
+        </div>
+        {/* Buttons */}
         <div style={{ display: 'flex', gap: 6 }}>
-          <div style={{ flex: 1, background: config.btnSecondaryBg, color: config.btnSecondaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
+          <div style={{ flex: 1, background: config.btnSecondaryBg, color: config.btnSecondaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '6px 0', textAlign: 'center' }}>
             Cancel
           </div>
-          <div style={{ flex: 2, background: config.btnPrimaryBg, color: config.btnPrimaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '5px 0', textAlign: 'center' }}>
-            Send
+          <div style={{ flex: 2, background: config.btnPrimaryBg, color: config.btnPrimaryText, borderRadius: config.btnBorderRadius, fontSize: 10, fontWeight: 600, padding: '6px 0', textAlign: 'center' }}>
+            Send feedback
           </div>
         </div>
       </div>
@@ -307,6 +327,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
   data-overlay-opacity="${config.overlayOpacity}"
   data-title-color="${config.titleColor}"
   data-desc-color="${config.descriptionColor}"
+  data-input-color="${config.inputColor}"
   data-btn-bg="${config.btnPrimaryBg}"
   data-btn-text="${config.btnPrimaryText}"
   data-btn2-bg="${config.btnSecondaryBg}"
@@ -441,6 +462,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
             <div className="space-y-3">
               <ColorInput label="Title" value={config.titleColor} onChange={v => set('titleColor', v)} />
               <ColorInput label="Description" value={config.descriptionColor} onChange={v => set('descriptionColor', v)} />
+              <ColorInput label="Input text" value={config.inputColor} onChange={v => set('inputColor', v)} />
             </div>
           </div>
 

@@ -56,7 +56,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       },
       {
         property: 'og:image',
-        content: 'https://quickfeed.dev/og-image.png',
+        content: 'https://www.quickfeed.live/og.png',
       },
       {
         property: 'og:image:alt',
@@ -65,6 +65,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       {
         name: 'twitter:card',
         content: 'summary_large_image',
+      },
+      {
+        name: 'twitter:title',
+        content: 'QuickFeed - We don\'t let you miss a single inconvenience of your users',
+      },
+      {
+        name: 'twitter:description',
+        content: 'QuickFeed intercepts Cmd+Shift+F on your website — capturing user frustration the moment it happens, with screenshots delivered directly to your dashboard.',
       },
       {
         name: 'twitter:image',
@@ -127,7 +135,7 @@ function NotFound() {
             className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[14px] font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow duration-200 no-underline"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M14 8H2M2 8l5-5M2 8l5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M14 8H2M2 8l5-5M2 8l5 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             Go Home
           </a>
@@ -154,11 +162,30 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           data-domain="www.quickfeed.live"
           src="https://www.insightly.live/script.js">
         </script>
+        <script
+          src="https://cdn.databuddy.cc/databuddy.js"
+          data-client-id="d6fc34f8-1fa3-46f4-928a-7a2134aa91ce"
+          crossOrigin="anonymous"
+          async
+        ></script>
       </head>
       <body>
         <HeroUIProvider>
           {children}
         </HeroUIProvider>
+        <TanStackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
+        <Scripts />
         <script
           src="https://www.quickfeed.live/widget.js"
           data-website-id="1ef5b9d4-8256-4c5a-85ce-b119bc9380b8"
@@ -175,19 +202,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           data-radius="20"
           defer
         />
-        <TanStackDevtools
-          config={{
-            position: 'bottom-right',
-          }}
-          plugins={[
-            {
-              name: 'Tanstack Router',
-              render: <TanStackRouterDevtoolsPanel />,
-            },
-            TanStackQueryDevtools,
-          ]}
-        />
-        <Scripts />
       </body>
     </html>
   )

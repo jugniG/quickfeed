@@ -25,6 +25,7 @@
   var overlayOpacity  = parseFloat(attr('data-overlay-opacity', '0.45'))
   var titleColor      = attr('data-title-color', '#0a0a0a')
   var descColor       = attr('data-desc-color', '#737373')
+  var inputColor      = attr('data-input-color', '#0a0a0a')
   var borderRadius    = parseInt(attr('data-radius', '20'), 10)
   var btnBorderRadius = parseInt(attr('data-btn-radius', '8'), 10)
   var btnBg           = attr('data-btn-bg', '#f97316')
@@ -183,6 +184,7 @@
   cancelBtn.style.borderRadius = btnBorderRadius + 'px'
   ;[msgEl, emailEl].forEach(function(el) {
     el.style.borderRadius = Math.min(btnBorderRadius, 16) + 'px'
+    el.style.color = inputColor
   })
 
   // ── Image state — local files only, no upload until submit ───────────────────
