@@ -58,17 +58,19 @@ function Dashboard() {
 
         {/* Loading */}
         {isLoading && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
+          <div className="grid grid-cols-2 gap-4">
+            {[1, 2, 3, 4].map((i) => (
               <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-5 animate-pulse">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-neutral-100" />
-                  <div className="flex-1 space-y-2">
+                <div className="flex items-center gap-3 mb-5">
+                  <div className="w-10 h-10 rounded-xl bg-neutral-100 shrink-0" />
+                  <div className="flex-1 space-y-2 min-w-0">
                     <div className="h-3.5 bg-neutral-100 rounded w-2/3" />
                     <div className="h-3 bg-neutral-100 rounded w-1/3" />
                   </div>
                 </div>
-                <div className="h-6 bg-neutral-100 rounded w-1/4" />
+                <div className="pt-3.5 border-t border-neutral-100">
+                  <div className="h-6 bg-neutral-100 rounded w-1/3" />
+                </div>
               </div>
             ))}
           </div>
@@ -104,7 +106,7 @@ function Dashboard() {
 
         {/* Website cards */}
         {!isLoading && websites.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {websites.map((site) => (
               <WebsiteCard key={site.id} id={site.id} domain={site.domain} feedbackCount={(site as any).feedbackCount} />
             ))}

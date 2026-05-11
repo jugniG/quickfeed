@@ -1,3 +1,9 @@
+## UI Components
+
+**STRICT RULE: Always use HeroUI components first.** Before writing any custom UI component (tooltips, modals, dropdowns, badges, skeletons, buttons, etc.), check if HeroUI has it. Only build custom if HeroUI doesn't cover the use case. No exceptions.
+
+---
+
 We use Sentry for watching for errors in our deployed application, as well as for instrumentation of our application.
 
 ## Error collection

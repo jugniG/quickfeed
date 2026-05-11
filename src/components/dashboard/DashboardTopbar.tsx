@@ -198,17 +198,19 @@ function FeedbackTooltipButton() {
         </svg>
       </button>
 
-      {show && (
-        <div className="absolute right-0 top-full mt-2 z-50 w-[260px] bg-white border border-neutral-200 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.10)] p-3.5 pointer-events-none">
-          <p className="text-[12.5px] text-neutral-600 leading-[1.6]">
-            Help us improve your experience with{' '}
-            <ShortcutKey size="sm" />
-            {' '}anywhere.
-          </p>
-          {/* Arrow */}
-          <div className="absolute -top-[7px] right-3 w-3 h-3 bg-white border-l border-t border-neutral-200 rotate-45" />
-        </div>
-      )}
+      <div
+        className={`absolute right-0 top-full mt-2 z-50 w-[260px] bg-white border border-neutral-200 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.10)] p-3.5 pointer-events-none transition-all duration-150 ${
+          show ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-1 pointer-events-none'
+        }`}
+      >
+        <p className="text-[12.5px] text-neutral-600 leading-[1.6]">
+          Help us improve your experience with{' '}
+          <ShortcutKey size="sm" />
+          {' '}anywhere.
+        </p>
+        {/* Arrow */}
+        <div className="absolute -top-[7px] right-3 w-3 h-3 bg-white border-l border-t border-neutral-200 rotate-45" />
+      </div>
     </div>
   )
 }
