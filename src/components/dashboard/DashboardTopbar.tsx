@@ -8,6 +8,8 @@ import {
 } from '@heroui/dropdown'
 import { Link } from '@tanstack/react-router'
 import { authClient } from '#/lib/auth-client'
+import { useState } from 'react'
+import { ShortcutKey } from '#/components/ui/ShortcutKey'
 
 export function DashboardTopbar() {
   const { data: session } = authClient.useSession()
@@ -60,6 +62,10 @@ export function DashboardTopbar() {
           Dashboard
         </Link>
       </nav>
+
+      {/* Right side: feedback + user */}
+      <div className="flex items-center gap-1">
+        <FeedbackTooltipButton />
 
       {/* User dropdown */}
       <Dropdown placement="bottom-end" classNames={{ content: 'p-0 rounded-2xl border border-neutral-200 shadow-[0_8px_30px_rgba(0,0,0,0.10)] min-w-[220px] overflow-hidden' }}>
@@ -170,6 +176,39 @@ export function DashboardTopbar() {
         </DropdownMenu>
       </Dropdown>
       </div>
+      </div>
     </header>
+  )
+}
+
+function FeedbackTooltipButton() {
+  const [show, setShow] = useState(false)
+
+  return (
+    <div className="relative flex items-center">
+      <button
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+        className="w-8 h-8 flex items-center justify-center rounded-xl text-neutral-400 hover:text-orange-500 hover:bg-orange-50 transition-colors"
+        aria-label="Send feedback"
+      >
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5v7A1.5 1.5 0 0 1 12.5 12H9l-3 2v-2H3.5A1.5 1.5 0 0 1 2 10.5v-7Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+          <path d="M5 6h6M5 8.5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {show && (
+        <div className="absolute right-0 top-full mt-2 z-50 w-[260px] bg-white border border-neutral-200 rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.10)] p-3.5 pointer-events-none">
+          <p className="text-[12.5px] text-neutral-600 leading-[1.6]">
+            Help us improve your experience with{' '}
+            <ShortcutKey size="sm" />
+            {' '}anywhere.
+          </p>
+          {/* Arrow */}
+          <div className="absolute -top-[7px] right-3 w-3 h-3 bg-white border-l border-t border-neutral-200 rotate-45" />
+        </div>
+      )}
+    </div>
   )
 }
