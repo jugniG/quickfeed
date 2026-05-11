@@ -69,7 +69,7 @@ export function Hero({ onTryWidget: _onTryWidget }: HeroProps) {
 
             {/* Stop guessing line */}
             <p className="text-[15px] font-semibold text-neutral-400 mb-4 tracking-tight">
-              Don't let this happen to you.
+              Don't let this happen to your product.
             </p>
 
             {/* Sub */}

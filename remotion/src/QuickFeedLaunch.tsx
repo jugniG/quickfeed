@@ -8,53 +8,50 @@ import { Scene4BrowserDemo } from "./scenes/Scene4BrowserDemo";
 import { Scene5Dashboard } from "./scenes/Scene5Dashboard";
 import { Scene6Outro } from "./scenes/Scene6Outro";
 
-// Scene durations (frames @ 30fps)
-// S1: 4s=120, S2: 5s=150, S3: 5s=150, S4: 12s=360, S5: 10s=300, S6: 9s=270
-// Transitions: 5 * 15 = 75
-// Total: 120+150+150+360+300+270-75 = 1275 (close to 1350 — pad S4 a bit)
+const TRANSITION_FRAMES = 10;
 
-const TRANS = 15;
+export const QUICKFEED_LAUNCH_FRAMES = 784;
 
 export const QuickFeedLaunch = () => {
   return (
-    <AbsoluteFill style={{ background: "#fff" }}>
+    <AbsoluteFill style={{ background: "#0b1020" }}>
       <TransitionSeries>
-        <TransitionSeries.Sequence durationInFrames={120}>
+        <TransitionSeries.Sequence durationInFrames={84}>
           <Scene1Hook />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANS })}
+          timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })}
         />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        <TransitionSeries.Sequence durationInFrames={90}>
           <Scene2Consequence />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANS })}
+          timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })}
         />
-        <TransitionSeries.Sequence durationInFrames={150}>
+        <TransitionSeries.Sequence durationInFrames={90}>
           <Scene3Gesture />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANS })}
+          timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })}
         />
-        <TransitionSeries.Sequence durationInFrames={390}>
+        <TransitionSeries.Sequence durationInFrames={255}>
           <Scene4BrowserDemo />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANS })}
+          timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })}
         />
-        <TransitionSeries.Sequence durationInFrames={300}>
+        <TransitionSeries.Sequence durationInFrames={180}>
           <Scene5Dashboard />
         </TransitionSeries.Sequence>
         <TransitionSeries.Transition
           presentation={fade()}
-          timing={linearTiming({ durationInFrames: TRANS })}
+          timing={linearTiming({ durationInFrames: TRANSITION_FRAMES })}
         />
-        <TransitionSeries.Sequence durationInFrames={270}>
+        <TransitionSeries.Sequence durationInFrames={135}>
           <Scene6Outro />
         </TransitionSeries.Sequence>
       </TransitionSeries>
