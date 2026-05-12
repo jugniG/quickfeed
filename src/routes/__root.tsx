@@ -158,7 +158,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
         <script
           defer
-          data-website-id="69ffa0a600112c87807b"
+          data-website-id="6a0379c200149a408c58"
           data-domain="www.quickfeed.live"
           src="https://www.insightly.live/script.js">
         </script>
