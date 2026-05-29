@@ -162,14 +162,16 @@ function BillingPage() {
                     {sub.billingInterval} · {fmt(sub.billingInterval === 'yearly' ? getYearlyPrice(sub.storageMb) : getMonthlyPrice(sub.storageMb))}/mo
                   </div>
                 </div>
-                <StatusBadge status={sub.status} cancelAt={sub.cancelAtNextBilling} />
+                <StatusBadge status={sub.status} cancelAt={sub.cancelAtNextBilling} trialEndsAt={sub.trialEndsAt} />
               </div>
 
               <div className="grid grid-cols-2 gap-4 p-4 bg-neutral-50 rounded-xl border border-neutral-100 mb-6">
                 <div>
-                  <div className="text-[11px] text-neutral-400 font-medium mb-0.5">Next billing</div>
+                  <div className="text-[11px] text-neutral-400 font-medium mb-0.5">
+                    {sub.trialEndsAt && new Date(sub.trialEndsAt) > new Date() ? 'Trial ends' : 'Next billing'}
+                  </div>
                   <div className="text-[13px] font-semibold text-neutral-700">
-                    {sub.cancelAtNextBilling ? '—' : formatDate(sub.currentPeriodEnd)}
+                    {sub.cancelAtNextBilling ? '—' : formatDate(sub.trialEndsAt && new Date(sub.trialEndsAt) > new Date() ? sub.trialEndsAt : sub.currentPeriodEnd)}
                   </div>
                 </div>
                 <div>
@@ -306,7 +308,17 @@ function BillingPage() {
   )
 }
 
-function StatusBadge({ status, cancelAt }: { status: string; cancelAt: boolean }) {
+function StatusBadge({ status, cancelAt, trialEndsAt }: { status: string; cancelAt: boolean; trialEndsAt?: Date | null }) {
+  // Check if trial is active
+  if (trialEndsAt && new Date(trialEndsAt) > new Date()) {
+    const daysLeft = Math.ceil((new Date(trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24))
+    return (
+      <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[12px] font-semibold text-blue-600">
+        <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+        Free trial · {daysLeft} days left
+      </span>
+    )
+  }
   if (cancelAt) return (
     <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[12px] font-semibold text-amber-600">
       <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />

@@ -66,10 +66,15 @@ export const auth = betterAuth({
           .where(and(eq(subscriptions.userId, userId), eq(subscriptions.status, 'active')))
           .limit(1)
 
+        // Check if trial is active
+        const isTrialActive = sub?.trialEndsAt ? new Date(sub.trialEndsAt) > new Date() : false
+
         return {
           user: {
             ...user,
-            subscriptionId: sub?.id
+            subscriptionId: sub?.id,
+            trialEndsAt: sub?.trialEndsAt?.toISOString() ?? null,
+            isTrialActive,
           },
           session
         }

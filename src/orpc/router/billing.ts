@@ -30,6 +30,45 @@ export const getPlans = base
     }))
   })
 
+// Start a 7-day free trial (no payment required)
+export const startTrial = authed
+  .input(z.void())
+  .handler(async ({ context }) => {
+    // Check if user already has an active subscription or trial
+    const [existingSub] = await db
+      .select()
+      .from(subscriptions)
+      .where(and(eq(subscriptions.userId, context.user.id), eq(subscriptions.status, 'active')))
+      .limit(1)
+
+    if (existingSub) {
+      // Check if trial is still active
+      if (existingSub.trialEndsAt && new Date(existingSub.trialEndsAt) > new Date()) {
+        return { success: true, trialEndsAt: existingSub.trialEndsAt }
+      }
+      throw new ORPCError('BAD_REQUEST', { message: 'You already have an active subscription' })
+    }
+
+    // Create trial subscription with 100 MB storage
+    const trialEndsAt = new Date()
+    trialEndsAt.setDate(trialEndsAt.getDate() + 7)
+
+    // Use a placeholder product ID for trial (will be replaced when converting to paid)
+    const trialProductId = 'trial_100mb'
+
+    await db.insert(subscriptions).values({
+      userId: context.user.id,
+      dodoSubscriptionId: `trial_${context.user.id}_${Date.now()}`,
+      productId: trialProductId,
+      status: 'active',
+      storageMb: 100,
+      billingInterval: 'monthly',
+      trialEndsAt,
+    })
+
+    return { success: true, trialEndsAt }
+  })
+
 // Create a checkout session
 export const createCheckout = authed
   .input(

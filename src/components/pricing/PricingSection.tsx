@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Slider } from '@heroui/react'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -29,6 +29,46 @@ interface PricingSectionProps {
   isPending?: boolean
   /** Initial slider index */
   defaultTierIdx?: number
+  /** Called when user clicks start trial */
+  onStartTrial?: () => void
+  /** Whether trial mutation is pending */
+  trialPending?: boolean
+}
+
+// ─── Typewriter text ─────────────────────────────────────────────────────────
+
+function TypewriterText({ text, className }: { text: string; className?: string }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+  const hasAnimated = useRef(false)
+
+  useEffect(() => {
+    if (hasAnimated.current) return
+    hasAnimated.current = true
+
+    let index = 0
+    const interval = setInterval(() => {
+      if (index <= text.length) {
+        setDisplayedText(text.slice(0, index))
+        index++
+      } else {
+        clearInterval(interval)
+        // Blink cursor a few times then hide
+        setTimeout(() => setShowCursor(false), 1500)
+      }
+    }, 50)
+
+    return () => clearInterval(interval)
+  }, [text])
+
+  return (
+    <span className={className}>
+      {displayedText}
+      {showCursor && (
+        <span className="inline-block w-0.5 h-[1em] bg-orange-500 ml-0.5 align-middle animate-pulse" />
+      )}
+    </span>
+  )
 }
 
 // ─── Main component ───────────────────────────────────────────────────────────
@@ -39,6 +79,8 @@ export function PricingSection({
   triggerCheckout,
   isPending = false,
   defaultTierIdx = 0,
+  onStartTrial,
+  trialPending = false,
 }: PricingSectionProps) {
   const [sliderIdx, setSliderIdx] = useState(defaultTierIdx)
   const [interval, setInterval] = useState<'monthly' | 'yearly'>('monthly')
@@ -61,7 +103,7 @@ export function PricingSection({
       {/* Header */}
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 text-[12px] font-semibold text-orange-600 mb-5">
-          Simple pricing
+          7-day free trial · No credit card required
         </div>
         <h2 className="text-[38px] font-black tracking-[-0.04em] text-[#0A0A0A] leading-[1.1] mb-4">
           Storage that scales<br />with your feedback
@@ -176,9 +218,9 @@ export function PricingSection({
           <div className="absolute -top-10 -right-10 w-48 h-48 bg-orange-500/5 rounded-full blur-3xl pointer-events-none" />
 
           {/* Quote — on top of card as requested */}
-          <div className="relative mb-5 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-50/80 to-amber-50/80 border-l-[3px] border-orange-400">
+          <div className="relative mb-5 px-3 py-2 rounded-lg bg-gradient-to-r from-orange-50/80 to-amber-50/80 border-l-[3px] border-orange-400 min-h-[48px]">
             <p className="text-[13px] text-orange-700 italic leading-[1.6] font-medium">
-              "Iterating over user feedbacks is a long bet."
+              "<TypewriterText text="Iterating over user feedbacks is a long bet." />"
             </p>
           </div>
 
@@ -222,6 +264,22 @@ export function PricingSection({
           </button>
         </div>
       </div>
+
+      {/* Start trial CTA */}
+      {onStartTrial && (
+        <div className="mt-8 text-center">
+          <button
+            onClick={onStartTrial}
+            disabled={trialPending}
+            className="px-8 py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[15px] font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all duration-200 disabled:opacity-50"
+          >
+            {trialPending ? 'Starting trial...' : 'Start 7-day free trial'}
+          </button>
+          <p className="text-[12px] text-neutral-500 mt-3">
+            No credit card required · Cancel anytime
+          </p>
+        </div>
+      )}
 
       {/* Footer note */}
       <p className="text-center text-[12px] text-neutral-500 mt-8">

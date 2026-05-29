@@ -122,6 +122,7 @@ export const subscriptions = quickfeedSchema.table(
     billingInterval: text('billing_interval').notNull().default('monthly'), // monthly | yearly
     currentPeriodEnd: timestamp('current_period_end'),
     cancelAtNextBilling: boolean('cancel_at_next_billing').default(false).notNull(),
+    trialEndsAt: timestamp('trial_ends_at'),
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
   },

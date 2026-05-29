@@ -194,11 +194,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           data-blur="true"
           data-overlay="rgba(0,0,0,0.45)"
           data-title-color="#0a0a0a"
-          data-desc-color="#737373"
+          data-desc-color="#474747"
           data-btn-bg="#f97316"
           data-btn-text="#ffffff"
           data-btn2-bg="#f5f5f5"
-          data-btn2-text="#555555"
+          data-btn2-text="#444343"
           data-radius="20"
           defer
         />

@@ -24,9 +24,12 @@ export function FooterCTA() {
             </p>
 
             <div className="w-full max-w-[460px] mb-4">
-              <DomainInput btnLabel="Add to your product →" />
+              <DomainInput btnLabel="Start free trial →" />
             </div>
 
+            <p className="text-[12px] text-neutral-500 mt-2">
+              7-day free trial · No credit card required
+            </p>
           </div>
         </div>
 

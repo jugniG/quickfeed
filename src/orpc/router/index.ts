@@ -1,6 +1,6 @@
 import { listWebsites, addWebsite, deleteWebsite } from './websites'
 import { listFeedbacks, updateFeedbackStatus } from './feedbacks'
-import { getSubscription, getPlans, createCheckout, cancelSubscription, resumeSubscription, changePlan, getUpdatePaymentUrl } from './billing'
+import { getSubscription, getPlans, startTrial, createCheckout, cancelSubscription, resumeSubscription, changePlan, getUpdatePaymentUrl } from './billing'
 
 export default {
   websites: {
@@ -15,6 +15,7 @@ export default {
   billing: {
     getSubscription,
     getPlans,
+    startTrial,
     createCheckout,
     cancelSubscription,
     resumeSubscription,

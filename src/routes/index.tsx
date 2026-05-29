@@ -10,6 +10,7 @@ import { WidgetOverlay } from '../components/landing/WidgetDemo'
 import { FeaturesGrid } from '../components/landing/FeaturesGrid'
 import { FooterCTA } from '../components/landing/FooterCTA'
 import { LandingPricing } from '../components/landing/LandingPricing'
+import { InteractiveDemo } from '../components/landing/InteractiveDemo'
 
 export const Route = createFileRoute('/')({ component: Home })
 
@@ -34,6 +35,7 @@ function Home() {
     <div className="min-h-screen bg-[#FAFAFA] text-[#0A0A0A]">
       <Navbar />
       <Hero onTryWidget={() => setWidgetOpen(true)} />
+      <InteractiveDemo />
       <ProblemSection />
       {/* <HowItWorks /> */}
       {/* <WidgetDemoSection onTryWidget={() => setWidgetOpen(true)} /> */}

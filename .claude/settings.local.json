@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(ls -la /b/n/)",
-      "Read(//b/n//**)"
+      "Read(//b/n//**)",
+      "Bash(bun install *)",
+      "Bash(/c/Users/gjugn/.bun/bin/bun.exe *)",
+      "Bash(bun pm *)",
+      "Bash(npm view *)",
+      "Bash(tee /tmp/bun-install.log)"
     ]
   }
 }

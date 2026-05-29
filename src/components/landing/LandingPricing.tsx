@@ -8,6 +8,7 @@ export function LandingPricing() {
   const navigate = useNavigate()
   const { data: session } = authClient.useSession()
   const checkoutMutation = useMutation(orpc.billing.createCheckout.mutationOptions())
+  const startTrialMutation = useMutation(orpc.billing.startTrial.mutationOptions())
 
   async function triggerCheckout(storageMb: number, interval: 'monthly' | 'yearly') {
     if (!session?.user) {
@@ -29,11 +30,28 @@ export function LandingPricing() {
     }
   }
 
+  async function handleStartTrial() {
+    if (!session?.user) {
+      navigate({ to: '/login' })
+      return
+    }
+    try {
+      const result = await startTrialMutation.mutateAsync()
+      if (result.success) {
+        navigate({ to: '/dashboard' })
+      }
+    } catch (err: any) {
+      console.error(err)
+    }
+  }
+
   return (
     <section id="pricing" className="bg-[#FAFAFA]">
       <PricingSection
         triggerCheckout={triggerCheckout}
         isPending={checkoutMutation.isPending}
+        onStartTrial={handleStartTrial}
+        trialPending={startTrialMutation.isPending}
       />
     </section>
   )

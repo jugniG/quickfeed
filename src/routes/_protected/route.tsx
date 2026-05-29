@@ -11,9 +11,10 @@ export const Route = createFileRoute('/_protected')({
     }
 
     const hasSubscription = !!session.user.subscriptionId
+    const isTrialActive = !!session.user.isTrialActive
 
     const isBillingPage = location.pathname === '/billing'
-    if (!isBillingPage && !hasSubscription) {
+    if (!isBillingPage && !hasSubscription && !isTrialActive) {
       throw redirect({ to: '/pricing' })
     }
 
