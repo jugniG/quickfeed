@@ -107,13 +107,13 @@ const POSITION_OPTIONS: { value: ModalPosition; label: string }[] = [
 ]
 
 const DEFAULT_CONFIG: ModalConfig = {
-  position: 'bottom-center',
+  position: 'center',
   bgColor: '#ffffff',
   blur: true,
   overlayColor: '#000000',
   overlayOpacity: 0.45,
   titleColor: '#0a0a0a',
-  descriptionColor: '#737373',
+  descriptionColor: '#444444',
   inputColor: '#0a0a0a',
   btnPrimaryBg: '#f97316',
   btnPrimaryText: '#ffffff',

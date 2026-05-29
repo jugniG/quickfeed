@@ -187,21 +187,23 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         />
         <Scripts />
         <script
-          src="https://www.quickfeed.live/widget.js"
-          data-website-id="1ef5b9d4-8256-4c5a-85ce-b119bc9380b8"
+          src="/widget.js"
+          data-website-id="1963a586-9906-4cc1-8f36-432c66b59410"
           data-position="center"
           data-bg="#ffffff"
           data-blur="true"
-          data-overlay="rgba(0,0,0,0.45)"
+          data-overlay="#000000"
+          data-overlay-opacity="0.45"
           data-title-color="#0a0a0a"
-          data-desc-color="#474747"
+          data-input-color="#0a0a0a"
           data-btn-bg="#f97316"
           data-btn-text="#ffffff"
           data-btn2-bg="#f5f5f5"
-          data-btn2-text="#444343"
+          data-btn2-text="#555555"
           data-radius="20"
+          data-btn-radius="8"
           defer
-        />
+        ></script>
       </body>
     </html>
   )

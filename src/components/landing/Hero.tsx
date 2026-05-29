@@ -78,7 +78,10 @@ export function Hero({ onTryWidget: _onTryWidget }: HeroProps) {
 
             {/* CTA input */}
             <div className="w-full max-w-[480px] mb-4">
-              <DomainInput btnLabel="Add →" />
+              <DomainInput btnLabel="Add →" onSuccess={(domain)=>{
+                // @ts-expect-error
+                window?.insightly(domain)
+              }}  />
             </div>
 
           </div>

@@ -24,13 +24,13 @@
   var overlayColor    = attr('data-overlay', '#000000')
   var overlayOpacity  = parseFloat(attr('data-overlay-opacity', '0.45'))
   var titleColor      = attr('data-title-color', '#0a0a0a')
-  var descColor       = attr('data-desc-color', '#737373')
+  var descColor       = attr('data-desc-color', '#444444')
   var inputColor      = attr('data-input-color', '#0a0a0a')
   var borderRadius    = parseInt(attr('data-radius', '20'), 10)
   var btnBorderRadius = parseInt(attr('data-btn-radius', '8'), 10)
-  var btnBg           = attr('data-btn-bg', '#f97316')
+  var btnBg           = attr('data-btn-bg', '#000000')
   var btnText         = attr('data-btn-text', '#ffffff')
-  var btn2Bg          = attr('data-btn2-bg', '#f5f5f5')
+  var btn2Bg          = attr('data-btn2-bg', '#ffeaea')
   var btn2Text        = attr('data-btn2-text', '#555555')
 
   function hexToRgba(hex, a) {
@@ -62,7 +62,7 @@
 #qf-images{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
 .qf-img-thumb{
   position:relative;width:64px;height:64px;border-radius:8px;
-  overflow:hidden;border:1.5px solid #e5e5e5;flex-shrink:0;
+  overflow:hidden;border:1.5px solid #b8b1b1;flex-shrink:0;
 }
 .qf-img-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .qf-img-remove{
@@ -72,13 +72,13 @@
   display:flex;align-items:center;justify-content:center;
 }
 #qf-paste-hint{
-  font-size:11px;color:#aaa;margin-bottom:6px;
+  font-size:14px;color:${descColor};margin-bottom:6px;
   display:flex;align-items:center;gap:4px;
 }
 #qf-textarea-wrap{position:relative}
 #qf-msg{
   width:100%;box-sizing:border-box;
-  border:1.5px solid #e5e5e5;
+  border:1.5px solid #b9b9b9;
   padding:12px;font-size:14px;
   font-family:inherit;resize:vertical;min-height:90px;
   outline:none;transition:border-color .15s;background:transparent;
@@ -87,7 +87,7 @@
 #qf-msg:focus{border-color:#f97316}
 #qf-email{
   width:100%;box-sizing:border-box;
-  border:1.5px solid #e5e5e5;
+  border:1.5px solid #b9b9b9;
   padding:10px 12px;font-size:14px;font-family:inherit;
   margin-top:8px;outline:none;transition:border-color .15s;background:transparent;
   display:block;
