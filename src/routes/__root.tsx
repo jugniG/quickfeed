@@ -79,6 +79,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         content: 'https://www.quickfeed.live/og.png',
       },
       {
+        name: 'og:image:width',
+        content: '1200',
+      },
+      {
+        name: 'og:image:height',
+        content: '630',
+      },
+      {
         name: 'theme-color',
         content: '#FF8A4C',
       },
