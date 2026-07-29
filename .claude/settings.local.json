@@ -7,7 +7,17 @@
       "Bash(/c/Users/gjugn/.bun/bin/bun.exe *)",
       "Bash(bun pm *)",
       "Bash(npm view *)",
-      "Bash(tee /tmp/bun-install.log)"
+      "Bash(tee /tmp/bun-install.log)",
+      "Bash(bun run *)",
+      "Bash(npx drizzle-kit *)",
+      "Bash(pnpm exec *)",
+      "Bash(bun --version)",
+      "Bash(echo *)",
+      "Bash(bun *)",
+      "Bash(yes \"\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); tables=list\\(d['tables'].keys\\(\\)\\); print\\('\\\\n'.join\\(tables\\)\\)\")",
+      "Bash(node *)",
+      "Bash(npx *)"
     ]
   }
 }

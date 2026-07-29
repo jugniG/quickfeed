@@ -107,6 +107,37 @@ export const feedbacks = quickfeedSchema.table(
   (table) => [index('feedbacks_websiteId_idx').on(table.websiteId)],
 )
 
+export const apiKeys = quickfeedSchema.table(
+  'api_keys',
+  {
+    id: serial('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    websiteId: uuid('website_id')
+      .notNull()
+      .references(() => websites.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    keyHash: text('key_hash').notNull().unique(),
+    prefix: text('prefix').notNull(),         // first 8 chars of the raw key for display
+    lastUsedAt: timestamp('last_used_at'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at')
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [
+    index('api_keys_userId_idx').on(table.userId),
+    index('api_keys_websiteId_idx').on(table.websiteId),
+  ],
+)
+
+export const apiKeyRelations = relations(apiKeys, ({ one }) => ({
+  user: one(user, { fields: [apiKeys.userId], references: [user.id] }),
+  website: one(websites, { fields: [apiKeys.websiteId], references: [websites.id] }),
+}))
+
 export const subscriptions = quickfeedSchema.table(
   'subscriptions',
   {

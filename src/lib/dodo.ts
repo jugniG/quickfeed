@@ -55,7 +55,17 @@ export async function getOrCreateProduct(
     )
     .limit(1)
 
-  if (cached) return cached.dodoProductId
+  if (cached) {
+    // Verify the cached product still exists in Dodo by checking it
+    // If it throws, the product was deleted — clear cache and recreate
+    try {
+      await dodo.products.retrieve(cached.dodoProductId)
+      return cached.dodoProductId
+    } catch {
+      // Product no longer exists in Dodo — delete stale cache entry
+      await db.delete(dodoProductCache).where(eq(dodoProductCache.id, cached.id))
+    }
+  }
 
   // 2. Create product in Dodo
   const label = STORAGE_LABELS[storageMb] ?? `${storageMb} MB`

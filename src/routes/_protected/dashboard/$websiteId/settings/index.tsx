@@ -491,6 +491,194 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
   )
 }
 
+// ─── API Keys Tab ──────────────────────────────────────────────────────────
+
+function ApiKeysTab({ websiteId }: { websiteId: string }) {
+  const queryClient = useQueryClient()
+
+  const { data: keys = [], isLoading } = useQuery(
+    orpc.apiKeys.list.queryOptions({ input: { websiteId } })
+  )
+
+  const createMutation = useMutation({
+    mutationFn: (name: string) => orpc.apiKeys.create.call({ websiteId, name }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: orpc.apiKeys.list.key() })
+      // Show the raw key in an alert — this is the only time it's visible
+      setNewKeyValue(data.rawKey)
+      setShowCreateForm(false)
+      setNewKeyName('')
+    },
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: (id: number) => orpc.apiKeys.delete.call({ id }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: orpc.apiKeys.list.key() })
+    },
+  })
+
+  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [newKeyName, setNewKeyName] = useState('')
+  const [newKeyValue, setNewKeyValue] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  return (
+    <div className="space-y-5">
+      {/* Create form / key reveal */}
+      {newKeyValue && (
+        <section className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
+          <h2 className="text-[14px] font-semibold text-amber-800 mb-1">API Key Created</h2>
+          <p className="text-[13px] text-amber-700 mb-3">
+            Copy this key now — you won't be able to see it again.
+          </p>
+          <div className="flex items-center gap-2">
+            <code className="flex-1 text-[13px] font-mono bg-white border border-amber-200 rounded-xl px-4 py-2.5 text-amber-900 break-all select-all">
+              {newKeyValue}
+            </code>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(newKeyValue).then(() => {
+                  setCopied(true)
+                  setTimeout(() => setCopied(false), 2000)
+                })
+              }}
+              className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-[13px] font-medium transition-colors shrink-0"
+            >
+              {copied ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+          <button
+            onClick={() => setNewKeyValue(null)}
+            className="mt-3 text-[12px] text-amber-600 hover:text-amber-800 font-medium"
+          >
+            Dismiss
+          </button>
+        </section>
+      )}
+
+      {/* Create form */}
+      {showCreateForm && (
+        <section className="bg-white rounded-2xl border border-neutral-200 p-6">
+          <h2 className="text-[14px] font-semibold text-neutral-800 mb-3">Create API Key</h2>
+          <div className="flex items-center gap-3">
+            <input
+              type="text"
+              value={newKeyName}
+              onChange={(e) => setNewKeyName(e.target.value)}
+              placeholder="e.g. Production, Staging, CI..."
+              className="flex-1 text-[13px] border border-neutral-200 rounded-xl px-4 py-2.5 outline-none focus:border-orange-400"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && newKeyName.trim() && !createMutation.isPending) {
+                  createMutation.mutate(newKeyName.trim())
+                }
+              }}
+              autoFocus
+            />
+            <button
+              onClick={() => {
+                if (newKeyName.trim()) createMutation.mutate(newKeyName.trim())
+              }}
+              disabled={!newKeyName.trim() || createMutation.isPending}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13px] font-semibold shadow-sm hover:shadow-orange-200 transition-shadow disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {createMutation.isPending ? 'Creating…' : 'Create'}
+            </button>
+            <button
+              onClick={() => { setShowCreateForm(false); setNewKeyName('') }}
+              className="px-3 py-2.5 rounded-xl border border-neutral-200 text-[13px] font-medium text-neutral-500 hover:text-neutral-700 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+          {createMutation.isError && (
+            <p className="text-[12px] text-red-500 mt-2">
+              {(createMutation.error as any)?.message ?? 'Failed to create key'}
+            </p>
+          )}
+        </section>
+      )}
+
+      {/* API Keys list */}
+      <section className="bg-white rounded-2xl border border-neutral-200">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100">
+          <div>
+            <h2 className="text-[14px] font-semibold text-neutral-800">API Keys</h2>
+            <p className="text-[13px] text-neutral-400 mt-0.5">
+              Use these keys to submit feedback programmatically.
+            </p>
+          </div>
+          {!showCreateForm && !newKeyValue && (
+            <button
+              onClick={() => setShowCreateForm(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white text-[13px] font-semibold shadow-sm shadow-orange-500/25 hover:shadow-orange-500/40 transition-shadow"
+            >
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <path d="M6.5 2v9M2 6.5h9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+              Create key
+            </button>
+          )}
+        </div>
+
+        {isLoading ? (
+          <div className="p-6 space-y-3">
+            {[1, 2].map(i => (
+              <div key={i} className="h-14 bg-neutral-50 rounded-xl animate-pulse" />
+            ))}
+          </div>
+        ) : keys.length === 0 ? (
+          <div className="p-12 flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-2xl bg-neutral-50 border border-neutral-100 flex items-center justify-center mb-4">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-neutral-300">
+                <rect x="3" y="7" width="14" height="11" rx="2" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M7 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                <circle cx="10" cy="12" r="1.5" fill="currentColor"/>
+              </svg>
+            </div>
+            <p className="text-[13px] text-neutral-400">No API keys yet.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-neutral-100">
+            {keys.map((key) => (
+              <div key={key.id} className="flex items-center justify-between px-6 py-4">
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center gap-2.5">
+                    <span className="text-[14px] font-medium text-neutral-800">{key.name}</span>
+                    <code className="text-[12px] font-mono text-neutral-400 bg-neutral-50 px-2 py-0.5 rounded-lg border border-neutral-100">
+                      {key.prefix}
+                    </code>
+                  </div>
+                  <div className="text-[12px] text-neutral-400 mt-0.5">
+                    Created {new Date(key.createdAt).toLocaleDateString()}
+                    {key.lastUsedAt && (
+                      <span> · Last used {new Date(key.lastUsedAt).toLocaleDateString()}</span>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => {
+                    if (confirm(`Delete API key "${key.name}"? This action cannot be undone.`)) {
+                      deleteMutation.mutate(key.id)
+                    }
+                  }}
+                  disabled={deleteMutation.isPending}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[12px] font-medium text-red-500 hover:bg-red-50 border border-transparent hover:border-red-200 transition-all disabled:opacity-50"
+                >
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M2 3.5h9M4.5 3.5V2.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1M5.5 6.5v3M7.5 6.5v3M3 3.5l.75 7.5a1 1 0 0 0 1 .9h2.5a1 1 0 0 0 1-.9L10 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+    </div>
+  )
+}
+
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 function WebsiteSettings() {
@@ -499,7 +687,7 @@ function WebsiteSettings() {
   const queryClient = useQueryClient()
 
 
-  const [tab, setTab] = useState<'generate' | 'custom'>('generate')
+  const [tab, setTab] = useState<'generate' | 'custom' | 'apikeys'>('generate')
 
   const { data: websites = [] } = useQuery(orpc.websites.list.queryOptions())
   const site = websites.find((w) => w.id === websiteId)
@@ -575,6 +763,16 @@ function WebsiteSettings() {
           >
             Custom Modal
           </button>
+          <button
+            onClick={() => setTab('apikeys')}
+            className={`px-4 py-2 rounded-lg text-[13px] font-semibold transition-all ${
+              tab === 'apikeys'
+                ? 'bg-white text-neutral-900 shadow-sm'
+                : 'text-neutral-500 hover:text-neutral-700'
+            }`}
+          >
+            API Keys
+          </button>
         </div>
 
         {/* Tab content */}
@@ -585,8 +783,10 @@ function WebsiteSettings() {
             onDelete={handleDelete}
             isDeleting={deleteMutation.isPending}
           />
-        ) : (
+        ) : tab === 'custom' ? (
           <CustomModalTab websiteId={websiteId} />
+        ) : (
+          <ApiKeysTab websiteId={websiteId} />
         )}
       </main>
     </>

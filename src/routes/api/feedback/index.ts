@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { db } from '#/db/index'
-import { feedbacks, websites } from '#/db/schema'
+import { feedbacks, websites, apiKeys } from '#/db/schema'
 import { eq } from 'drizzle-orm'
 import { uploadImageToR2 } from '#/lib/r2'
 import crypto from 'node:crypto'
@@ -8,7 +8,7 @@ import crypto from 'node:crypto'
 const cors = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
   'Content-Type': 'application/json',
 }
 
@@ -22,6 +22,37 @@ function toHostname(raw: string): string {
   } catch {
     return raw.replace(/^www\./, '')
   }
+}
+
+/**
+ * Try to authenticate via Bearer API key.
+ * Returns the website ID if the key is valid, null otherwise.
+ */
+async function authenticateViaApiKey(request: Request): Promise<{ websiteId: string } | null> {
+  const authHeader = request.headers.get('authorization')
+  if (!authHeader || !authHeader.startsWith('Bearer ')) return null
+
+  const rawKey = authHeader.slice(7).trim()
+  if (!rawKey) return null
+
+  const hash = crypto.createHash('sha256').update(rawKey).digest('hex')
+
+  const [key] = await db
+    .select({ id: apiKeys.id, websiteId: apiKeys.websiteId })
+    .from(apiKeys)
+    .where(eq(apiKeys.keyHash, hash))
+    .limit(1)
+    .catch(() => [])
+
+  if (!key) return null
+
+  // Update last used timestamp (non-blocking fire-and-forget)
+  db.update(apiKeys)
+    .set({ lastUsedAt: new Date() })
+    .where(eq(apiKeys.id, key.id))
+    .catch(() => {})
+
+  return { websiteId: key.websiteId }
 }
 
 /** Upload a base64 data URL to R2, returns public URL */
@@ -64,32 +95,51 @@ export const Route = createFileRoute('/api/feedback/')(({
             )
           }
 
-          // ── Domain verification ─────────────────────────────────────────────
-          const origin      = request.headers.get('origin')  || ''
-          const referer     = request.headers.get('referer') || ''
-          const requestHost = toHostname(origin || referer)
-          const isLocalhost = ['localhost', '127.0.0.1', ''].includes(requestHost)
+          // ── Authentication ──────────────────────────────────────────────────
+          let authenticated = false
 
-          const [site] = await db
-            .select({ id: websites.id, domain: websites.domain })
-            .from(websites)
-            .where(eq(websites.id, String(websiteId)))
-
-          if (!site) {
-            return new Response(JSON.stringify({ error: 'Website not found' }), {
-              status: 404, headers: cors,
-            })
-          }
-
-          if (!isLocalhost) {
-            const registeredHost = toHostname(site.domain)
-            if (requestHost !== registeredHost) {
+          // 1. Try API key auth first
+          const apiKeyAuth = await authenticateViaApiKey(request)
+          if (apiKeyAuth) {
+            // Verify the API key matches the requested website
+            if (apiKeyAuth.websiteId === String(websiteId)) {
+              authenticated = true
+            } else {
               return new Response(
-                JSON.stringify({
-                  error: `Domain mismatch: request from "${requestHost}", expected "${registeredHost}"`,
-                }),
+                JSON.stringify({ error: 'API key does not match this website' }),
                 { status: 403, headers: cors },
               )
+            }
+          }
+
+          // 2. Domain verification (only if not already authenticated via API key)
+          if (!authenticated) {
+            const origin      = request.headers.get('origin')  || ''
+            const referer     = request.headers.get('referer') || ''
+            const requestHost = toHostname(origin || referer)
+            const isLocalhost = ['localhost', '127.0.0.1', ''].includes(requestHost)
+
+            const [site] = await db
+              .select({ id: websites.id, domain: websites.domain })
+              .from(websites)
+              .where(eq(websites.id, String(websiteId)))
+
+            if (!site) {
+              return new Response(JSON.stringify({ error: 'Website not found' }), {
+                status: 404, headers: cors,
+              })
+            }
+
+            if (!isLocalhost) {
+              const registeredHost = toHostname(site.domain)
+              if (requestHost !== registeredHost) {
+                return new Response(
+                  JSON.stringify({
+                    error: `Domain mismatch: request from "${requestHost}", expected "${registeredHost}"`,
+                  }),
+                  { status: 403, headers: cors },
+                )
+              }
             }
           }
           // ───────────────────────────────────────────────────────────────────
