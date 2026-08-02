@@ -11,6 +11,7 @@ type Feedback = {
   status: string
   createdAt: Date | string
   images?: string[] | null
+  submitterName: string | null;
 }
 
 const STATUS_CONFIG: Record<FeedbackStatus, { label: string; className: string; dot: string }> = {
@@ -202,7 +203,7 @@ export function FeedbackCard({ feedback, websiteId }: { feedback: Feedback; webs
               <circle cx="6" cy="4" r="2.5" stroke="currentColor" strokeWidth="1.2"/>
               <path d="M1.5 10.5c0-2.21 2.015-4 4.5-4s4.5 1.79 4.5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
             </svg>
-            {feedback.submitterEmail || 'Anonymous'}
+            {feedback.submitterEmail || feedback.submitterName || 'Anonymous'}
           </span>
           {feedback.url && (
             <span className="flex items-center gap-1">
