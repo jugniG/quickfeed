@@ -32,6 +32,8 @@
   var btnText         = attr('data-btn-text', '#ffffff')
   var btn2Bg          = attr('data-btn2-bg', '#ffeaea')
   var btn2Text        = attr('data-btn2-text', '#555555')
+  var disableBrandingVal = attr('data-disable-branding', attr('disable-branding', null))
+  var disableBranding    = disableBrandingVal === 'true' || disableBrandingVal === '' || disableBrandingVal === 'disable-branding'
 
   function hexToRgba(hex, a) {
     var c = hex.replace('#', '')
@@ -111,6 +113,20 @@
 #qf-success .qf-check{font-size:36px;display:block;margin-bottom:8px}
 #qf-success p{margin:0;color:#555;font-size:14px}
 #qf-status{font-size:12px;color:#999;margin-top:4px;min-height:16px;}
+#qf-branding{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:16px;padding-top:12px;border-top:1px solid rgba(0,0,0,.08);
+  font-size:11px;color:${descColor};text-decoration:none;
+  opacity:.8;transition:opacity .15s;
+}
+#qf-branding:hover{opacity:1}
+.qf-brand-icon{
+  width:16px;height:16px;border-radius:4px;
+  background:linear-gradient(135deg,#f97316,#f59e0b);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 1px 4px rgba(249,115,22,.3);
+}
+.qf-brand-name{font-weight:600;color:${titleColor};letter-spacing:-0.01em}
 `
   document.head.appendChild(style)
 
@@ -144,6 +160,16 @@
     <span class="qf-check">🎉</span>
     <p>Thanks for your feedback!</p>
   </div>
+  ${!disableBranding ? `
+  <a id="qf-branding" href="${API_BASE}" target="_blank" rel="noopener noreferrer">
+    <span>Powered by</span>
+    <span class="qf-brand-icon">
+      <svg width="10" height="10" viewBox="0 0 14 14" fill="none">
+        <path d="M2 4h10M2 7h7M2 10h5" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <span class="qf-brand-name">QuickFeed</span>
+  </a>` : ''}
 </div>`
   document.body.appendChild(overlay)
 

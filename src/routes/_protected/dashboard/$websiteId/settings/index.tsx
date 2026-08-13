@@ -94,6 +94,7 @@ interface ModalConfig {
   btnSecondaryText: string
   borderRadius: number
   btnBorderRadius: number
+  disableBranding: boolean
 }
 
 const POSITION_OPTIONS: { value: ModalPosition; label: string }[] = [
@@ -121,6 +122,7 @@ const DEFAULT_CONFIG: ModalConfig = {
   btnSecondaryText: '#555555',
   borderRadius: 20,
   btnBorderRadius: 8,
+  disableBranding: false,
 }
 
 // ─── Color Input ─────────────────────────────────────────────────────────────
@@ -214,6 +216,17 @@ function ModalPreview({ config }: { config: ModalConfig }) {
             Send feedback
           </div>
         </div>
+        {!config.disableBranding && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 10, paddingTop: 8, borderTop: '1px solid rgba(0,0,0,0.06)', fontSize: 9, color: config.descriptionColor, opacity: 0.8 }}>
+            <span>Powered by</span>
+            <span style={{ width: 12, height: 12, borderRadius: 3, background: 'linear-gradient(135deg, #f97316, #f59e0b)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <svg width="8" height="8" viewBox="0 0 14 14" fill="none">
+                <path d="M2 4h10M2 7h7M2 10h5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            </span>
+            <span style={{ fontWeight: 600, color: config.titleColor }}>QuickFeed</span>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -333,7 +346,7 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
   data-btn2-bg="${config.btnSecondaryBg}"
   data-btn2-text="${config.btnSecondaryText}"
   data-radius="${config.borderRadius}"
-  data-btn-radius="${config.btnBorderRadius}"
+  data-btn-radius="${config.btnBorderRadius}"${config.disableBranding ? '\n  data-disable-branding="true"' : ''}
   defer
 ><\/script>`
 
@@ -450,6 +463,18 @@ function CustomModalTab({ websiteId }: { websiteId: string }) {
                   />
                   <span className="text-[12px] text-neutral-500 w-8 text-right">{config.btnBorderRadius}px</span>
                 </div>
+              </div>
+              <div className="flex items-center justify-between pt-1">
+                <div>
+                  <span className="text-[13px] text-neutral-600 block">Disable QuickFeed branding</span>
+                  <span className="text-[11px] text-neutral-400">Hide the "Powered by QuickFeed" footer</span>
+                </div>
+                <button
+                  onClick={() => set('disableBranding', !config.disableBranding)}
+                  className={`relative w-10 h-5 rounded-full transition-colors shrink-0 ${config.disableBranding ? 'bg-orange-500' : 'bg-neutral-200'}`}
+                >
+                  <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all ${config.disableBranding ? 'left-5' : 'left-0.5'}`} />
+                </button>
               </div>
             </div>
           </div>
