@@ -33,6 +33,15 @@ export function FooterCTA() {
           </div>
         </div>
 
+        {/* Featured badge */}
+        <div className="flex justify-center mb-12">
+          <a href="https://www.scrolllaunch.com/products/quickfeed?ref=badge" target="_blank" rel="noopener">
+            <img src="https://www.scrolllaunch.com/api/badge/quickfeed?variant=launched&theme=light"
+                 alt="QuickFeed — Featured on ScrollLaunch"
+                 width="220" height="48" />
+          </a>
+        </div>
+
         {/* Footer nav */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-t border-neutral-100 pt-8">
           <div className="flex items-center gap-2">
